@@ -190,11 +190,11 @@ The result above implies that the posterior distribution over the drift coeffici
 
 In the previous section, we have shown that posterior distributions over the drift coefficient of the homogenized equation are asymptotically incorrect if multiscale data are replaced into the expression of the likelihood. Hence, the need of pre-processing the data is highlighted. In particular, we consider a filtering approach. Let $k \colon \R^+ \times \R^+ \to \R$ be a kernel function and consider the process $Z^\epl \defeq (Z^{\epl,k}_t, 0 \leq t \leq T)$ defined by the weighted average
 \begin{equation}\label{eq:ZDef}
-	Z^{\epl,k}_t \defeq \int_0^t k^\epl(t, s)X^\epl_s \dd s.
+	Z^{\epl,k}_t \defeq \int_0^t k^\epl(t-s)X^\epl_s \dd s.
 \end{equation}
 Let $\beta, \delta > 0$ and let us consider a family of exponential kernel functions defined as
 \begin{equation}
-	k^\epl(t, s) = C_\beta \delta^{-1/\beta} e^{-(t-s)^\beta/\delta},
+	k^\epl(t-s) = C_\beta \delta^{-1/\beta} e^{-(t-s)^\beta/\delta},
 \end{equation}
 where $C_{\beta}$ is a normalizing constant given by
 \begin{equation}
@@ -202,7 +202,7 @@ where $C_{\beta}$ is a normalizing constant given by
 \end{equation}
 and where $\Gamma(\cdot)$ is the gamma function. In the following, only in case $\beta = 1$ a rigorous analysis is carried on. Nonetheless, numerical experiments show that for higher values of $\beta$ the performances of estimators computed employing the filter are more robust and qualitatively better. 
 
-\corr{Implementation}
+Given a trajectory $X^\epl \defeq (X^\epl_t, 0\leq t \leq T)$, it is relatively inexpensive to compute $Z^\epl$ from a computational standpoint. In particular, the process $Z^\epl$ is the convolution of the kernel with the process $X^\epl$. Hence, computational tools based on the Fast Fourier Transform (FFT) exist and allow to compute $Z^\epl$ fast.
 
 \subsection{Ergodic properties of the filter}\label{sec:ergodic}
 
@@ -212,7 +212,7 @@ In the following, we consider the filter with $\beta = 1$, i.e.,
 \end{equation}
 since in this case it holds
 \begin{equation}
-	\d Z^\epl_t = k(t,t) X^\epl_t \dd t + \int_0^t \partial_t k(t,s) X^\epl_s \dd s \dd t = \frac{1}{\delta} \left ( X^\epl_t - Z^\epl_t \right ) \dd t.
+	\d Z^\epl_t = k(0) X^\epl_t \dd t + \int_0^t \partial_t k(t-s) X^\epl_s \dd s \dd t = \frac{1}{\delta} \left ( X^\epl_t - Z^\epl_t \right ) \dd t.
 \end{equation}
 Considering the processes $X^\epl$ and $Z^\epl$ together, we obtain a system of stochastic differential equations
 \begin{equation}
