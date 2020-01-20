@@ -218,16 +218,16 @@ Considering the processes $X^\epl$ and $Z^\epl$ together, we obtain a system of 
 \begin{equation}
 \label{systemSDE}
 \begin{aligned}
-\d X^\epl_t &= \left ( - \alpha V'(X^\epl_t) - \frac{1}\epl p' \left ( \frac{X^\epl_t}\epl \right ) \right ) \dd t + \sqrt{2\sigma} \dd W_t, \\
+\d X^\epl_t &= -\left( \alpha \nabla_x V(X^\epl_t) - \frac{1}\epl \nabla_x p \left ( \frac{X^\epl_t}\epl \right ) \right ) \dd t + \sqrt{2\sigma} \dd W_t, \\
 \d Z^\epl_t &= \frac{1}{\delta} \left ( X^\epl_t - Z^\epl_t \right ) \dd t.
 \end{aligned}
 \end{equation}
-Let $\rho^\epl = \rho^\epl(x,z)$ be the stationary distribution of the joint process $(X^\epl, Z^\epl)^\top$. Then $\rho^\epl$ is the solution of the two-dimensional stationary Fokker--Planck equation
+Let $\rho^\epl = \rho^\epl(x,z)$ be the stationary distribution of the joint process $(X^\epl, Z^\epl)^\top$. Then $\rho^\epl$ is the solution of the $2d$-dimensional stationary Fokker--Planck equation
 \begin{equation}
 \begin{aligned}
 	\label{eq:FPsystem}
-	\sigma \partial^2_{xx} \rho^\epl(x,z) & + \left ( \alpha V''(x) + \frac{1}{\epl^2} p'' \left ( \frac{x}\epl \right ) + \frac{1}{\delta} \right ) \rho^\epl(x,z) \\
-	& + \left ( \alpha V'(x) + \frac{1}\epl p' \left ( \frac{x}\epl \right ) \right ) \partial_x \rho^\epl(x,z) + \frac{1}{\delta}(z - x) \partial_z \rho^\epl(x,z) = 0.
+	\sigma \Delta_x \rho^\epl(x,z) & + \left ( \alpha  \Delta_x V(x) + \frac{1}{\epl^2} \Delta_x p \left( \frac{x}\epl \right) + \frac1\delta \right) \rho^\epl(x,z) \\
+	& + \left ( \alpha \nabla_x V(x) + \frac{1}\epl \nabla_x p \left ( \frac{x}\epl \right ) \right ) \cdot \nabla_x \rho^\epl(x,z) + \frac{1}{\delta}(z - x) \cdot \nabla_z \rho^\epl(x,z) = 0.
 \end{aligned}
 \end{equation}
 
@@ -452,7 +452,7 @@ where the function $\rho^0$ is the density of the limit invariant distribution f
 and finally, an integration by parts yields
 \begin{align}
 	\E^{\rho^0}[V'(Z) V'(X)] &= \int_{\R} \int_{\R} V'(x) V'(z) \frac{1}{C_{\phi^0}} e^{-\frac{A}{\Sigma} V(x)} \psi^0(z) R^0(x,z) \dd x \dd z \\
-	&= - \frac{\Sigma}{A} \int_{\R} \int_{\R} V'(z) \left ( \frac{1}{C_{\phi^0}} e^{-\frac{A}{\Sigma} V(x)} \right )' \psi^0(z) R^0(x,z) \dd x \dd z \\
+	&= - \frac{\Sigma}{A} \int_{\R} \int_{\R} V'(z) \frac{\d}{\d x} \left(\frac{1}{C_{\phi^0}} e^{-\frac{A}{\Sigma} V(x)} \right ) \psi^0(z) R^0(x,z) \dd x \dd z \\
 	&= \frac{\Sigma}{A} \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z.
 \end{align}
 We can therefore conclude that
