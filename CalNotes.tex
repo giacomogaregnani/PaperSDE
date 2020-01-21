@@ -270,14 +270,14 @@ where
 \end{equation}
 Moreover, it holds
 \begin{equation}
-	\sigma \delta \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z = \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)].
+	\sigma \delta \int_{\R} \int_{\R} \phi^\epl(x) \psi^\epl(z) \nabla_z V(z) \cdot \nabla_x R^\epl(x,z) \dd x \dd z = \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)].
 \end{equation}
 \end{lemma}
 
 \begin{proof} Integrating equation \eqref{eq:FPsystem} with respect to $z$ we obtain the stationary Fokker--Planck equation for the process $X^\epl$, i.e.
 \begin{equation}
 \label{FPx}
-\sigma (\phi^\epl)''(x) + \left ( \alpha V''(x) + \frac{1}{\epl^2} p'' \left ( \frac{x}\epl \right ) \right ) \phi^\epl(x) + \left ( \alpha V'(x) + \frac{1}\epl p' \left ( \frac{x}\epl \right ) \right ) (\phi^\epl)'(x) = 0,
+\sigma \Delta_x \phi^\epl(x) + \left ( \alpha \Delta_x V(x) + \frac1{\epl^2} \Delta_x p \left( \frac{x}\epl \right) \right) \phi^\epl(x) + \left ( \alpha \nabla_xV(x) + \frac{1}\epl \nabla_xp \left ( \frac{x}\epl \right ) \right ) \cdot \nabla_x\phi^\epl(x) = 0,
 \end{equation}
 whose solution is given by
 \begin{equation}
@@ -285,23 +285,23 @@ whose solution is given by
 \end{equation}
 and which proves \eqref{eq:marginalX}. By integrating equation \eqref{eq:FPsystem} with respect to $x$ and integrating by parts we obtain
 \begin{equation}
-\psi^\epl(z) + z (\psi^\epl)'(z) = \frac{\d}{\d z} \int_{\R} x \rho^\epl(x,z) \dd x,
+\psi^\epl(z) + z \cdot \nabla_z \psi^\epl(z) = \nabla_z \cdot \int_{\R^d} x \rho^\epl(x,z) \dd x,
 \end{equation}
 which can be written as
 \begin{equation}
-	\frac{\d}{\d z} (z \psi^\epl(z)) = \frac{\d}{\d z} \int_{\R} x \rho^\epl(x,z) \dd x.
+	\nabla_z \cdot (z \psi^\epl(z)) = \nabla_z \cdot \int_{\R^d} x \rho^\epl(x,z) \dd x.
 \end{equation}
 Now, since $\psi^\epl$ is the density of a probability distribution, this implies that 
 \begin{equation}\label{FPz}
-z \psi^\epl(z) = \int_{\R} x \rho^\epl(x,z) \dd x,
+z \psi^\epl(z) = \int_{\R^d} x \rho^\epl(x,z) \dd x,
 \end{equation}
 which, replacing the decomposition \eqref{eq:densityDecomposition}, yields
 \begin{equation} \label{eq:z_condition}
-z = \int_{\R} x \phi^\epl(x) R^\epl(x,z) \dd x.
+z = \int_{\R^d} x \phi^\epl(x) R^\epl(x,z) \dd x.
 \end{equation}
 Replacing the decomposition \eqref{eq:densityDecomposition} in equation \eqref{eq:FPsystem} and using equation \eqref{FPx} we obtain the following equality
 \begin{equation}\label{eq:psiEqualityPDE}
-\sigma \phi^\epl \psi^\epl \partial^2_{xx} R^\epl + \frac{1}{\delta} \phi^\epl \psi^\epl R^\epl + \sigma (\phi^\epl)' \psi^\epl \partial_x R^\epl + \frac{1}{\delta} (z-x) \phi^\epl ((\psi^\epl)' R + \psi^\epl \partial_z R^\epl) = 0.
+\sigma \phi^\epl \psi^\epl \Delta_x R^\epl + \frac{1}{\delta} \phi^\epl \psi^\epl R^\epl + \sigma \psi^\epl \nabla_x\phi^\epl \cdot \nabla_x R^\epl + \frac{1}{\delta} \phi^\epl  (z-x) \cdot (R^\epl \nabla_z\psi^\epl  + \psi^\epl \nabla_z R^\epl) = 0.
 \end{equation}
 We now multiply the equation above by $x$ and integrate with respect to $x$. Let us consider some simplifications explicitly. First, an integration by parts yields
 \begin{equation}\label{eq:psiEqualityPDE_1}
@@ -316,7 +316,7 @@ Then, applying \eqref{eq:z_condition}, we have
 Moreover, again applying \eqref{eq:z_condition}, we can compute
 \begin{equation}\label{eq:psiEqualityPDE_3}
 \begin{aligned}
-	\frac1\delta (\psi^\epl)' \int_\R (z-x)x \phi^\epl  R \dd x = \frac1\delta (\psi^\epl)' \left(z^2 - \int_{\R} x^2 \phi^\epl R^\epl \dd x\right).
+	\frac1\delta (\psi^\epl)' \int_\R (z-x)x \phi^\epl  R^\epl \dd x = \frac1\delta (\psi^\epl)' \left(z^2 - \int_{\R} x^2 \phi^\epl R^\epl \dd x\right).
 \end{aligned}
 \end{equation}
 Finally, we compute the last term always applying \eqref{eq:z_condition} obtaining
@@ -342,6 +342,15 @@ Multiplying by $V'(z)$, integrating with respect to $z$ and integrating by parts
 \end{aligned}
 \end{equation}
 which is the desired result.
+
+\textbf{Multi-dimensional:} First
+\begin{equation}
+	\iint \left(\sigma \phi^\epl \psi^\epl \Delta_x R^\epl + \sigma \psi^\epl \nabla_x\phi^\epl \cdot \nabla_x R^\epl\right)(x \cdot \nabla_z V(z)) \dd x \dd z = -\sigma \iint \phi\psi \nabla_z V(z) \cdot \nabla_x R \dd x \dd z.
+\end{equation}
+Second
+\begin{equation}
+	
+\end{equation}
 \end{proof}
 
 \begin{remark} It could be possible to find a closed-form solution to \eqref{eq:FPsystem} in a more general framework than Example \ref{ex:OrnUhl}. Nonetheless, an explicit solution is not necessary for our argument.
