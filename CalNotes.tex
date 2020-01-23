@@ -1,7 +1,5 @@
 \documentclass[10pt]{article}
 
-cagata
-
 \input{ex_shared}
 
 \begin{document}
@@ -33,7 +31,7 @@ where $\sigma > 0$ and $W_t$ is a standard one-dimensional Brownian motion. The 
 \end{equation}
 for coefficients $\alpha_i \in \R$, $i = 1, \ldots, N$, and smooth functions $V_i\colon \R \to \R$. Moreover, we assume $p$ to be smooth and periodic of period $L$. Theory of homogenization \cite{BLP78} guarantees the existence of an SDE of the form
 \begin{equation}\label{eq:SDE_HOM}
-	\d X_t^0 = - K V'(X) \dd t + \sqrt{2K\sigma} \dd W_t,
+	\d X_t^0 = - K V'(X_t^0) \dd t + \sqrt{2K\sigma} \dd W_t,
 \end{equation}
 where $W_t$ is the same Brownian motion and where the fast dynamics have been eliminated, such that $X_t^\epl \to X_t^0$ for $\epl\to 0$ in law as random variables in $\mathcal C^0((0, T), \R)$. In the following, we will denote $A_i \defeq K\alpha_i$. The coefficient $K$ is given by the formula
 \begin{equation}\label{eq:K_HOM}
@@ -395,14 +393,15 @@ The estimator of the homogenized drift coefficient $A$ we analyse is given by th
 	\begin{equation}\label{eq:theoremFirst}
 	\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A^\epl(T) = A, \quad \text{a.s.},
 	\end{equation}
-	where $A$ is the drift coefficient of the homogenized equation \eqref{eq:SDE_MS}. Moreover, the following central limit theorem holds
-	\begin{equation}\label{eq:theoremSecond}
-	\lim_{\epl \to 0} \lim_{T \to \infty} \sqrt{T} \left(A - \widehat A^\epl(T) \right) = \Lambda, \quad \text{in law}, 
-	\end{equation}
-	where $\Lambda \sim \mathcal N(0, \gamma^2)$ and where 
-	\begin{equation}
-	\gamma = \sqrt{2\sigma} \frac{\sqrt{\E^{\rho^0}[V'(Z)^2]}}{\E^{\rho^0}[V'(Z)V'(X)]}.
-	\end{equation}
+	where $A$ is the drift coefficient of the homogenized equation \eqref{eq:SDE_MS}.
+%   Moreover, the following central limit theorem holds
+%	\begin{equation}\label{eq:theoremSecond}
+%	\lim_{\epl \to 0} \lim_{T \to \infty} \sqrt{T} \left(A - \widehat A^\epl(T) \right) = \Lambda, \quad \text{in law}, 
+%	\end{equation}
+%	where $\Lambda \sim \mathcal N(0, \gamma^2)$ and where 
+%	\begin{equation}
+%	\gamma = \sqrt{2\sigma} \frac{\sqrt{\E^{\rho^0}[V'(Z)^2]}}{\E^{\rho^0}[V'(Z)V'(X)]}.
+%	\end{equation}
 \end{theorem}
 
 \begin{proof} Replacing the expression of $\d X^\epl_t$ into \eqref{eq:AHatMixed}, we get
@@ -480,9 +479,95 @@ independently of $\epl$. Therefore
 which, together with \eqref{eq:Proof_I1}, proves \eqref{eq:theoremFirst}. 
 \end{proof}
 
+\subsection{Notes on the high-dimensional parameter}
+
+Let us consider the following stochastic differential equation
+\begin{equation}
+\label{multiscale_equation_N}
+\d X^\varepsilon_t = \left ( - \alpha \cdot V'(X^\varepsilon_t) - \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) \right ) \d t + \sqrt{2\sigma} \d W_t, 
+\end{equation}
+where $\alpha \in \R^N$ and $V \colon \R \to \R^N$, $V(x) = \begin{pmatrix} V_1(x) \dots V_N(x) \end{pmatrix}^\top$ is a vector of potentials. Its homogenized equation is
+\begin{equation}
+\d X_t = - A \cdot V'(X_t) \d t + \sqrt{2\Sigma} \d W_t, 
+\end{equation}
+where $A = K\alpha$ and $\Sigma = K \sigma$. We consider the following estimator for the homogenized drift coefficient $A$
+\begin{equation}
+\hat{A} = - M^{-1} h,
+\end{equation}
+where
+\begin{equation}
+\label{estimators_N}
+M = \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \qquad \text{and} \qquad h = \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \dd X^\varepsilon_t.
+\end{equation}
+Note that repeating the same argument as in the case $N = 1$ we have
+\begin{equation}
+\label{formula_e}
+\delta \sigma \int_{\R} \int_{\R} V'(z) \phi^\varepsilon(x) \psi^\varepsilon(z) \partial_x R^\varepsilon(x,z) \dd x \dd z = \E^{\rho^\varepsilon} [ ((X^\varepsilon)^2 - (Z^\varepsilon)^2) V''(Z^\varepsilon) ],
+\end{equation}
+and
+\begin{equation}
+\label{formula_0}
+\delta \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z = \E^{\rho^0} [ (X^2 - Z^2) V''(Z) ].
+\end{equation}
+Inserting equation \eqref{multiscale_equation_N} into \eqref{estimators_N} we have
+\begin{equation}
+\begin{aligned}
+h = & - \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) (\alpha \cdot V'(X^\varepsilon_t)) \dd t - \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t + \frac{\sqrt{2\sigma}}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t \\
+= & - \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right ) \alpha - \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t + \frac{\sqrt{2\sigma}}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t,
+\end{aligned}
+\end{equation}
+which implies
+\begin{equation}
+\begin{aligned}
+\hat{A} = \alpha & + \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} \left ( \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t \right ) \\
+& - \sqrt{2\sigma} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t \right ).
+\end{aligned}
+\end{equation}
+Passing to the limit as $T$ goes to infinity and applying the ergodic theorem and the strong law of large numbers for martingale we have
+\begin{equation}
+\lim_{T \to \infty} - \sqrt{2\sigma} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t \right ) = 0,
+\end{equation}
+and
+\begin{equation}
+\begin{aligned}
+\lim_{T \to \infty} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} & \left ( \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t \right ) \\
+& = \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)]^{-1} \E^{\rho^\varepsilon} \left [ \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon}{\varepsilon} \right ) V'(Z^\varepsilon) \right ],
+\end{aligned}
+\end{equation}
+which implies
+\begin{equation}
+\lim_{T \to \infty} \hat{A} = \alpha + \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)]^{-1} \E^{\rho^\varepsilon} \left [ \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon}{\varepsilon} \right ) V'(Z^\varepsilon) \right ].
+\end{equation}
+An integration by parts yields
+\begin{equation}
+\begin{aligned}
+\E^{\rho^\varepsilon} \left [ \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon}{\varepsilon} \right ) V'(Z^\varepsilon) \right ] = & - \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)] \alpha \\
+& + \sigma \int_{\R} \int_{\R} V'(z) \phi^\varepsilon(x) \psi^\varepsilon(z) \partial_x R^\varepsilon(x,z) \dd x \dd z,
+\end{aligned}
+\end{equation}
+and applying formula \eqref{formula_e} we have
+\begin{equation}
+\lim_{T \to \infty} \hat{A} = \frac{1}{\delta} \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)]^{-1} \E^{\rho^\varepsilon} [ ((X^\varepsilon)^2 - (Z^\varepsilon)^2) V''(Z^\varepsilon) ].
+\end{equation}
+Passing to the limit as $\varepsilon$ goes to zero we obtain
+\begin{equation}
+\lim_{\varepsilon \to 0} \lim_{T \to \infty} \hat{A} = \frac{1}{\delta} \E^{\rho^0} [V'(Z) \otimes V'(X)]^{-1} \E^{\rho^0} [ (X^2 - Z^2) V''(Z) ].
+\end{equation}
+Using formula \eqref{formula_0} and integrating by parts we have
+\begin{equation}
+\begin{aligned}
+\frac{1}{\delta} \E^{\rho^0} [ (X^2 - Z^2) V''(Z) ] & = \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z \\
+& = \E^{\rho^0} [V'(Z) \otimes V'(X)] A,
+\end{aligned}
+\end{equation}
+which implies
+\begin{equation}
+\lim_{\varepsilon \to 0} \lim_{T \to \infty} \hat{A} = A.
+\end{equation}
+
 \section{Numerical experiments}
 
 
 \bibliographystyle{siam}
-\bibliography{../../anmc}
+\bibliography{anmc}
 \end{document}  
