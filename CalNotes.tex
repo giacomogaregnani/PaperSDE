@@ -23,17 +23,17 @@ In \cite{PaS07} (\corr{is there other literature?}), the authors prove that infe
 
 Let $\epl > 0$ and let us consider the one-dimensional multiscale stochastic differential equation (SDE)
 \begin{equation}\label{eq:SDE_MS}
-	\d X_t^\epl = -V'(X_t^\epl) \dd t - \frac1\epl p'\left(\frac{X_t^\epl}\epl\right) + \sqrt{2\sigma} \dd W_t,
+	\d X_t^\epl = -\alpha \cdot V'(X_t^\epl) \dd t - \frac1\epl p'\left(\frac{X_t^\epl}\epl\right) + \sqrt{2\sigma} \dd W_t,
 \end{equation}
-where $\sigma > 0$ and $W_t$ is a standard one-dimensional Brownian motion. The functions $V, p\colon \R \to \R$ are slow and fast potentials driving the dynamics of the solution $X_t^\epl$. Given $N \in \N_{>0}$, we assume the slow potential to be of the form
+where $\alpha_i \in \R$, $i = 1, \ldots, N$ and $\sigma > 0$ are the drift and diffusion coefficients respectively and $W_t$ is a standard one-dimensional Brownian motion. The functions $V\colon \R \to \R^N$ and $p\colon \R \to \R$ are slow and fast potentials driving the dynamics of the solution $X_t^\epl$. Given $N \in \N_{>0}$, we assume the slow potential to be of the form
 \begin{equation}
-	V(x) = \sum_{i=1}^N \alpha_i V_i(x),
+	V(x) = \begin{pmatrix} V_1(x) & V_2(x) & \cdots & V_N(x) \end{pmatrix}^\top,
 \end{equation}
-for coefficients $\alpha_i \in \R$, $i = 1, \ldots, N$, and smooth functions $V_i\colon \R \to \R$. Moreover, we assume $p$ to be smooth and periodic of period $L$. Theory of homogenization \cite{BLP78} guarantees the existence of an SDE of the form
+for smooth functions $V_i\colon \R \to \R$, $i = 1, \ldots, N$. Moreover, we assume $p$ to be smooth and periodic of period $L$. Theory of homogenization \cite{BLP78} guarantees the existence of an SDE of the form
 \begin{equation}\label{eq:SDE_HOM}
-	\d X_t^0 = - K V'(X_t^0) \dd t + \sqrt{2K\sigma} \dd W_t,
+	\d X_t^0 = - A \cdot V'(X_t^0) \dd t + \sqrt{2\Sigma} \dd W_t,
 \end{equation}
-where $W_t$ is the same Brownian motion and where the fast dynamics have been eliminated, such that $X_t^\epl \to X_t^0$ for $\epl\to 0$ in law as random variables in $\mathcal C^0((0, T), \R)$. In the following, we will denote $A_i \defeq K\alpha_i$. The coefficient $K$ is given by the formula
+where $W_t$ is the same Brownian motion and where the fast dynamics have been eliminated, such that $X_t^\epl \to X_t^0$ for $\epl\to 0$ in law as random variables in $\mathcal C^0((0, T), \R)$. In particular, we have $A_i = K\alpha_i$ and $\Sigma = K \sigma$, where the coefficient $K$ is given by the formula
 \begin{equation}\label{eq:K_HOM}
 	K = \int_0^L (1 + \Phi'(y))^2 \, \mu(\d y),
 \end{equation}
@@ -48,10 +48,10 @@ and where the function $\Phi$ is the solution of the elliptic partial differenti
 endowed with periodic boundary conditions.
 
 
-\subsection{Failure without pre-processing}
+\subsection{Failure without pre-processing \corr{rewrite}}
 
-Let us consider a trajectory $X_{0:T}^\epl \defeq (X_t^\epl, 0 \leq t \leq T)$ coming from the multiscale equation \eqref{eq:SDE_MS}, and the corresponding posterior distribution over the parameter $A$, which we denote by $\mu^\epl(A \mid X_{0:T}^\epl)$. The following result holds.
-\begin{theorem} Under assumption \ref{as:regularity} and if $T = \epl^{-\gamma}$ for $\gamma > 0$, then the posterior distribution $\mu^\epl(A \mid X_{0:T}^\epl) = \mathcal N(\bar A^\epl_T,  \sigma^2_T)$ satisfies
+Let us consider a trajectory $X^\epl \defeq (X_t^\epl, 0 \leq t \leq T)$ coming from the multiscale equation \eqref{eq:SDE_MS}, and the corresponding posterior distribution over the parameter $A$, which we denote by $\mu^\epl(A \mid X^\epl)$. The following result holds.
+\begin{theorem} Under assumption \ref{as:regularity} and if $T = \epl^{-\gamma}$ for $\gamma > 0$, then the posterior distribution $\mu^\epl(A \mid X^\epl) = \mathcal N(\bar A^\epl_T,  \sigma^2_T)$ satisfies
 	\begin{equation}
 	\begin{aligned}
 	&\lim_{\epl \to 0} \bar A^\epl_T = \alpha, \\
@@ -74,45 +74,54 @@ The result above implies that the posterior distribution over the drift coeffici
 
 \section{Posterior formal computations}
 
-Let us denote by $A \in \R^N$ the vector of the coefficients $A_i \defeq K \alpha_i$ appearing in the drift term of the homogenized SDE \eqref{eq:SDE_HOM}. In a Bayesian setting, our goal is to determine the posterior distribution $\mu(A \mid X_{0:T})$ given a continuous trajectory $X_{0:T} \defeq (X_t, 0 \leq t \leq T)$. Choosing a Gaussian prior $\mu_0 = \mathcal N(A_0, C_0)$ on $A$, where $A_0 \in \R^N$ and $C_0 \in \R^{N\times N}$ is symmetric positive definite, the posterior distribution admits a density $p(A \mid X_{0:T})$ with respect to the Lebesgue measure which satisfies
+In a Bayesian setting, our goal is to determine the posterior distribution $\mu(A \mid X)$ given a continuous trajectory $X \defeq (X_t, 0 \leq t \leq T)$. Choosing a Gaussian prior $\mu_0 = \mathcal N(A_0, C_0)$ on $A$, where $A_0 \in \R^N$ and $C_0 \in \R^{N\times N}$ is symmetric positive definite, the posterior distribution admits a density $p(A \mid X)$ with respect to the Lebesgue measure which satisfies
 \begin{equation}
-	p(A \mid X_{0:T}) = \frac1Z \, p(X_{0:T} \mid A) \, p_0(A),
+	p(A \mid X) = \frac1Z \, p(X \mid A) \, p_0(A),
 \end{equation}
 where $Z$ is the normalization constant, $p_0$ is the density of $\mu_0$, and where Girsanov's formula allows to write the likelihood as
 \begin{equation}
-	p(X_{0:T} \mid A) = \exp\left\{-\int_0^T \langle A, \mathbf V'(X_t)\rangle \dd X_t - \frac12 \int_0^T \langle A, \mathbf V'(X_t) \rangle^2 \dd t \right\}.
+	p(X \mid A) = \exp\left(-\frac{I(X\mid A)}{2\Sigma} \right), 
 \end{equation}
-In the formula above, we denote by $\mathbf V \colon \R \to \R^N$ the vector-valued function whose $i$-th component is $\mathbf V_i = V_i$, and by $\mathbf V'$ the vector of its derivatives, i.e., the Jacobian matrix. Moreover, we denote by $\langle \cdot, \cdot \rangle$ the Euclidean scalar product in $\R^N$ and by $\norm{\cdot}_2$ the corresponding norm. The log-posterior density is then given by
+and where
+\begin{equation}
+	I(X\mid A) = \int_0^T A \cdot V'(X_t) \dd X_t + \frac12 \int_0^T \left( A \cdot V'(X_t) \right)^2 \dd t.
+\end{equation}
+
+The log-posterior density is then given by
 \begin{equation}
 \begin{aligned}
-	\log p(A \mid X_{0:T}) = &-\log Z -\int_0^T \langle A, \mathbf V'(X_t)\rangle \dd X_t - \frac12 \int_0^T \langle A, \mathbf V'(X_t) \rangle^2 \dd t \\
+	\log p(A \mid X) = &-\log Z -\frac1{2\Sigma}\int_0^T A \cdot V'(X_t) \dd X_t - \frac1{4\Sigma} \int_0^T \left(A \cdot V'(X_t) \right)^2 \dd t \\
 	&- \frac12 \norm{C_0^{-1/2}(A - A_0)}_2^2.
 \end{aligned}
 \end{equation}
 Since the log-posterior density is quadratic in $A$, the posterior is Gaussian, and it is therefore sufficient to determine its mean and covariance to fully characterize it. We denote by $m_T$ and $C_T$ the mean and covariance matrix, respectively. Let us consider the matrix-valued function $M \colon \R \to \R^{N\times N}$ whose entries are given by
 \begin{equation}
-	M_{ij} = \frac1T \int_0^T V_i'(X_t) \, V_j'(X_t) \dd t, \quad i, j = 1, \ldots, N,
+	M_{ij} = \frac1{2\Sigma T} \int_0^T V_i'(X_t) \, V_j'(X_t) \dd t, \quad i, j = 1, \ldots, N,
 \end{equation}
 and the vector-valued function $h \colon \R \to \R^N$ defined by
 \begin{equation}
-	h_i = \frac1T \int_0^T V_i'(X_t) \dd X_t, \quad i = 1, \ldots, N.
+	h_i = \frac1{2\Sigma T} \int_0^T V_i'(X_t) \dd X_t, \quad i = 1, \ldots, N.
 \end{equation}
-If we employ this notation, we can rewrite the log-posterior density as
+Let us remark that we can rewrite $M$ and $h$ in vector notation as
+\begin{equation}
+		M = \frac1{2\Sigma T} \int_0^T V'(X_t) \otimes V'(X_t) \dd t, \quad h = \frac1{2\Sigma T} \int_0^T V'(X_t) \dd X_t,
+\end{equation}
+where $\otimes$ denotes the tensor product in $\R^N$. Therefore, we can rewrite the log-posterior density as
 \begin{equation}
 \begin{aligned}
-	\log p(A \mid X_{0:T}) = &-\log Z - T\langle A, h\rangle - \frac{T}{2} \langle A, M A\rangle - \frac12 \langle A - A_0, C_0^{-1}(A-A_0) \rangle.
+	\log p(A \mid X) = &-\log Z - T A \cdot h - \frac{T}{2} A \cdot M A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0).
 \end{aligned}
 \end{equation}
-Completing the squares in the log-posterior density, it is possible to show that the posterior is a Gaussian $\mu(A \mid X_{0:T}) = \mathcal N(\bar A_T, C_T)$, whose precision matrix and mean are formally given by
+Completing the squares in the log-posterior density, it is possible to show that the posterior is a Gaussian $\mu(A \mid X) = \mathcal N(m_T, C_T)$, whose precision matrix and mean are formally given by
 \begin{equation}
 \begin{aligned}
 	C_T^{-1} &= C_0^{-1} + T M, \\
-	C_T^{-1}\bar A_T &= C_0^{-1}A_0 - T h. 
+	C_T^{-1}m_T &= C_0^{-1}A_0 - T h. 
 \end{aligned}
 \end{equation}
-We are now interested in the limit of the posterior distribution for $T \to \infty$. Let us first define the maximum likelihood estimator (MLE) $\widehat A(X_{0:T})$ of $A$, which is obtained by maximizing the log-likelihood function $\log p(X_{0:T} \mid A)$, and which is hence formally given by
+We are now interested in the limit of the posterior distribution for $T \to \infty$. Let us first define the maximum likelihood estimator (MLE) $\widehat A(X)$ of $A$, which is obtained by maximizing the log-likelihood function $\log p(X \mid A)$, and which is hence formally given by
 \begin{equation}
-	\widehat A(X_{0:T}) = -M^{-1}h.
+	\widehat A(X) = -M^{-1}h.
 \end{equation}
 We now introduce regularity assumptions on the SDE.
 \begin{assumption}\label{as:regularity} The potentials $p$ and $V$ are such that 
@@ -123,11 +132,11 @@ We now introduce regularity assumptions on the SDE.
 \end{assumption}
 
 We can now state the main result for asymptotic convergence of the posterior distribution.
-\begin{proposition}\label{prop:equiv} Given a continuous stochastic process $X_t$ which is ergodic with invariant measure $\mu^{\infty}$ such that $\E^{\mu^\infty}(V_i'(\cdot)) \leq C$ for some constant $C > 0$ and for all $i = 1, \ldots, N$, the posterior $\mu(A \mid X_{0:T})$ contracts to the limit of $\widehat A(X_{0:T})$ for $T \to \infty$.
+\begin{proposition}\label{prop:equiv} Given a continuous stochastic process $X \defeq (X_t, 0 \leq t, \leq T)$ which is ergodic with invariant measure $\mu^{\infty}$ such that $\E^{\mu^\infty}(V_i'(\cdot)) \leq C$ for some constant $C > 0$ and for all $i = 1, \ldots, N$, the posterior $\mu(A \mid X)$ contracts to the limit of $\widehat A(X)$ for $T \to \infty$.
 %	 for $T$ arbitrarily large and under Assumption \ref{as:regularity}, the posterior mean and covariance satisfy
 %	\begin{equation}
 %	\begin{aligned}
-%		&\lim_{T \to \infty} \norm{m_T - \widehat A(X_{0:T})}_2 = 0, \\
+%		&\lim_{T \to \infty} \norm{m_T - \widehat A(X)}_2 = 0, \\
 %		&\lim_{T \to \infty} \norm{C_T}_F = 0,
 %	\end{aligned}
 %	\end{equation}
@@ -163,11 +172,11 @@ We can now state the main result for asymptotic convergence of the posterior dis
 	\end{equation}
 	We now consider the mean. Replacing the expression of the maximum likelihood estimator, we obtain
 	\begin{equation}
-		\norm{m_T - \widehat A(X_{0:T})}_2 = T^{-1}\norm{M^{-1}C_0^{-1}A_0 - Q^{-1}\left(C_0^{-1}A_0 -h \right)}_2.
+		\norm{m_T - \widehat A(X)}_2 = T^{-1}\norm{M^{-1}C_0^{-1}A_0 - Q^{-1}\left(C_0^{-1}A_0 - Th \right)}_2.
 	\end{equation}
 	Let us remark that \eqref{eq:boundQinv} implies $\norm{Q^{-1}}_F \to 0$ for $T \to \infty$ and \eqref{eq:boundMinv} implies $\norm{M^{-1}}_F \leq C$ for some $C > 0$ independently of $T$. Moreover, the ergodic theorem guarantees that $\norm{h}_2 \leq C$ for $T$ sufficiently big, and therefore the Cauchy--Schwarz and the triangle inequalities imply 
 	\begin{equation}
-		\lim_{T\to\infty} \norm{m_T - \widehat A(X_{0:T})}_2 = 0,
+		\lim_{T\to\infty} \norm{m_T - \widehat A(X)}_2 = 0,
 	\end{equation}
 	which proves the desired result.
 \end{proof}
@@ -200,7 +209,7 @@ where $C_{\beta}$ is a normalizing constant given by
 \end{equation}
 and where $\Gamma(\cdot)$ is the gamma function. In the following, only in case $\beta = 1$ a rigorous analysis is carried on. Nonetheless, numerical experiments show that for higher values of $\beta$ the performances of estimators computed employing the filter are more robust and qualitatively better. 
 
-\corr{Implementation}
+Given a trajectory $X^\epl \defeq (X^\epl_t, 0\leq t \leq T)$, it is relatively inexpensive to compute $Z^\epl$ from a computational standpoint. In particular, the process $Z^\epl$ is the convolution of the kernel with the process $X^\epl$. Hence, computational tools based on the Fast Fourier Transform (FFT) exist and allow to compute $Z^\epl$ fast component-wise.
 
 \subsection{Ergodic properties of the filter}\label{sec:ergodic}
 
@@ -216,26 +225,26 @@ Considering the processes $X^\epl$ and $Z^\epl$ together, we obtain a system of 
 \begin{equation}
 \label{systemSDE}
 \begin{aligned}
-\d X^\epl_t &= \left ( - \alpha V'(X^\epl_t) - \frac{1}\epl p' \left ( \frac{X^\epl_t}\epl \right ) \right ) \dd t + \sqrt{2\sigma} \dd W_t, \\
+\d X_t^\epl &= -\alpha \cdot V'(X_t^\epl) \dd t - \frac1\epl p'\left(\frac{X_t^\epl}\epl\right) + \sqrt{2\sigma} \dd W_t, \\
 \d Z^\epl_t &= \frac{1}{\delta} \left ( X^\epl_t - Z^\epl_t \right ) \dd t.
 \end{aligned}
 \end{equation}
-Let $\rho^\epl = \rho^\epl(x,z)$ be the stationary distribution of the joint process $(X^\epl, Z^\epl)^\top$. Then $\rho^\epl$ is the solution of the two-dimensional stationary Fokker--Planck equation
+Let $\rho^\epl = \rho^\epl(x,z)$ be the stationary distribution of the joint process $(X^\epl, Z^\epl)^\top$. \corr{How do we show that the couple $(X^\epl, Z^\epl)^\top$ is ergodic.} Then $\rho^\epl$ is the solution of the two-dimensional stationary Fokker--Planck equation
 \begin{equation}
 \begin{aligned}
 	\label{eq:FPsystem}
-	\sigma \partial^2_{xx} \rho^\epl(x,z) & + \left ( \alpha V''(x) + \frac{1}{\epl^2} p'' \left ( \frac{x}\epl \right ) + \frac{1}{\delta} \right ) \rho^\epl(x,z) \\
-	& + \left ( \alpha V'(x) + \frac{1}\epl p' \left ( \frac{x}\epl \right ) \right ) \partial_x \rho^\epl(x,z) + \frac{1}{\delta}(z - x) \partial_z \rho^\epl(x,z) = 0.
+	\sigma \partial^2_{xx} \rho^\epl(x,z) & + \left ( \alpha \cdot V''(x) + \frac{1}{\epl^2} p'' \left ( \frac{x}\epl \right ) + \frac{1}{\delta} \right ) \rho^\epl(x,z) \\
+	& + \left ( \alpha \cdot V'(x) + \frac{1}\epl p' \left ( \frac{x}\epl \right ) \right ) \partial_x \rho^\epl(x,z) + \frac{1}{\delta}(z - x) \partial_z \rho^\epl(x,z) = 0.
 \end{aligned}
 \end{equation}
 
-\begin{example}\label{ex:OrnUhl} A closed form solution of \eqref{eq:FPsystem} can be obtained in a simple homogenized case. Let $p(y) = 0$ and the parameters $\alpha$, $\sigma$ be replaced respectively by $A$ and $\Sigma$. Then, if $V(x) = x^2/2$, equation \eqref{eq:FPsystem} has the analytical solution 
+\begin{example}\label{ex:OrnUhl} A closed form solution of \eqref{eq:FPsystem} can be obtained in a simple homogenized case with the dimension of the parameter $N=1$. Let $p(y) = 0$ and the parameters $\alpha$, $\sigma$ be replaced respectively by $A$ and $\Sigma$. Then, if $V(x) = x^2/2$, equation \eqref{eq:FPsystem} has the analytical solution 
 \begin{equation}
-\rho^0(x,z) = \frac{1}{A_{\rho^0}} \exp\left(-\frac{A}{\Sigma} \frac{x^2}{2} - \frac{1}{\delta \Sigma} \frac{(x - (1+A \delta)z)^2}{2}\right),
+\rho^0(x,z) = \frac{1}{C_{\rho^0}} \exp\left(-\frac{A}{\Sigma} \frac{x^2}{2} - \frac{1}{\delta \Sigma} \frac{(x - (1+A \delta)z)^2}{2}\right),
 \end{equation}
 where
 \begin{equation}
-A_{\rho^0} = \int_{\R} \int_{\R} \exp\left(-\frac{A}{\Sigma} \frac{x^2}{2} - \frac{1}{\delta \Sigma} \frac{(x - (1+A \delta)z)^2}{2}\right) \dd x \dd z.
+C_{\rho^0} = \int_{\R} \int_{\R} \exp\left(-\frac{A}{\Sigma} \frac{x^2}{2} - \frac{1}{\delta \Sigma} \frac{(x - (1+A \delta)z)^2}{2}\right) \dd x \dd z.
 \end{equation}
 This is the density of a multivariate normal distribution $\mathcal N(0, \Gamma)$, where the covariance matrix is given by
 \begin{equation}
@@ -260,11 +269,11 @@ where $\phi^\epl$ and $\psi^\epl$ are the marginal densities, i.e.,
 \end{equation}
 Then, it holds
 \begin{equation}\label{eq:marginalX}
-	\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(- \frac{\alpha}{\sigma} V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
+	\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(-\frac{1}{\sigma} \alpha \cdot V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
 \end{equation}
 where
 \begin{equation}
-	C_{\phi^\epl} = \int_{\R} \exp\left(- \frac{\alpha}{\sigma} V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right) \dd x.
+	C_{\phi^\epl} = \int_{\R} \exp\left(-\frac{1}{\sigma} \alpha \cdot V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right) \dd x.
 \end{equation}
 Moreover, it holds
 \begin{equation}
@@ -275,11 +284,11 @@ Moreover, it holds
 \begin{proof} Integrating equation \eqref{eq:FPsystem} with respect to $z$ we obtain the stationary Fokker--Planck equation for the process $X^\epl$, i.e.
 \begin{equation}
 \label{FPx}
-\sigma (\phi^\epl)''(x) + \left ( \alpha V''(x) + \frac{1}{\epl^2} p'' \left ( \frac{x}\epl \right ) \right ) \phi^\epl(x) + \left ( \alpha V'(x) + \frac{1}\epl p' \left ( \frac{x}\epl \right ) \right ) (\phi^\epl)'(x) = 0,
+\sigma (\phi^\epl)''(x) + \left ( \alpha \cdot V''(x) + \frac{1}{\epl^2} p'' \left ( \frac{x}\epl \right ) \right ) \phi^\epl(x) + \left ( \alpha \cdot V'(x) + \frac{1}\epl p' \left ( \frac{x}\epl \right ) \right ) (\phi^\epl)'(x) = 0,
 \end{equation}
 whose solution is given by
 \begin{equation}
-\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(- \frac{\alpha}{\sigma} V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
+\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(- \frac{1}{\sigma} \alpha \cdot V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
 \end{equation}
 and which proves \eqref{eq:marginalX}. By integrating equation \eqref{eq:FPsystem} with respect to $x$ and integrating by parts we obtain
 \begin{equation}
@@ -332,7 +341,7 @@ We rewrite the equality above as
 & + 2 \psi^\epl(x) z - \psi^\epl \int_{\R} x^2 \phi^\epl(x) \partial_z R^\epl(x, z) \dd x.
 \end{aligned}
 \end{equation}
-Multiplying by $V'(z)$, integrating with respect to $z$ and integrating by parts, we obtain
+Multiplying by $V'(z)$, integrating with respect to $z$ and integrating by parts, we obtain the following identity in $\R^N$
 \begin{equation}
 \begin{aligned}
 \sigma \delta \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z &=  \int_{\R} \int_{\R} (x^2 - z^2) V''(z) \rho_\epl(x,z) \dd x \dd z \\
@@ -351,11 +360,11 @@ It is known that the invariant distribution of the process $X^\epl$ converges we
 
 \begin{lemma}\label{lem:convMeasure} Let $\mu^\epl$ be the invariant measure of the couple $(X^\epl, Z^\epl)^\top$. Then, the measure $\mu^\epl$ converges weakly to the measure $\mu^0(\d x, \d z) = \rho^0(x, z) \dd x \dd z$, whose density $\rho^0$ is the unique solution of the Fokker--Planck equation
 \begin{equation} \label{eq:FPsystem_homogenized}
-	\Sigma \partial^2_{xx} \rho^0(x,z) + \left ( A V''(x) + \frac{1}{\delta} \right ) \rho^0(x,z) + A V'(x) \partial_x \rho^0(x,z) + \frac{1}{\delta}(z - x) \partial_z \rho^0(x,z) = 0,
+	\Sigma \partial^2_{xx} \rho^0(x,z) + \left ( A \cdot V''(x) + \frac{1}{\delta} \right ) \rho^0(x,z) + A \cdot V'(x) \partial_x \rho^0(x,z) + \frac{1}{\delta}(z - x) \partial_z \rho^0(x,z) = 0,
 \end{equation}
 where $A$ and $\Sigma$ are the coefficients of the homogenized equation \eqref{eq:SDE_HOM}.
 \end{lemma}
-\begin{proof} 
+\begin{proof} \todo
 \end{proof}
 
 We now present an analogous result to Lemma \ref{lem:FPMarginal} for the limit distribution.
@@ -370,7 +379,7 @@ We now present an analogous result to Lemma \ref{lem:FPMarginal} for the limit d
 	\end{equation}
 	Then, if $A$ and $\Sigma$ are the coefficients of the homogenized equation \eqref{eq:SDE_HOM}, it holds
 	\begin{equation}
-		\phi^0(x) = \frac{1}{C_{\phi^0}} \exp\left(- \frac{A}{\Sigma} V(x)\right), \quad \text{where } \quad C_{\phi^0} = \int_{\R} \exp\left(- \frac{A}{\Sigma} V(x) \right) \dd x.
+		\phi^0(x) = \frac{1}{C_{\phi^0}} \exp\left(- \frac1{\Sigma} A\cdot V(x)\right), \quad \text{where } \quad C_{\phi^0} = \int_{\R} \exp\left(- \frac1{\Sigma} A\cdot V(x) \right) \dd x.
 	\end{equation}
 	Moreover, it holds
 	\begin{equation}
@@ -384,8 +393,19 @@ We now present an analogous result to Lemma \ref{lem:FPMarginal} for the limit d
 
 The estimator of the homogenized drift coefficient $A$ we analyse is given by the formula
 \begin{equation}\label{eq:AHatMixed}
+	\widehat A^\epl(T) = - \widetilde M^{-1} \widetilde h,
+\end{equation}
+where
+\begin{equation}
+	\widetilde M = \frac{1}{T} \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t \qquad \text{and} \qquad \widetilde h = \frac{1}{T} \int_0^T V'(Z^\epl_t) \dd X^\epl_t.
+\end{equation}
+In practice, one evaluation of $V'(\cdot)$ is computed with the filter, while the differential and the second evaluation of $V'(\cdot)$ are maintained with the original process $X^\epl$. 
+
+\begin{remark} Let us remark that in the one-dimensional case $N = 1$, the estimator reduces to
+\begin{equation}
 \widehat A^\epl(T) = - \frac{\int_0^T V'(Z^\epl_t) \dd X^\epl_t}{\int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t}.
 \end{equation}
+\end{remark}
 
 \begin{theorem}\label{thm:mainTheorem} Let $\widehat A^\epl(T)$ be defined in \eqref{eq:AHatMixed}. Then, if \corr{Assumptions}, 
 	\begin{equation}\label{eq:theoremFirst}
@@ -402,63 +422,69 @@ The estimator of the homogenized drift coefficient $A$ we analyse is given by th
 %	\end{equation}
 \end{theorem}
 
-\begin{proof} Replacing the expression of $\d X^\epl_t$ into \eqref{eq:AHatMixed}, we get
+\begin{proof} Replacing the expression of $\d X^\epl_t$ into \eqref{eq:AHatMixed}, we get for $\widetilde h$
 \begin{equation}\label{Ahat_decomposition}
-\begin{aligned} \nonumber
-\widehat A^\epl(T) &= \frac{\alpha \int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t + \int_0^T V'(Z^\epl_t) \frac1\epl  p' \left ( \frac{X^\epl_t}\epl \right )\dd t - \sqrt{2\sigma} \int_0^T V'(Z^\epl_t) \dd W_t}{\int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t} \\ 
-&= \alpha + \frac{\int_0^T V'(Z^\epl_t) \frac1\epl  p' \left ( \frac{X^\epl_t}\epl \right )\dd t}{\int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t} - \sqrt{2\sigma} \frac{\int_0^T V'(Z^\epl_t) \dd W_t}{\int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t}\\
-&\eqdef \alpha + I_1^\epl(T) - I_2^\epl(T).
+\widetilde h = -\widetilde M \alpha - \frac{1}{T} \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t + \frac{\sqrt{2\sigma}}{T} \int_0^T V'(Z^\epl_t) \dd W_t.
+\end{equation}
+Therefore, we have
+\begin{equation}
+\begin{aligned}
+	\widehat A^\epl(T) &= \alpha + \frac{1}{T} \widetilde M^{-1} \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \frac{\sqrt{2\sigma}}{T}  \widetilde M^{-1} \int_0^T V'(Z^\epl_t) \dd W_t\\
+	&\eqdef \alpha + I_1^\epl(T) - I_2^\epl(T).
 \end{aligned}
 \end{equation}
 We study the terms $I_1^\epl$ and $I_2^\epl$ separately. The ergodic theorem applied to $I_1^\epl$ yields
 \begin{equation}\label{limit_estimator}
-\lim_{T \to \infty} I_1^\epl(T) = \frac{\E^{\rho^\epl} \left [ \frac{1}\epl V'(Z^\epl) p' \left ( \frac{X^\epl}\epl \right ) \right ]}{\E^{\rho^\epl} [ V'(Z^\epl) V'(X^\epl) ]}, \quad \text{a.s.}
+\lim_{T \to \infty} I_1^\epl(T) = \E^{\rho^\epl} [V'(Z^\epl) \otimes V'(X^\epl)]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ], \quad \text{a.s.}
 \end{equation}
-Let us consider the numerator of the expression above. Due to Lemma \ref{lem:FPMarginal} and integrating by parts, we have
+Due to Lemma \ref{lem:FPMarginal} and integrating by parts, we have
 \begin{equation}
 \begin{aligned}
-	\E^{\rho^\epl} \left [ V'(Z^\epl) \frac1\epl p' \left ( \frac{X^\epl}\epl \right ) \right ] &= \int_{\R} \int_{\R} V'(z) \, \frac1\epl p' \left ( \frac{x}\epl \right ) \frac{1}{C_{\phi^\epl}} e^{- \frac{\alpha}{\sigma} V(x)} e^{ - \frac{1}{\sigma} p \left ( \frac{x}\epl \right)} \psi^\epl(z) R^\epl(x,z) \dd x \dd z \\
-	&= -\sigma \int_{\R} \int_{\R} \frac{\d}{\d x}\left( e^{ - \frac{1}{\sigma} p \left ( \frac{x}\epl \right)} \right) \frac{1}{C_{\phi^\epl}} e^{- \frac{\alpha}{\sigma} V(x)} V'(z) \psi^\epl(z) R^\epl(x,z) \dd x \dd z \\
-	&= \sigma \int_{\R} \int_{\R} \frac{1}{C_{\phi^\epl}} e^{ - \frac{1}{\sigma} p \left ( \frac{x}\epl \right)} \partial_x \left ( e^{- \frac{\alpha}{\sigma} V(x)} R^\epl(x,z) \right ) V'(z) \psi^\epl(z) \dd x \dd z,
+	\E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] &= \int_{\R} \int_{\R} V'(z) \, \frac1\epl p' \left ( \frac{x}\epl \right ) \frac{1}{C_{\phi^\epl}} e^{- \frac{1}{\sigma} \alpha \cdot V(x)} e^{ - \frac{1}{\sigma} p \left ( \frac{x}\epl \right)} \psi^\epl(z) R^\epl(x,z) \dd x \dd z \\
+	&= -\sigma \int_{\R} \int_{\R} \frac{\d}{\d x}\left( e^{ - \frac{1}{\sigma} p \left ( \frac{x}\epl \right)} \right) \frac{1}{C_{\phi^\epl}} e^{- \frac{1}{\sigma} \alpha \cdot V(x)} V'(z) \psi^\epl(z) R^\epl(x,z) \dd x \dd z \\
+	&= \sigma \int_{\R} \int_{\R} \frac{1}{C_{\phi^\epl}} e^{ - \frac{1}{\sigma} p \left ( \frac{x}\epl \right)} \partial_x \left ( e^{- \frac{1}{\sigma} \alpha \cdot V(x)} R^\epl(x,z) \right ) V'(z) \psi^\epl(z) \dd x \dd z,
 \end{aligned}
 \end{equation}
 which implies
 \begin{align}
-	\E^{\rho^\epl} \left [ \frac{1}\epl V'(Z^\epl) p' \left ( \frac{X^\epl}\epl \right ) \right ] &= 
+	\E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] &= 
 	\begin{aligned}[t]
-		&-\alpha \int_{\R} \int_{\R} V'(x) V'(z) \rho^\epl(x, z) \dd x \dd z \\
+		&- \left(\int_{\R} \int_{\R} V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \rho^\epl(x, z) \dd x \dd z\right) \alpha \\
 		&+\sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z 
 	\end{aligned}
 	\\
-	&= - \alpha \E^{\rho^\epl} [ V'(Z^\epl) V'(X^\epl) ] + \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z.
+	&= -  \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]\alpha + \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z.
 \end{align}
 Replacing the equality above into \eqref{limit_estimator}, we obtain
 \begin{equation}
-\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac{\sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z}{\E^{\rho^\epl} [ V'(Z^\epl) V'(X^\epl) ]}, \quad \text{a.s.}
+\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z, \quad \text{a.s.}
 \end{equation}
 Due to Lemma \ref{lem:FPMarginal}, we therefore have
 \begin{equation}
-	\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac{\E^{\rho^\epl}[(X^2 - Z^2)V''(Z)]}{\delta \E^{\rho^\epl}[V'(Z) V'(X)]}, \quad \text{a.s.}	
+	\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac1\delta \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)], \quad \text{a.s.}	
 \end{equation}
 We now pass to the limit as $\epl$ goes to zero and
 \begin{equation} \label{limit_estimator_2}
-	\lim_{\epl \to 0} \lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac{\E^{\rho^0}[(X^2 - Z^2)V''(Z)]}{\delta \E^{\rho^0}[V'(Z) V'(X)]}, \quad \text{a.s.},
+	\lim_{\epl \to 0} \lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac1\delta \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)], \quad \text{a.s.},
 \end{equation}
 where the function $\rho^0$ is the density of the limit invariant distribution for $\epl \to 0$, as in Lemma \ref{lem:convMeasure}. Due to Lemma \ref{lem:FPMarginal_Hom}, we have
 \begin{equation}\label{eq:final_result}
-\frac{1}{\delta} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] = \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z,
+	\frac{1}{\delta} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] = \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z,
 \end{equation}
-and finally, an integration by parts yields
-\begin{align}
-	\E^{\rho^0}[V'(Z) V'(X)] &= \int_{\R} \int_{\R} V'(x) V'(z) \frac{1}{C_{\phi^0}} e^{-\frac{A}{\Sigma} V(x)} \psi^0(z) R^0(x,z) \dd x \dd z \\
-	&= - \frac{\Sigma}{A} \int_{\R} \int_{\R} V'(z) \left ( \frac{1}{C_{\phi^0}} e^{-\frac{A}{\Sigma} V(x)} \right )' \psi^0(z) R^0(x,z) \dd x \dd z \\
-	&= \frac{\Sigma}{A} \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z.
-\end{align}
+and moreover, an integration by parts yields
+\begin{equation}
+\begin{aligned}
+	\frac{1}{\delta} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] &= -\Sigma \int_{\R} \int_{\R} V'(z) (\phi^0)'(x) \psi^0(z) R^0(x,z) \dd x \dd z\\
+	&= -\int_{\R} \int_{\R} V'(z) \left ( \frac{1}{C_{\phi^0}} e^{-\frac{1}{\Sigma} A\cdot V(x)} \right )' \psi^0(z) R^0(x,z) \dd x \dd z \\
+	&= \left(\int_{\R} \int_{\R} V'(z) \otimes V'(x) \rho^0(x,z) \dd x \dd z\right)A\\
+	&=  \E^{\rho^0} [ V'(Z) \otimes V'(X) ]A
+\end{aligned}
+\end{equation}
 We can therefore conclude that
 \begin{equation}\label{eq:Proof_I1}
 \lim_{\epl \to 0} \lim_{T \to \infty} I_1(T) = -\alpha + A, \quad \text{a.s.}
 \end{equation}
-We now consider the second term $I_2$, and rewrite it as 
+We now consider the second term $I_2$, and rewrite it as (\corr{Still one-dimensional, correct to $N$-dimensional parameter})
 \begin{equation}
 	I^\epl_2(T) = - \sqrt{2\sigma} \frac{\frac1T\int_0^T V'(Z^\epl_t)^2 \dd t}{\frac1T\int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t} \frac{\int_0^T V'(Z^\epl_t) \dd W_t}{\int_0^T V'(Z^\epl_t)^2 \dd t} \eqdef -\sqrt{2\sigma} I_{2,1}^\epl(T)  I_{2,2}^\epl(T).
 \end{equation}
@@ -476,92 +502,6 @@ independently of $\epl$. Therefore
 \end{equation}
 which, together with \eqref{eq:Proof_I1}, proves \eqref{eq:theoremFirst}. 
 \end{proof}
-
-\subsection{Notes on the high-dimensional parameter}
-
-Let us consider the following stochastic differential equation
-\begin{equation}
-\label{multiscale_equation_N}
-\d X^\varepsilon_t = \left ( - \alpha \cdot V'(X^\varepsilon_t) - \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) \right ) \d t + \sqrt{2\sigma} \d W_t, 
-\end{equation}
-where $\alpha \in \R^N$ and $V \colon \R \to \R^N$, $V(x) = \begin{pmatrix} V_1(x) \dots V_N(x) \end{pmatrix}^\top$ is a vector of potentials. Its homogenized equation is
-\begin{equation}
-\d X_t = - A \cdot V'(X_t) \d t + \sqrt{2\Sigma} \d W_t, 
-\end{equation}
-where $A = K\alpha$ and $\Sigma = K \sigma$. We consider the following estimator for the homogenized drift coefficient $A$
-\begin{equation}
-\hat{A} = - M^{-1} h,
-\end{equation}
-where
-\begin{equation}
-\label{estimators_N}
-M = \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \qquad \text{and} \qquad h = \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \dd X^\varepsilon_t.
-\end{equation}
-Note that repeating the same argument as in the case $N = 1$ we have
-\begin{equation}
-\label{formula_e}
-\delta \sigma \int_{\R} \int_{\R} V'(z) \phi^\varepsilon(x) \psi^\varepsilon(z) \partial_x R^\varepsilon(x,z) \dd x \dd z = \E^{\rho^\varepsilon} [ ((X^\varepsilon)^2 - (Z^\varepsilon)^2) V''(Z^\varepsilon) ],
-\end{equation}
-and
-\begin{equation}
-\label{formula_0}
-\delta \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z = \E^{\rho^0} [ (X^2 - Z^2) V''(Z) ].
-\end{equation}
-Inserting equation \eqref{multiscale_equation_N} into \eqref{estimators_N} we have
-\begin{equation}
-\begin{aligned}
-h = & - \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) (\alpha \cdot V'(X^\varepsilon_t)) \dd t - \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t + \frac{\sqrt{2\sigma}}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t \\
-= & - \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right ) \alpha - \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t + \frac{\sqrt{2\sigma}}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t,
-\end{aligned}
-\end{equation}
-which implies
-\begin{equation}
-\begin{aligned}
-\hat{A} = \alpha & + \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} \left ( \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t \right ) \\
-& - \sqrt{2\sigma} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t \right ).
-\end{aligned}
-\end{equation}
-Passing to the limit as $T$ goes to infinity and applying the ergodic theorem and the strong law of large numbers for martingale we have
-\begin{equation}
-\lim_{T \to \infty} - \sqrt{2\sigma} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \dd W_t \right ) = 0,
-\end{equation}
-and
-\begin{equation}
-\begin{aligned}
-\lim_{T \to \infty} \left ( \frac{1}{T} \int_0^T V'(Z^\varepsilon_t) \otimes V'(X^\varepsilon_t) \dd t \right )^{-1} & \left ( \frac{1}{T} \int_0^T \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon_t}{\varepsilon} \right ) V'(Z^\varepsilon_t) \dd t \right ) \\
-& = \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)]^{-1} \E^{\rho^\varepsilon} \left [ \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon}{\varepsilon} \right ) V'(Z^\varepsilon) \right ],
-\end{aligned}
-\end{equation}
-which implies
-\begin{equation}
-\lim_{T \to \infty} \hat{A} = \alpha + \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)]^{-1} \E^{\rho^\varepsilon} \left [ \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon}{\varepsilon} \right ) V'(Z^\varepsilon) \right ].
-\end{equation}
-An integration by parts yields
-\begin{equation}
-\begin{aligned}
-\E^{\rho^\varepsilon} \left [ \frac{1}{\varepsilon} p' \left ( \frac{X^\varepsilon}{\varepsilon} \right ) V'(Z^\varepsilon) \right ] = & - \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)] \alpha \\
-& + \sigma \int_{\R} \int_{\R} V'(z) \phi^\varepsilon(x) \psi^\varepsilon(z) \partial_x R^\varepsilon(x,z) \dd x \dd z,
-\end{aligned}
-\end{equation}
-and applying formula \eqref{formula_e} we have
-\begin{equation}
-\lim_{T \to \infty} \hat{A} = \frac{1}{\delta} \E^{\rho^\varepsilon} [V'(Z^\varepsilon) \otimes V'(X^\varepsilon)]^{-1} \E^{\rho^\varepsilon} [ ((X^\varepsilon)^2 - (Z^\varepsilon)^2) V''(Z^\varepsilon) ].
-\end{equation}
-Passing to the limit as $\varepsilon$ goes to zero we obtain
-\begin{equation}
-\lim_{\varepsilon \to 0} \lim_{T \to \infty} \hat{A} = \frac{1}{\delta} \E^{\rho^0} [V'(Z) \otimes V'(X)]^{-1} \E^{\rho^0} [ (X^2 - Z^2) V''(Z) ].
-\end{equation}
-Using formula \eqref{formula_0} and integrating by parts we have
-\begin{equation}
-\begin{aligned}
-\frac{1}{\delta} \E^{\rho^0} [ (X^2 - Z^2) V''(Z) ] & = \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z \\
-& = \E^{\rho^0} [V'(Z) \otimes V'(X)] A,
-\end{aligned}
-\end{equation}
-which implies
-\begin{equation}
-\lim_{\varepsilon \to 0} \lim_{T \to \infty} \hat{A} = A.
-\end{equation}
 
 \section{Numerical experiments}
 
