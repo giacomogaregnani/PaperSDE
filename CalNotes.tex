@@ -26,7 +26,7 @@ Let $\epl > 0$ and let us consider the one-dimensional multiscale stochastic dif
 	\d X_t^\epl = -\alpha \cdot V'(X_t^\epl) \dd t - \frac1\epl p'\left(\frac{X_t^\epl}\epl\right) + \sqrt{2\sigma} \dd W_t,
 \end{equation}
 where $\alpha_i \in \R$, $i = 1, \ldots, N$ and $\sigma > 0$ are the drift and diffusion coefficients respectively and $W_t$ is a standard one-dimensional Brownian motion. The functions $V\colon \R \to \R^N$ and $p\colon \R \to \R$ are slow and fast potentials driving the dynamics of the solution $X_t^\epl$. Given $N \in \N_{>0}$, we assume the slow potential to be of the form
-\begin{equation}
+\begin{equation}\label{eq:Potential}
 	V(x) = \begin{pmatrix} V_1(x) & V_2(x) & \cdots & V_N(x) \end{pmatrix}^\top,
 \end{equation}
 for smooth functions $V_i\colon \R \to \R$, $i = 1, \ldots, N$. Moreover, we assume $p$ to be smooth and periodic of period $L$. Theory of homogenization \cite{BLP78} guarantees the existence of an SDE of the form
@@ -72,9 +72,13 @@ Let us consider a trajectory $X^\epl \defeq (X_t^\epl, 0 \leq t \leq T)$ coming 
 
 The result above implies that the posterior distribution over the drift coefficient concentrates asymptotically on an undesired value.
 
+\subsection{The subsampling approach for point estimates}
+
+\subsection{Outline}
+
 \section{Posterior formal computations}
 
-In a Bayesian setting, our goal is to determine the posterior distribution $\mu(A \mid X)$ given a continuous trajectory $X \defeq (X_t, 0 \leq t \leq T)$. Choosing a Gaussian prior $\mu_0 = \mathcal N(A_0, C_0)$ on $A$, where $A_0 \in \R^N$ and $C_0 \in \R^{N\times N}$ is symmetric positive definite, the posterior distribution admits a density $p(A \mid X)$ with respect to the Lebesgue measure which satisfies
+In a Bayesian setting, the goal is to determine the posterior distribution $\mu(A \mid X)$ given a continuous trajectory $X \defeq (X_t, 0 \leq t \leq T)$. Choosing a Gaussian prior $\mu_0 = \mathcal N(A_0, C_0)$ on $A$, where $A_0 \in \R^N$ and $C_0 \in \R^{N\times N}$ is symmetric positive definite, the posterior distribution admits a density $p(A \mid X)$ with respect to the Lebesgue measure which satisfies
 \begin{equation}
 	p(A \mid X) = \frac1Z \, p(X \mid A) \, p_0(A),
 \end{equation}
@@ -82,7 +86,7 @@ where $Z$ is the normalization constant, $p_0$ is the density of $\mu_0$, and wh
 \begin{equation}
 	p(X \mid A) = \exp\left(-\frac{I(X\mid A)}{2\Sigma} \right), 
 \end{equation}
-and where
+with
 \begin{equation}
 	I(X\mid A) = \int_0^T A \cdot V'(X_t) \dd X_t + \frac12 \int_0^T \left( A \cdot V'(X_t) \right)^2 \dd t.
 \end{equation}
@@ -197,11 +201,11 @@ We can now state the main result for asymptotic convergence of the posterior dis
 
 In the previous section, we have shown that posterior distributions over the drift coefficient of the homogenized equation are asymptotically incorrect if multiscale data are replaced into the expression of the likelihood. Hence, the need of pre-processing the data is highlighted. In particular, we consider a filtering approach. Let $k \colon \R^+ \times \R^+ \to \R$ be a kernel function and consider the process $Z^\epl \defeq (Z^{\epl,k}_t, 0 \leq t \leq T)$ defined by the weighted average
 \begin{equation}\label{eq:ZDef}
-	Z^{\epl,k}_t \defeq \int_0^t k^\epl(t, s)X^\epl_s \dd s.
+	Z^{\epl}_t \defeq \int_0^t k(t, s)X^\epl_s \dd s.
 \end{equation}
 Let $\beta, \delta > 0$ and let us consider a family of exponential kernel functions defined as
-\begin{equation}
-	k^\epl(t, s) = C_\beta \delta^{-1/\beta} e^{-(t-s)^\beta/\delta},
+\begin{equation}\label{eq:filter}
+	k(t, s) = C_\beta \delta^{-1/\beta} e^{-(t-s)^\beta/\delta},
 \end{equation}
 where $C_{\beta}$ is a normalizing constant given by
 \begin{equation}
@@ -475,7 +479,7 @@ and moreover, an integration by parts yields
 \begin{equation}
 \begin{aligned}
 	\frac{1}{\delta} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] &= -\Sigma \int_{\R} \int_{\R} V'(z) (\phi^0)'(x) \psi^0(z) R^0(x,z) \dd x \dd z\\
-	&= -\int_{\R} \int_{\R} V'(z) \left ( \frac{1}{C_{\phi^0}} e^{-\frac{1}{\Sigma} A\cdot V(x)} \right )' \psi^0(z) R^0(x,z) \dd x \dd z \\
+	&= -\Sigma \int_{\R} \int_{\R} V'(z) \left ( \frac{1}{C_{\phi^0}} e^{-\frac{1}{\Sigma} A\cdot V(x)} \right )' \psi^0(z) R^0(x,z) \dd x \dd z \\
 	&= \left(\int_{\R} \int_{\R} V'(z) \otimes V'(x) \rho^0(x,z) \dd x \dd z\right)A\\
 	&=  \E^{\rho^0} [ V'(Z) \otimes V'(X) ]A
 \end{aligned}
@@ -503,7 +507,82 @@ independently of $\epl$. Therefore
 which, together with \eqref{eq:Proof_I1}, proves \eqref{eq:theoremFirst}. 
 \end{proof}
 
+\subsection{The Bayesian setting}
+
 \section{Numerical experiments}
+
+In this section we show numerical experiments confirming our theoretical findings and showing the potentiality of the filtering approach.
+
+\subsection{Parameters of the filter}
+\begin{figure}[t]
+	\centering
+	\begin{tabular}{ccc}
+		\includegraphics[]{Figures/OUSubs_s5} & \includegraphics[]{Figures/OUFilt_s5_b1}  & \includegraphics[]{Figures/OUFilt_s5_b5} \\ % & \includegraphics[]{Figures/OUFilt_s5_b10} \\
+		\includegraphics[]{Figures/OUSubs_s7} & \includegraphics[]{Figures/OUFilt_s7_b1}  & \includegraphics[]{Figures/OUFilt_s7_b5} \\ % & \includegraphics[]{Figures/OUFilt_s7_b10} \\
+		\includegraphics[]{Figures/OUSubs_s10} & \includegraphics[]{Figures/OUFilt_s10_b1}  & \includegraphics[]{Figures/OUFilt_s10_b5} % & \includegraphics[]{Figures/OUFilt_s10_b10}
+	\end{tabular}
+	\caption{Results for the Ornstein--Uhlenbeck process. The axis of abscissae $\zeta$ represents the value of $\delta = \epl^\zeta$ for both subsampling and the filter. The three rows correspond to $\sigma = 0.5, 0.7, 1.0$ from top to bottom.}
+	\label{fig:OU}
+\end{figure}
+We consider $N = 1$ and the quadratic potential $V(x) = x^2/2$. In this case, the solution of the homogenized equation is an Ornstein--Uhlenbeck process. Moreover, we set the multiscale equation \eqref{eq:SDE_MS} with $\epl = 0.1$ and the fast potential $p(y) = \cos(y)$. We generate data $X^\epl$ for $0 \leq t \leq T$ and $T = 10^3$ employing the Euler--Maruyama method with time step $\Delta_t = \epl^3$. 
+
+As a first experiment, we consider the effect of setting different values of the parameter $\delta$ of the filter \eqref{eq:filter} on the estimator. As a comparison and for similarity with the subsampling approach, we consider $\delta = \epl^{\zeta}$ and vary $\zeta \in [0, 1]$. We employ the same values of $\delta$ for the subsampling, too, as the theoretical results guarantee convergence only for these values. Moreover, we repeat the experiments fixing $\beta = 1, 5$ and for three different values of the diffusion, i.e., we choose $\sigma = 0.5, 0.7, 1$. We report in Figure \ref{fig:OU} the experimental results. Let us remark that
+\begin{enumerate}
+	\item for $\sigma = 0.5$ the results given by subsampling and by the filter with $\beta = 1$ are similar, while for higher values of $\sigma$ the filtering approach seems better than subsampling, 
+	\item in general, choosing a higher value of $\beta$ seems beneficial for the quality of the estimator,
+	\item the dependence on $\delta$ of numerical results given by the filter seems relevant only in case $\beta = 1$ and for small values of $\sigma$. For $\beta = 1$ and higher values of $\sigma$, the estimator is stable with respect to this parameter, as predicted in Theorem \ref{thm:mainTheorem}. This can be observed for a higher value of $\beta$ but we have no theoretical guarantee in this case.
+\end{enumerate}
+
+As a second experiment, we therefore test the variability of the estimator with respect to $\beta$ in \eqref{eq:filter}. We repeat the numerical experiment in Figure \ref{fig:OU} and we choose to consider $\delta = \epl$, which corresponds to $\zeta = 1$ and seems to be the worst-case scenario for the filter, at least for $\beta = 1$. We consider again $\sigma = 0.5, 0.7, 1$ and vary $\beta = 1, 2, \ldots, 10$. Results, given in Figure \ref{fig:OUBeta}, show empirically that the estimator is fast stable with respect to $\beta$.
+
+\begin{figure}[t]
+	\centering
+	\begin{tabular}{ccc}
+		\includegraphics[]{Figures/OUBeta_s5} & \includegraphics[]{Figures/OUBeta_s7}  & \includegraphics[]{Figures/OUBeta_s10} \\
+	\end{tabular}
+	\caption{Dependence of the estimator given by the filter for the Ornstein--Uhlenbeck process on the parameter $\beta$ in \eqref{eq:filter}. From left to right we consider different values of $\sigma$.}
+	\label{fig:OUBeta}
+\end{figure}
+
+\subsection{The Bayesian approach: bistable potential}
+\begin{figure}[t]
+	\centering
+	\begin{tabular}{ccc}
+		\includegraphics[]{Figures/Bayes_T200} & \includegraphics[]{Figures/Bayes_T400}  & \includegraphics[]{Figures/Bayes_T800} \\
+	\end{tabular}
+	\caption{Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to time $t = 200, 400, 800$ from left to right, respectively. The MLE $\widehat A$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
+	\label{fig:Bayes}
+\end{figure}
+
+In this numerical experiment we consider $N = 2$ and the bistable potential, i.e., the function $V$ defined as
+\begin{equation}
+	V(x) = \begin{pmatrix} \dfrac{x^4}{4} & \dfrac{x^2}{2} \end{pmatrix}^\top,
+\end{equation}
+with coefficients $\alpha_1 = 1$ and $\alpha_2 = -2$. We then consider the multiscale equation with $\sigma = 0.8$, the fast potential $p(y) = \cos(y)$ and $\epl = 0.05$, thus simulating a trajectory $X^\epl$ for time $0 \leq t \leq T$, with $T = 800$. We adopt here a Bayesian approach and compute the posterior distribution $\mu(A \mid X^\epl)$ obtained with the filtering approach. The filter's parameters are set to $\beta = 1$ and $\delta = \epl^{1/2}$ in \eqref{eq:filter}. Let us remark that in order to compute the posterior covariance the diffusion coefficient $\Sigma$ of the homogenized equation has to be known. In this case, we pre-compute the value of $\Sigma$ via the coefficient $K$ and the theory of homogenization, but let us remark that $\Sigma$ could be estimated employing the subsampling technique of \cite{PaS07}. We stop computations at times $t = 200, 400, 800$ in order to observe the shrinkage of the Gaussian posterior towards the MLE with respect to time. In Figure \ref{fig:Bayes}, we observe that the posterior does indeed shrink towards the MLE, which in turn gets progressively closer to the true value of the drift coefficient $A$ of the homogenized equation.
+
+
+\subsection{Multi-dimensional parameter}
+
+\begin{figure}[t]
+	\centering
+	\begin{tabular}{ccc}
+		\includegraphics[]{Figures/KLNothing} & \includegraphics[]{Figures/KLFilt}  & \includegraphics[]{Figures/KLSubs}
+	\end{tabular}
+	\caption{Results for the four-dimensional parameters. From left to right the potential function estimated with (i) the data itself, (ii) the filter, (iii) subsampled data.}
+	\label{fig:KLStyle}
+\end{figure}
+
+We consider $N = 4$ and the potential function $V(x)$ as in \eqref{eq:Potential} with
+\begin{equation}
+	V_i(x) = \frac{x^{2i}}{2i}, \quad i =1, \ldots, 4,
+\end{equation}
+so that $\alpha \cdot V'(x) = \alpha_1 x + \alpha_2 x^3 + \alpha_3 x^5 + \alpha_4 x^7$, with $\alpha = (-2, -1, 1, 1/2)$. We consider $\epl = 0.05$, the fast potential $p(y) = \cos(y)$ and simulate a trajectory of $X^\epl$ for $0 \leq t \leq T$ with $T = 10^3$ employing the Euler--Maruyama method with time step $\Delta_t = \epl^3$. We compute the MLE of the drift coefficient $A \in \R^4$ of the homogenized equation \eqref{eq:SDE_HOM} employing 
+\begin{enumerate}
+	\item the data $X^\epl$ itself,
+	\item subsampled data with subsampling parameter $\delta = \epl^{2/3}$,
+	\item filtered data $Z^\epl$ computed with $\beta = 1$ and $\delta = 0.2$.
+\end{enumerate}
+In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle}, show that the filter-based estimation captures well the homogenized potential.
 
 
 \bibliographystyle{siam}
