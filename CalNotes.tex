@@ -23,7 +23,7 @@ In \cite{PaS07} (\corr{is there other literature?}), the authors prove that infe
 
 Let $\epl > 0$ and let us consider the one-dimensional multiscale stochastic differential equation (SDE)
 \begin{equation}\label{eq:SDE_MS}
-	\d X_t^\epl = -\alpha \cdot V'(X_t^\epl) \dd t - \frac1\epl p'\left(\frac{X_t^\epl}\epl\right) + \sqrt{2\sigma} \dd W_t,
+	\d X_t^\epl = -\alpha \cdot V'(X_t^\epl) \dd t - \frac1\epl p'\left(\frac{X_t^\epl}\epl\right) \dd t + \sqrt{2\sigma} \dd W_t,
 \end{equation}
 where $\alpha_i \in \R$, $i = 1, \ldots, N$ and $\sigma > 0$ are the drift and diffusion coefficients respectively and $W_t$ is a standard one-dimensional Brownian motion. The functions $V\colon \R \to \R^N$ and $p\colon \R \to \R$ are slow and fast potentials driving the dynamics of the solution $X_t^\epl$. Given $N \in \N_{>0}$, we assume the slow potential to be of the form
 \begin{equation}\label{eq:Potential}
@@ -47,36 +47,7 @@ and where the function $\Phi$ is the solution of the elliptic partial differenti
 \end{equation}
 endowed with periodic boundary conditions.
 
-
-\subsection{Failure without pre-processing \corr{rewrite}}
-
-Let us consider a trajectory $X^\epl \defeq (X_t^\epl, 0 \leq t \leq T)$ coming from the multiscale equation \eqref{eq:SDE_MS}, and the corresponding posterior distribution over the parameter $A$, which we denote by $\mu^\epl(A \mid X^\epl)$. The following result holds.
-\begin{theorem} Under assumption \ref{as:regularity} and if $T = \epl^{-\gamma}$ for $\gamma > 0$, then the posterior distribution $\mu^\epl(A \mid X^\epl) = \mathcal N(\bar A^\epl_T,  \sigma^2_T)$ satisfies
-	\begin{equation}
-	\begin{aligned}
-	&\lim_{\epl \to 0} \bar A^\epl_T = \alpha, \\
-	&\lim_{\epl \to 0} \sigma^2_T = 0.
-	\end{aligned}
-	\end{equation}
-\end{theorem}
-\begin{proof} Proposition \ref{prop:equiv} guarantees that 
-	\begin{equation}
-	\lim_{\epl \to 0} \abs{\bar A_T - \hat A(X^\epl_{0:T})} = 0,
-	\end{equation}
-	and that $\sigma^2_T \to 0$ for $\epl \to 0$. Moreover, \cite[Theorem 3.4]{PaS07} yields
-	\begin{equation}
-	\lim_{\epl \to 0} \hat A(X^\epl_{0:T}) = \alpha,
-	\end{equation}
-	which completes the proof.
-\end{proof}
-
-The result above implies that the posterior distribution over the drift coefficient concentrates asymptotically on an undesired value.
-
-\subsection{The subsampling approach for point estimates}
-
-\subsection{Outline}
-
-\section{Posterior formal computations}
+\section{The Bayesian setting}\label{sec:Bayesian}
 
 In a Bayesian setting, the goal is to determine the posterior distribution $\mu(A \mid X)$ given a continuous trajectory $X \defeq (X_t, 0 \leq t \leq T)$. Choosing a Gaussian prior $\mu_0 = \mathcal N(A_0, C_0)$ on $A$, where $A_0 \in \R^N$ and $C_0 \in \R^{N\times N}$ is symmetric positive definite, the posterior distribution admits a density $p(A \mid X)$ with respect to the Lebesgue measure which satisfies
 \begin{equation}
@@ -112,9 +83,7 @@ Let us remark that we can rewrite $M$ and $h$ in vector notation as
 \end{equation}
 where $\otimes$ denotes the tensor product in $\R^N$. Therefore, we can rewrite the log-posterior density as
 \begin{equation}
-\begin{aligned}
-	\log p(A \mid X) = &-\log Z - T A \cdot h - \frac{T}{2} A \cdot M A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0).
-\end{aligned}
+	\log p(A \mid X) = -\log Z - T A \cdot h - \frac{T}{2} A \cdot M A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0).
 \end{equation}
 Completing the squares in the log-posterior density, it is possible to show that the posterior is a Gaussian $\mu(A \mid X) = \mathcal N(m_T, C_T)$, whose precision matrix and mean are formally given by
 \begin{equation}
@@ -188,16 +157,33 @@ We can now state the main result for asymptotic convergence of the posterior dis
 \begin{remark} Proposition \ref{prop:equiv} guarantees that in the asymptotic limit of $T \to \infty$, it is equivalent to consider the Bayesian approach and the maximum likelihood approach, and can therefore be interpreted as a consistency result for both approaches. Nonetheless, in this Gaussian framework the Bayesian approach provides richer information on the inference result with a negligible additional cost.
 \end{remark}
 
-\section{A filtering approach}
+\section{Failure without pre-processing}
 
-%Let us consider $N = 1$ and write $A_1 = A$ and $V_1 = V$, respectively. The posterior distribution of $A$ given a trajectory $(X_t, 0 \leq t \leq T)$ is in this case a Gaussian $\mathcal N(\bar A_T, \sigma^2_T)$ where
-%\begin{equation}
-%\begin{aligned}
-%	\bar A_T &= \frac{A_0}{1+\sigma_0^2\int_0^T V'(X_t)^2 \dd t} - \frac{\sigma_0^2\int_0^T  V'(X_t) \dd X_t}{1+\sigma_0^2\int_0^T V'(X_t)^2 \dd t}, \\
-%	\sigma^{-2}_T &= \sigma_0^{-2} + \int_0^T V'(X_t)^2 \dd t.
-%\end{aligned}
-%\end{equation}
-%We will in the following sections analyse the convergence of the posterior, both in case data from the multiscale process is not treated and in case they are pre-processed. 
+Let us consider a trajectory $X^\epl \defeq (X_t^\epl, 0 \leq t \leq T)$ coming from the multiscale equation \eqref{eq:SDE_MS}, and the corresponding posterior distribution over the parameter $A$, which we denote by $\mu^\epl(A \mid X^\epl)$. The following result holds.
+\begin{theorem} Under assumption \ref{as:regularity} and if $T = \epl^{-\gamma}$ for $\gamma > 0$, then the posterior distribution $\mu^\epl(A \mid X^\epl) = \mathcal N(\bar A^\epl_T,  \sigma^2_T)$ satisfies
+	\begin{equation}
+	\begin{aligned}
+	&\lim_{\epl \to 0} \bar A^\epl_T = \alpha, \\
+	&\lim_{\epl \to 0} \sigma^2_T = 0.
+	\end{aligned}
+	\end{equation}
+\end{theorem}
+\begin{proof} Proposition \ref{prop:equiv} guarantees that 
+	\begin{equation}
+	\lim_{\epl \to 0} \abs{\bar A_T - \hat A(X^\epl_{0:T})} = 0,
+	\end{equation}
+	and that $\sigma^2_T \to 0$ for $\epl \to 0$. Moreover, \cite[Theorem 3.4]{PaS07} yields
+	\begin{equation}
+	\lim_{\epl \to 0} \hat A(X^\epl_{0:T}) = \alpha,
+	\end{equation}
+	which completes the proof.
+\end{proof}
+
+The result above implies that the posterior distribution over the drift coefficient concentrates asymptotically on an undesired value.
+
+\subsection{The subsampling approach for point estimates}
+
+\section{A filtering approach}
 
 In the previous section, we have shown that posterior distributions over the drift coefficient of the homogenized equation are asymptotically incorrect if multiscale data are replaced into the expression of the likelihood. Hence, the need of pre-processing the data is highlighted. In particular, we consider a filtering approach. Let $k \colon \R^+ \times \R^+ \to \R$ be a kernel function and consider the process $Z^\epl \defeq (Z^{\epl,k}_t, 0 \leq t \leq T)$ defined by the weighted average
 \begin{equation}\label{eq:ZDef}
@@ -400,18 +386,33 @@ The estimator of the homogenized drift coefficient $A$ we analyse is given by th
 	\widehat A^\epl(T) = - \widetilde M^{-1} \widetilde h,
 \end{equation}
 where
-\begin{equation}
+\begin{equation}\label{eq:MandHTilde}
 	\widetilde M = \frac{1}{T} \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t \qquad \text{and} \qquad \widetilde h = \frac{1}{T} \int_0^T V'(Z^\epl_t) \dd X^\epl_t.
 \end{equation}
 In practice, one evaluation of $V'(\cdot)$ is computed with the filter, while the differential and the second evaluation of $V'(\cdot)$ are maintained with the original process $X^\epl$. 
 
-\begin{remark} Let us remark that in the one-dimensional case $N = 1$, the estimator reduces to
+\begin{remark} Let us remark that in the one-dimensional case $N = 1$, the estimator can be written as
 \begin{equation}
 \widehat A^\epl(T) = - \frac{\int_0^T V'(Z^\epl_t) \dd X^\epl_t}{\int_0^T V'(Z^\epl_t) V'(X^\epl_t) \dd t}.
 \end{equation}
 \end{remark}
 
-\begin{theorem}\label{thm:mainTheorem} Let $\widehat A^\epl(T)$ be defined in \eqref{eq:AHatMixed}. Then, if \corr{Assumptions}, 
+In the one-dimensional case, it is clear that the maximum likelihood estimator based on $X^\epl$ alone, i.e., the quantity
+\begin{equation}
+	\widehat A^\epl(T) = - \frac{\int_0^T V'(X^\epl_t) \dd X^\epl_t}{\int_0^T V'(X^\epl_t)^2 \dd t}.
+\end{equation}
+is well defined for $V(x) \neq 0$. Equivalently, for a $N$-dimensional parameter, a sufficient assumption for the well-posedness of the estimator is to require the symmetric matrix $M$ defined as
+\begin{equation}
+	M = \frac{1}{T} \int_0^T V'(X^\epl_t) \otimes V'(X^\epl_t) \dd t,
+\end{equation}
+to be positive definite. In the following lemma, we 
+
+\begin{lemma} The matrix $\widetilde M$ defined in \eqref{eq:MandHTilde} is invertible almost surely. \end{lemma}
+\begin{proof}
+	
+\end{proof}
+
+\begin{theorem}\label{thm:mainTheorem} Let $\widehat A^\epl(T)$ be defined in \eqref{eq:AHatMixed}. Then
 	\begin{equation}\label{eq:theoremFirst}
 	\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A^\epl(T) = A, \quad \text{a.s.},
 	\end{equation}
@@ -508,6 +509,58 @@ which, together with \eqref{eq:Proof_I1}, proves \eqref{eq:theoremFirst}.
 \end{proof}
 
 \subsection{The Bayesian setting}
+
+In this section we show how the filtering approach can be employed in a Bayesian framework. As in Section \ref{sec:Bayesian} let us consider a Gaussian prior $\mu_0 = \mathcal N(A_0, C_0)$. Then, the density $p^\epl(A \mid X)$ of the posterior distribution $\mu^\epl(A \mid X^\epl)$ given by multiscale data satisfies
+\begin{equation}
+	p^\epl(A \mid X) = \frac1{Z^\epl} \, p^\epl(X \mid A) \, p_0(A),
+\end{equation}
+where $Z^\epl$ is the normalization term and where the likelihood function is given by
+\begin{equation}
+	p^\epl(X \mid A) = \exp\left(-\frac{I^\epl(X\mid A)}{2\Sigma} \right), 
+\end{equation}
+with
+\begin{equation}
+	I^\epl(X\mid A) = \int_0^T A \cdot V'(X_t^\epl) \dd X_t^\epl + \frac12 \int_0^T \left( A \cdot V'(X_t^\epl) \right)^2 \dd t.
+\end{equation}
+Let us consider the likelihood function $\widetilde p^\epl(X \mid A)$ modified to include the filtered data $Z^\epl$ given by
+\begin{equation}
+	\widetilde p^\epl(X \mid A) = \exp\left(-\frac{\widetilde I^\epl(X\mid A)}{2\Sigma} \right), 
+\end{equation}
+with
+\begin{equation}
+	\widetilde I^\epl(X\mid A) = \int_0^T A \cdot V'(Z_t^\epl) \dd X_t^\epl + \frac12 \int_0^T \left( A \cdot V'(X_t^\epl) \right) \left( A \cdot V'(Z_t^\epl) \right) \dd t.
+\end{equation}
+Moreover, let us consider the modified posterior distribution $\widetilde \mu^\epl(A \mid X)$ with density
+\begin{equation}
+	\widetilde p^\epl(A \mid X) = \frac1{\widetilde Z^\epl} \, \widetilde p^\epl(X \mid A) \, p_0(A),
+\end{equation}
+Let us remark that employing \eqref{eq:MandHTilde} we can write 
+\begin{equation}
+	\log \widetilde p^\epl(A \mid X) = -\log \widetilde Z^\epl - T A \cdot \widetilde h - \frac{T}{2} A \cdot \widetilde M A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0).
+\end{equation}
+With respect to Section \ref{sec:Bayesian}, the matrix $\widetilde M$ is not symmetric. Nonetheless, we remark that
+\begin{equation}
+	A \cdot \widetilde M A = A \cdot \widetilde M_S A,
+\end{equation}
+where $\widetilde M_S$ is the symmetric part of $\widetilde M$, i.e.,
+\begin{equation}
+	\widetilde M_S = \frac12 \left(\widetilde M + \widetilde M^\top\right).
+\end{equation}
+Hence, we can rewrite 
+\begin{equation}	
+	\log \widetilde p^\epl(A \mid X) = -\log \widetilde Z^\epl - T A \cdot \widetilde h - \frac{T}{2} A \cdot \widetilde M_S A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0).
+\end{equation}
+This shows that the posterior $\widetilde \mu^\epl$ is a Gaussian $\mathcal N(\widetilde m_T, \widetilde C_T)$ where the covariance and mean can be obtained as 
+\begin{equation}
+\begin{aligned}
+	\widetilde C_T^{-1} &= C_0^{-1} + T \widetilde M, \\
+	\widetilde C_T^{-1} \widetilde m_T &= C_0^{-1}A_0 - T \widetilde h. 
+\end{aligned}
+\end{equation}
+
+In the following theorem we show that the posterior we obtain 
+\begin{theorem} Under
+\end{theorem}
 
 \section{Numerical experiments}
 
