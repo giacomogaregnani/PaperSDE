@@ -14,7 +14,7 @@
 \usepackage[svgnames]{xcolor}
 \usepackage{hyperref}
 \hypersetup{citecolor=blue, colorlinks=true, linkcolor=black}
-%\usepackage[capitalise]{cleveref}
+\usepackage[capitalise]{cleveref}
 \setlength{\parskip}{6pt}
 \setlength\parindent{0pt}
 \usepackage{subcaption}
@@ -30,10 +30,8 @@
 \usepackage{ifthen}
 \usepackage[ruled, vlined]{algorithm2e}
 \usepackage[title]{appendix}
+\usepackage{autonum}
 
-
-%\usepackage[capitalise]{cleveref}
-%\crefname{algocf}{Algorithm}{Algorithms}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -58,7 +56,7 @@
 \fi
 
 \usepackage{mathtools}
-\mathtoolsset{showonlyrefs}
+%\mathtoolsset{showonlyrefs}
 
 % basics
 
@@ -97,9 +95,6 @@
 		\and Andrea Zanoni \samethanks[1]
 }
 \date{}
-%\title{Caltech notes}
-%\author{Giacomo Garegnani}
-%\date{}
 
 \usepackage{amsopn}
 \DeclareMathOperator{\diag}{diag}
