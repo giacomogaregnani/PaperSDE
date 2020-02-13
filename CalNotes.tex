@@ -6,11 +6,11 @@
 \begin{document}
 \maketitle	
 
-\textbf{Abstract.} \corr{Copy-paste of SIAM UQ abstract, modify.} We present a novel technique for estimating the drift function of a diffusion process possessing two separated time scales. Our aim is fitting a homogenized diffusion model to a continuous sample path coming from the full multiscale process, thus dealing with an issue of model misspecification. We consider a Bayesian framework and study the asymptotic limit of posterior distributions over the drift function. In this setting, we show on the one hand that if the continuous multiscale data are not pre-processed, then the posterior distribution concentrates asymptotically on the wrong value of the drift function. On the other hand, we show that data can be treated ahead of the inference procedure in order to obtain the desired posterior. In particular, we prove that there exists a family of transformations which are linear on the space of continuous sample paths and which, when applied to multiscale data, allow the posterior distribution to be asymptotically correct. We present a series of numerical examples on test cases which corroborate our theoretical findings.
+\textbf{Abstract.} We study the problem of drift estimation for two-scale continuous time series. We set ourselves in the framework of overdamped Langevin equations, for which the existence of a single-scale surrogate homogenized equation exists. In this setting, estimating the drift coefficient of the homogenized equation requires pre-processing of the data, often in the form of subsampling. We avoid subsampling by filtering the data with an appropriate kernel function and computing maximum likelihood estimators based on the filtered process. We show that the estimators we propose are asymptotically unbiased and demonstrate numerically the advantages of our method with respect to subsampling. Finally, we show how our filtering methodology can be combined with Bayesian techniques and provide a full uncertainty quantification of the inference procedure.
  
-\textbf{AMS subject classifications.} 
+\textbf{AMS subject classifications.} 62F15, 65C30, 62M05, 74Q10.
 
-\textbf{Keywords.} 
+\textbf{Keywords.} Parameter inference, diffusion process, data-driven homogenization, filtering, Bayesian inference, Langevin equation.
 
 \section{Introduction}
 
@@ -30,7 +30,7 @@ In this paper, we bypass the issue of subsampling by implementing an appropriate
 
 It is natural to reinterpret the problem of inferring the drift parameter of multiscale diffusion processes under a Bayesian perspective \cite{PSV09,PSZ13}. In particular, the form of the likelihood function guarantees, under a Gaussian prior hypothesis, that the posterior distribution is itself a Gaussian. Therefore, one can simply compute the mean and covariance of the posterior distribution to obtain a full uncertainty quantification of the inference process. The Bayesian approach has been adopted in several works concerning single and multiscale PDEs, too, and has proved itself to be versatile and efficient in this framework (see, e.g., \cite{AbD18, AGZ19}). Moreover, infinite-dimensional inverse problems are intrinsically ill-posed, and interpreting them in a Bayesian manner is an efficient tool for regularizing them and guaranteeing their well-posedness \cite{Stu10, DaS16}. The regularization property of a Bayesian approach has been recently demonstrated for inverse problems involving multiscale PDEs \cite{AbD18}. In this work, we investigate the effects of inserting our filtering methodology in a Bayesian framework. In particular, we analyse the effects of modifying the likelihood function inserting the filtered trajectory, showing how this corrects the faulty asymptotic behaviour which would be present in case no pre-processing would be applied.
 
-The rest of the paper is organised as follows. In Section \ref{sec:Setting} we introduce the problem and lay the basis of our analysis setting the main assumptions and notation. In Section \ref{sec:Filter} we present our filtering methodology, with a particular focus on ergodic properties, on multiscale convergence and, naturally, to the properties of our estimator. In Section \ref{sec:Bayesian} we introduce the Bayesian framework and show how it can be enhanced with filtering techniques. Finally, in Section \ref{sec:NumExp} we demonstrate the effectiveness of our methodology via a series of numerical experiments.
+The rest of the paper is organised as follows. In Section \ref{sec:Setting} we introduce the problem and lay the basis of our analysis setting the main assumptions and notation. In Section \ref{sec:Filter} we present our filtering methodology, with a particular focus on ergodic properties, on multiscale convergence and, naturally, to the properties of our estimators. In Section \ref{sec:Bayesian} we introduce the Bayesian framework and show how it can be enhanced with filtering techniques. Finally, in Section \ref{sec:NumExp} we demonstrate the effectiveness of our methodology via a series of numerical experiments.
 
 \section{Problem setting}\label{sec:Setting}
 
@@ -84,6 +84,10 @@ Let us now state the assumptions which will be employed throughout the rest of o
 		\item\label{as:regularity_diss} $V_i \in \mathcal C^\infty(\R)$ for all $i=1, \ldots, N$ is polynomially bounded from above and bounded from below, and there exist $a,b > 0$ such that
 		\begin{equation}
 		-\sum_{i=1}^N V_i'(x)x \leq a - bx^2.
+		\end{equation} 
+		\item $V'$ is Lipschitz continuous on $\R$: there exists a constant $C > 0$ such that
+		\begin{equation}
+			\norm{V'(x) - V'(y)} \leq C\abs{x - y},
 		\end{equation} 
 		\item for all $T > 0$, the symmetric matrix $M$ is positive definite and there exists $\bar \lambda > 0$ such that $\lambda_{\min}(M) \geq \bar \lambda$.
 	\end{enumerate}
@@ -391,20 +395,16 @@ where we employ the subscript $k$ for reference to the filter's kernel in \eqref
 \begin{equation}\label{eq:MandHTilde}
 	\widetilde M = \frac{1}{T} \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t, \qquad \text{and} \qquad \widetilde h = \frac{1}{T} \int_0^T V'(Z^\epl_t) \dd X^\epl_t.
 \end{equation}
-Let us remark that the formula above is obtained from \eqref{eq:MLE} by replacing only one instance of $X_t^\epl$ with $Z_t^\epl$ in both $M$ and $h$. In particular, it is fundamental for proving unbiasedness to keep in the definition of $h$ the differential of the original process $\d X^\epl_t$. Let us furthermore remark that $\widehat A^\epl_k(T)$ need not be the minimizer of some filtering-based likelihood function. In fact, if one were to replace $Z_t^\epl$ directly in \eqref{eq:Likelihood}, the non-symmetric matrix $\widetilde M$ would appear and $\widehat A^\epl_k(T)$ would not be guaranteed of being the minimizer. Moreover, let us remark that even though
-\begin{equation}
-	\widetilde M = M + \Delta, \quad \Delta \defeq \widetilde M - M,
-\end{equation}
-where $\Delta$ is a matrix which is supposedly small due to the closeness of $X_t^\epl$ and its filtered version $Z_t^\epl$, this does not suffice to directly conclude that $\widetilde M$ is positive definite when $M$ is. Therefore, the estimator $\widehat A^\epl_k(T)$ has to be thought of as a perturbation of $\widehat A^\epl(T)$, directly at the level of estimators and after the maximization procedure. The only theoretical guarantee which is still needed for the well-posedness of $\widehat A^\epl_k(T)$ is for $\widetilde M$ to be invertible, which is given by the following Lemma.
+Let us remark that the formula above is obtained from \eqref{eq:MLE} by replacing only one instance of $X_t^\epl$ with $Z_t^\epl$ in both $M$ and $h$. In particular, it is fundamental for proving unbiasedness to keep in the definition of $h$ the differential of the original process $\d X^\epl_t$. Let us furthermore remark that $\widehat A^\epl_k(T)$ need not be the minimizer of some filtering-based likelihood function. In fact, if one were to replace $Z_t^\epl$ directly in \eqref{eq:Likelihood}, the symmetric part of the matrix $\widetilde M$ would appear and $\widehat A^\epl_k(T)$ would not be the minimizer. Therefore, the estimator $\widehat A^\epl_k(T)$ has to be thought of as a perturbation of $\widehat A^\epl(T)$, directly at the level of estimators and after the maximization procedure. The only theoretical guarantee which is still needed for the well-posedness of $\widehat A^\epl_k(T)$ is for $\widetilde M$ to be invertible, which we assume to be true and which we observed to hold in practice.
 
-\begin{lemma}\label{lem:AHatWellPosed} The matrix $\widetilde M$ defined in \eqref{eq:MandHTilde} is invertible almost surely. 
-\end{lemma}
-\begin{proof} 
-\todo: \corr{Idea. We don't need $\widetilde M$ to be symmetric positive definite (it is not) due to the comment just above the lemma. Nevertheless, if the functions $V_i'(x)$ are not such that the rows of $\widetilde M$ are identical for any $(X_t, Z_t)$, then the randomness in the entries should guarantee that $\det \widetilde M \neq 0$ with probability one. Still missing the (probably trivial) argument why this is true.}
-\end{proof}
+%\begin{lemma}\label{lem:AHatWellPosed} Under Assumption \ref{as:regularity}, the matrix $\widetilde M$ defined in \eqref{eq:MandHTilde} is invertible a.s. 
+%\end{lemma}
+%\begin{proof} 
+%\todo: \corr{Idea. We don't need $\widetilde M$ to be symmetric positive definite (it is not) due to the comment just above the lemma. Nevertheless, if the functions $V_i'(x)$ are not such that the rows of $\widetilde M$ are identical for any $(X_t, Z_t)$, then the randomness in the entries should guarantee that $\det \widetilde M \neq 0$ with probability one. Still missing the (probably trivial) argument why this is true.}
+%\end{proof}
 
 We are now able to present the main result of unbiasedness of the filtering-based estimator.
-\begin{theorem}\label{thm:mainTheorem} Under the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure}, let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed}. Then
+\begin{theorem}\label{thm:mainTheorem} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, and let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed}. If $\widetilde M$ is invertible, then
 	\begin{equation}
 	\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A_k^\epl(T) = A, \quad \text{a.s.},
 	\end{equation}
@@ -711,7 +711,7 @@ We can now state the main result for asymptotic convergence of the posterior dis
 	i.e., the weak limit of the posterior $\mu_{T,\epl}$ for $T\to \infty$ is the Dirac delta concentrated on the limit of $\widehat A^\epl(T)$ for $T\to \infty$. 
 \end{remark}
 
-\subsection{The filtering approach}
+\subsection{The filtering approach}\label{sec:BayesianFilter}
 
 In this section, we present how to correct the faulty behaviour highlighted by Theorem \ref{thm:BayesianBias} with filtering techniques. In particular, we employ the same strategy that led to the estimator $\widetilde A^\epl_k(T)$ presented in Section \ref{sec:FilterMLE_2}. Therefore, we modify the likelihood function as
 \begin{equation}
@@ -829,9 +829,9 @@ As a second experiment, we therefore test the variability of the estimator with 
 \begin{figure}[t]
 	\centering
 	\begin{tabular}{ccc}
-		\includegraphics[]{Figures/Bayes_T200} & \includegraphics[]{Figures/Bayes_T400}  & \includegraphics[]{Figures/Bayes_T800} \\
+		\includegraphics[]{Figures/Bayes_T100} & \includegraphics[]{Figures/Bayes_T200}  & \includegraphics[]{Figures/Bayes_T400} \\
 	\end{tabular}
-	\caption{Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to time $t = 200, 400, 800$ from left to right, respectively. The MLE $\widehat A$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
+	\caption{Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to final time $T = 200, 400, 800$ from left to right, respectively. The MLE $\widetilde A^\epl_k(t)$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
 	\label{fig:Bayes}
 \end{figure}
 
@@ -839,7 +839,7 @@ In this numerical experiment we consider $N = 2$ and the bistable potential, i.e
 \begin{equation}
 	V(x) = \begin{pmatrix} \dfrac{x^4}{4} & \dfrac{x^2}{2} \end{pmatrix}^\top,
 \end{equation}
-with coefficients $\alpha_1 = 1$ and $\alpha_2 = -2$. We then consider the multiscale equation with $\sigma = 0.8$, the fast potential $p(y) = \cos(y)$ and $\epl = 0.05$, thus simulating a trajectory $X^\epl$ for time $0 \leq t \leq T$, with $T = 800$. We adopt here a Bayesian approach and compute the posterior distribution $\mu(A \mid X^\epl)$ obtained with the filtering approach. The filter's parameters are set to $\beta = 1$ and $\delta = \epl^{1/2}$ in \eqref{eq:filter}. Let us remark that in order to compute the posterior covariance the diffusion coefficient $\Sigma$ of the homogenized equation has to be known. In this case, we pre-compute the value of $\Sigma$ via the coefficient $K$ and the theory of homogenization, but let us remark that $\Sigma$ could be estimated employing the subsampling technique of \cite{PaS07}. We stop computations at times $t = 200, 400, 800$ in order to observe the shrinkage of the Gaussian posterior towards the MLE with respect to time. In Figure \ref{fig:Bayes}, we observe that the posterior does indeed shrink towards the MLE, which in turn gets progressively closer to the true value of the drift coefficient $A$ of the homogenized equation.
+with coefficients $\alpha_1 = 1$ and $\alpha_2 = -2$. We then consider the multiscale equation with $\sigma = 0.7$, the fast potential $p(y) = \cos(y)$ and $\epl = 0.05$, thus simulating a trajectory $X^\epl$. We adopt here a Bayesian approach and compute the posterior distribution $\widetilde \mu_{\epl, T}$ obtained with the filtering approach introduced in Section \ref{sec:BayesianFilter}. The filter's parameters are set to $\beta = 1$ and $\delta = \epl$ in \eqref{eq:filter}. Let us remark that in order to compute the posterior covariance the diffusion coefficient $\Sigma$ of the homogenized equation has to be known. In this case, we pre-compute the value of $\Sigma$ via the coefficient $K$ and the theory of homogenization, but let us remark that $\Sigma$ could be estimated employing the subsampling technique of \cite{PaS07}. We stop computations at times $T = 100, 200, 400$ in order to observe the shrinkage of the Gaussian posterior towards the MLE $\widetilde A^\epl_k(T)$ with respect to time. In Figure \ref{fig:Bayes}, we observe that the posterior does indeed shrink towards the MLE, which in turn gets progressively closer to the true value of the drift coefficient $A$ of the homogenized equation.
 
 
 \subsection{Multi-dimensional parameter}
