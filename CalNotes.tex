@@ -732,7 +732,7 @@ Let us remark that the posterior $\widetilde \mu_{T,\epl}$ has the same covarian
 	\begin{equation}
 	\lim_{\epl \to 0}\lim_{T \to \infty} \widetilde \mu_{T,\epl}(\cdot) = \delta(\cdot - A), \quad \text{a.s.},
 	\end{equation}
-	weakly in the space of probability measures on $\R$, where $\delta$ is the Dirac measure on $\R$.
+	weakly in the space of probability measures on $\R^N$, where $\delta$ is the Dirac measure on $\R^N$.
 \end{theorem}
 \begin{proof} The proof follows from the proof of Theorem \ref{thm:BayesianBias} and from Theorem \ref{thm:mainTheoremTilde}.
 \end{proof}
@@ -848,21 +848,41 @@ with coefficients $\alpha_1 = 1$ and $\alpha_2 = 2$. We then consider the multis
 	\begin{tabular}{ccc}
 		\includegraphics[]{Figures/KLNothing} & \includegraphics[]{Figures/KLFilt}  & \includegraphics[]{Figures/KLSubs}
 	\end{tabular}
-	\caption{Results for the four-dimensional parameters. From left to right the potential function estimated with the data itself, the filter, subsampled data.}
+	\caption{Results for the four-dimensional parameter. From left to right the potential function estimated with the data itself, the filter, subsampled data.}
 	\label{fig:KLStyle}
 \end{figure}
 
-We consider $N = 4$ and the potential function $V(x)$ as in \eqref{eq:Potential} with
+\begin{table}[t]
+	\centering
+	\begin{tabular}{ccccc}
+		\toprule
+		Coefficient & Truth & No preprocessing & Filtering & Subsampling  \\ 
+		\midrule
+		$A_1$ & -0.62 & -0.92 & -0.70 & -0.59\\
+		$A_2$ & -0.31 & -0.70 & -0.27 & 0.05 \\
+		$A_3$ & 0.31  & 0.55  & 0.31  & 0.14 \\
+		$A_4$ & 0.62  & 1.22  & 0.57  & 0.13 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Numerical results for the four-dimensional parameter rounded to the second significant figure.}
+	\label{tab:KLStyle}
+\end{table}
+
+Let us consider the Chebyshev polynomials of the first kind, i.e., the polynomials $T_i\colon \R \to \R$, $i=0, 1, \ldots$, defined by the recurrence relation
 \begin{equation}
-	V_i(x) = \frac{x^{2i}}{2i}, \quad i =1, \ldots, 4,
+	T_0(x) = 1, \quad T_1(x) = x, \quad T_{i+1}(x) = 2xT_i(x) - T_{i-1}(x).
 \end{equation}
-so that $\alpha \cdot V'(x) = \alpha_1 x + \alpha_2 x^3 + \alpha_3 x^5 + \alpha_4 x^7$, with $\alpha = (-2, -1, 1, 1/2)$. We consider $\epl = 0.05$, the fast potential $p(y) = \cos(y)$ and simulate a trajectory of $X^\epl$ for $0 \leq t \leq T$ with $T = 10^3$ employing the Euler--Maruyama method with time step $\Delta_t = \epl^3$. We compute the MLE of the drift coefficient $A \in \R^4$ of the homogenized equation \eqref{eq:SDE_HOM} employing 
+We consider the potential function $V(x)$ as in \eqref{eq:Potential} with
+\begin{equation}
+	V_i(x) = T_i(x), \quad i =1, \ldots, 4.
+\end{equation}
+This potential function satisfies Assumption \ref{as:regularity} whenever $N$ is even and if the leading coefficient $\alpha_N$ is positive. We set $N = 4$ and the drift coefficient $\alpha = (-1, -1/2, 1/2, 1)$. With this drift coefficient, the potential function is of the bistable kind. Moreover, we set $\epl = 0.05$, the diffusion coefficient $\sigma = 1$, the fast potential $p(y) = \cos(y)$ and simulate a trajectory of $X^\epl$ for $0 \leq t \leq T$ with $T = 10^3$ employing the Euler--Maruyama method with time step $\Delta_t = \epl^3$. We estimate the drift coefficient $A \in \R^4$ with the estimators
 \begin{enumerate}
-	\item the data $X^\epl$ itself,
-	\item subsampled data with subsampling parameter $\delta = \epl^{2/3}$,
-	\item filtered data $Z^\epl$ computed with $\beta = 1$ and $\delta = 0.2$.
+	\item $\widehat A^\epl(T)$ based on the data $X^\epl$ itself,
+	\item $\widehat A^\epl_\delta(T)$ based on subsampled data with subsampling parameter $\delta = \epl^{2/3}$,
+	\item $\widehat A^\epl_k(T)$ based on filtered data $Z^\epl$ computed with $\beta = 1$ and $\delta = 1$.
 \end{enumerate}
-In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle}, show that the filter-based estimation captures well the homogenized potential.
+In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle} and Table \ref{tab:KLStyle}, show that the filter-based estimation captures well the homogenized potential as well as the coefficient $A$. Moreover, it is possible to remark the negative result given by Theorem \ref{thm:Bias} holds in practice, i.e., with no pre-processing the estimator $\widehat A^\epl(T)$ tends to the drift coefficient $\alpha$ of the unhomogenized equation.
 
 \section{Conclusion}
 
