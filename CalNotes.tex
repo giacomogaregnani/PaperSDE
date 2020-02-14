@@ -14,11 +14,11 @@
 
 \section{Introduction}
 
-Data-driven approaches to the derivation of effective stochastic coarse-grained dynamics have become a standard tool in different areas such as molecular dynamics or atmosphere and ocean science \cite{KKP15,CoP09,YMV19}. When fitting data to a low dimensional coarse-grained model, one is faced with the problem of model misspecification; indeed, the data, coming from the full dynamics, is compatible with the coarse-grained model only at the time scales at which the effective dynamics is valid. This is related to the issue of high-frequency data that arises in econometrics \cite{AiJ14,AMZ05,ZMA05,OSP10}. 
+Data-driven approaches to the derivation of effective stochastic coarse-grained dynamics have become a standard tool in different areas such as molecular dynamics or atmosphere and ocean science \cite{KKP15,CoP09,YMV19}. When fitting data to a low dimensional coarse-grained model, one is faced with the problem of model misspecification; indeed, the data, coming from the full dynamics, are compatible with the coarse-grained model only at the time scales at which the effective dynamics is valid. This is related to the issue of high-frequency data that arises in econometrics \cite{AiJ14,AMZ05,ZMA05,OSP10}. 
 
 The issue of model misspecification in inverse problems with a multiscale structure has been treated in the context of partial differential equations (PDE). In particular, it has been shown that it is possible to infer a coarse-grained equation from data coming from the full model and to retrieve asymptotically the correct result \cite{NPS12}. A series of papers \cite{AbD18, AbD19, AGZ19} focuses on retrieving the full model when the multiscale coefficient is endowed with a specific parametrized structure. Being these problems ill-posed, the latter is achieved via Tikhonov regularization \cite{AbD19,NPS12}, adopting a Bayesian approach \cite{AbD18, NPS12} or exploiting techniques of Kalman filtering \cite{AGZ19}. In \cite{AbD18,AGZ19}, the authors highlight the need of accounting explicitly for the modelling error due to homogenization and apply statistical techniques taken from \cite{CDS18,CES14}.
 
-For simple models in molecular dynamics, the effect of model misspecification was studied in a series of papers \cite{PaS07,PPS09,PPS12,GaS17,GaS18} under the assumption of scale separation. In particular, for Brownian particles moving in two-scale potentials it was shown that, when fitting data from the full dynamics to the homogenized equation, the maximum likelihood estimator (MLE) is asymptotically biased \cite[Theorem 3.4]{PaS07}. To be more precise, in the large sample size limit the MLE converges to the coefficients of the unhomogenized equation, rather than to those of the homogenized one. The bias of the MLE can be eliminated by subsampling at an appropriate rate, which lies between the two characteristic time scales of the problem \cite[Theorems 3.5 and 3.6]{PaS07}. This is similar to the estimation of the integrated stochastic volatility in the presence of market micro-structure noise, where the data has to be subsampled at an appropriate rate \cite{AMZ05,ZMA05}. The correct subsampling rate can be in some instances rather extreme with respect to the frequency of the data and lead to get rid of more than $99\%$ of the data. As the intuition suggests, this increases significantly the bias of the estimator, which is usually taken care of with additional bias corrections and variance reduction procedures.
+For simple models in molecular dynamics, the effect of model misspecification was studied in a series of papers \cite{PaS07,PPS09,PPS12,GaS17,GaS18} under the assumption of scale separation. In particular, for Brownian particles moving in two-scale potentials it was shown that, when fitting data from the full dynamics to the homogenized equation, the maximum likelihood estimator (MLE) is asymptotically biased \cite[Theorem 3.4]{PaS07}. To be more precise, in the large sample size limit the MLE converges to the coefficients of the unhomogenized equation, rather than to those of the homogenized one. The bias of the MLE can be eliminated by subsampling at an appropriate rate, which lies between the two characteristic time scales of the problem \cite[Theorems 3.5 and 3.6]{PaS07}. This is similar to the estimation of the integrated stochastic volatility in the presence of market micro-structure noise, where the data have to be subsampled at an appropriate rate \cite{AMZ05,ZMA05}. The correct subsampling rate can be in some instances rather extreme with respect to the frequency of the data and lead to get rid of more than $99\%$ of the data. As the intuition suggests, this increases significantly the bias of the estimator, which is usually taken care of with additional bias corrections and variance reduction procedures.
 
 The necessity to subsample the data can be alleviated by using appropriate martingale estimators, as was done in \cite{KPK13,KKP15}. This class of estimators can be applied to the case where the noise is multiplicative and also given by a deterministic chaotic system, as opposed to white noise. Estimators of this family have been applied to time series from paleoclimatic data and marine biology and augmented with appropriate model selection methodologies \cite{KPP15}.
 
@@ -74,7 +74,7 @@ Minimizing the functional $I(X^\epl \mid A)$ with respect to $A$ therefore gives
 \end{equation}
 where $M\in\R^{N\times N}$ and $h\in\R^N$ are defined as
 \begin{equation}\label{eq:MandH}
-M = \frac1{2\Sigma T} \int_0^T V'(X^\epl_t) \otimes V'(X^\epl_t) \dd t, \quad h = \frac1{2\Sigma T} \int_0^T V'(X^\epl_t) \dd X^\epl_t,
+M = \frac1T \int_0^T V'(X^\epl_t) \otimes V'(X^\epl_t) \dd t, \quad h = \frac1T \int_0^T V'(X^\epl_t) \dd X^\epl_t,
 \end{equation}
 and where $\otimes$ denotes the outer product in $\R^N$. Let us now state the assumptions which will be employed throughout the rest of our work. In particular, we consider the same dissipative setting as \cite[Assumption 3.1]{PaS07}.
 \begin{assumption}\label{as:regularity} The potentials $p$ and $V$ satisfy
@@ -84,7 +84,7 @@ and where $\otimes$ denotes the outer product in $\R^N$. Let us now state the as
 		\begin{equation}
 		-\sum_{i=1}^N V_i'(x)x \leq a - bx^2.
 		\end{equation} 
-		\item $V'$ is Lipschitz continuous on $\R$: there exists a constant $C > 0$ such that
+		\item $V'$ is Lipschitz continuous, i.e. there exists a constant $C > 0$ such that
 		\begin{equation}
 			\norm{V'(x) - V'(y)}_2 \leq C\abs{x - y},
 		\end{equation} 
@@ -96,7 +96,7 @@ Under these assumptions, the MLE given in \eqref{eq:MLE} is indeed the unique mi
 
 Given the convergence of $X^\epl_t \to X_t$ in the space of continuous stochastic processes, one would expect that the MLE \eqref{eq:MLE} would be asymptotically unbiased for the drift coefficient $A$ of the homogenized equation \eqref{eq:SDE_HOM}. Instead, it is possible to prove that in the asymptotic limit for $T \to \infty$ and $\epl \to 0$, the MLE tends to the drift coefficient $\alpha$ of the unhomogenized equation \eqref{eq:SDE_MS}. We report here this result, whose proof can be found for the case $N = 1$ in \cite[Theorem 3.4]{PaS07}. Let us remark that the proof for $N > 1$ follows directly from the one-dimensional case.
 
-\begin{theorem}\label{thm:Bias} Let Assumption \ref{as:regularity} hold and let $X^\epl_0$ be distributed according to the invariant measure of the process $X_t^\epl$ solution of \eqref{eq:SDE_MS}. Then
+\begin{theorem}\label{thm:Bias} Let Assumption \ref{as:regularity} hold and let $X^\epl_0$ be distributed according to the invariant measure of the process $X^\epl$ solution of \eqref{eq:SDE_MS}. Then
 	\begin{equation}
 		\lim_{\epl \to 0}\lim_{T \to \infty} \widehat A^\epl(T) = \alpha, \quad \text{a.s.},
 	\end{equation}
@@ -244,7 +244,7 @@ Let us remark that this distribution can be obtained from direct computations in
 \begin{equation}
 	\mathcal C(t, s) = \frac{\Sigma}{A} e^{-A|t-s|}.
 \end{equation}
-The basic properties of Gaussian processes imply that $Z_t$ is a Gaussian process, and that the couple $(X_t, Z_t)^\top$ is a Gaussian process, too, whose mean and covariance are computable explicitly.
+The basic properties of Gaussian processes imply that $Z$ is a Gaussian process, and that the couple $(X, Z)^\top$ is a Gaussian process, too, whose mean and covariance are computable explicitly.
 \end{example}
 
 In a general case, it is not possible to find an explicit solution to \eqref{eq:FPsystem}. Nevertheless, it is possible to show some relevant properties of the solution itself, which are summarized in the following Lemma.
@@ -627,14 +627,14 @@ p(A \mid X^\epl) = \frac1{Z^\epl} \, p(X^\epl \mid A) \, p_0(A),
 \end{equation}
 where $Z^\epl$ is the normalization constant, $p_0$ is the density of $\mu_0$, and where the likelihood $p(X^\epl \mid A)$ is given in \eqref{eq:Likelihood}. The log-posterior density is therefore given by
 \begin{equation}\label{eq:Posterior}
-\log p(A \mid X^\epl) = -\log Z^\epl - T A \cdot h - \frac{T}{2} A \cdot M A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0),
+\log p(A \mid X^\epl) = -\log Z^\epl - \frac{T}{2\Sigma} A \cdot h - \frac{T}{4\Sigma} A \cdot M A - \frac12 (A - A_0) \cdot C_0^{-1}(A-A_0),
 \end{equation}
 where $M$ and $h$ are defined in \eqref{eq:MandH}.
 Since the log-posterior density is quadratic in $A$, the posterior is Gaussian, and it is therefore sufficient to determine its mean and covariance to fully characterize it. We denote by $m_{T,\epl}$ and $C_{T,\epl}$ the mean and covariance matrix, respectively. Completing the squares in the log-posterior density, we formally obtain
 \begin{equation}
 \begin{aligned}
-C_{T,\epl}^{-1} &= C_0^{-1} + T M, \\
-C_{T,\epl}^{-1}m_{T,\epl} &= C_0^{-1}A_0 - T h. 
+C_{T,\epl}^{-1} &= C_0^{-1} + \frac{T}{2\Sigma} M, \\
+C_{T,\epl}^{-1}m_{T,\epl} &= C_0^{-1}A_0 - \frac{T}{2\Sigma} h. 
 \end{aligned}
 \end{equation}
 Under Assumption \ref{as:regularity}, one can show that the posterior at time $T > 0$ is indeed given by $\mu_{T,\epl} = \mathcal N(m_{T,\epl}, C_{T,\epl})$. We are now interested in the asymptotic limit of the posterior distribution for $T \to \infty$ and for $\epl \to 0$.
@@ -648,11 +648,11 @@ We can now state the main result for asymptotic convergence of the posterior dis
 \end{theorem}
 \begin{proof} Let us first consider the covariance matrix. Hua's identity yields
 	\begin{equation}
-	C_{T,\epl} = T^{-1} \left(M^{-1} - Q^{-1}\right),
+	C_{T,\epl} = \frac{2\Sigma}{T} \left(M^{-1} - Q^{-1}\right),
 	\end{equation}
 	where 
 	\begin{equation}
-	Q = M + T M C_0 M.
+	Q = M + \frac{T}{2\Sigma} M C_0 M.
 	\end{equation}
 	Let us first remark that due to the hypothesis on $M$ and the ergodic theorem it holds for all $T > 0$
 	\begin{equation}
@@ -664,7 +664,7 @@ We can now state the main result for asymptotic convergence of the posterior dis
 	\end{equation}
 	Applying this inequality to $Q^{-1}$, we obtain
 	\begin{equation}
-		\norm{Q^{-1}}_2 \leq \frac1T \norm{(MC_0M)^{-1}}_2 \leq \frac1T \norm{M^{-1}}_2^2 \norm{C_0^{-1}}_2 = \frac1{T\bar \lambda^2} \norm{C_0^{-1}}_2,
+		\norm{Q^{-1}}_2 \leq \frac{2\Sigma}T \norm{(MC_0M)^{-1}}_2 \leq \frac{2\Sigma}T \norm{M^{-1}}_2^2 \norm{C_0^{-1}}_2 = \frac{2\Sigma}{T\bar \lambda^2} \norm{C_0^{-1}}_2,
 	\end{equation}
 	which implies
 	\begin{equation}
@@ -685,8 +685,8 @@ We can now state the main result for asymptotic convergence of the posterior dis
 	Let us now consider the first term.	Replacing the expression of the maximum likelihood estimator \eqref{eq:MLE} and due to the Cauchy--Schwarz and triangle inequalities, we obtain
 	\begin{equation}
 	\begin{aligned}
-		\norm{m_{T,\epl} - \widehat A^\epl(T)}_2 &= \frac1T\norm{M^{-1}C_0^{-1}A_0 - Q^{-1}\left(C_0^{-1}A_0 - Th \right)}_2\\
-		&\leq \frac1{T\bar \lambda} \norm{C_0^{-1}}_2 \left(\norm{A_0}_2 + \frac1{\bar \lambda}\norm{h}_2 + \frac1{T\bar \lambda} \norm{C_0^{-1}}_2\norm{A_0}_2\right).
+		\norm{m_{T,\epl} - \widehat A^\epl(T)}_2 &= \frac{2\Sigma}T\norm{M^{-1}C_0^{-1}A_0 - Q^{-1}\left(C_0^{-1}A_0 - \frac{T}{2\Sigma} h \right)}_2\\
+		&\leq \frac{2\Sigma}{T\bar \lambda} \norm{C_0^{-1}}_2 \left(\norm{A_0}_2 + \frac1{\bar \lambda}\norm{h}_2 + \frac{2\Sigma}{T\bar \lambda} \norm{C_0^{-1}}_2\norm{A_0}_2\right).
 	\end{aligned}
 	\end{equation}
 	Moreover, the ergodic theorem and the strong law of large numbers for martingales guarantee that $\norm{h}_2$ is bounded a.s. for $T \to \infty$. Therefore
@@ -723,8 +723,8 @@ where
 so that the estimator $\widetilde A^\epl_k(T)$ introduced in \eqref{eq:AHatMixedTilde} is the MLE based on the new likelihood $\widetilde p(X^\epl \mid A)$. With this likelihood function, we obtain the modified posterior $\widetilde \mu_{T,\epl} = \mathcal N(\widetilde m_{T, \epl}, C_{T, \epl})$, whose parameters are given by
 \begin{equation}
 \begin{aligned}
-	C_{T, \epl}^{-1} &= C_0^{-1} + T M, \\
-	C_{T,\epl}^{-1}\widetilde m_{T,\epl} &= C_0^{-1}A_0 - T \widetilde h. 
+	C_{T, \epl}^{-1} &= C_0^{-1} + \frac{T}{2\Sigma} M, \\
+	C_{T,\epl}^{-1}\widetilde m_{T,\epl} &= C_0^{-1}A_0 - \frac{T}{2\Sigma} \widetilde h. 
 \end{aligned}	
 \end{equation}
 Let us remark that the posterior $\widetilde \mu_{T,\epl}$ has the same covariance as $\mu_{T,\epl}$. The following result now holds.
