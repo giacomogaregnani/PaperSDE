@@ -13,22 +13,37 @@
 
 \section{Introduction}
 
-Data-driven approaches to the derivation of effective stochastic coarse-grained dynamics have become a standard tool in different areas such as molecular dynamics or atmosphere and ocean science \cite{KKP15,CoP09,YMV19}. When fitting data to a low dimensional coarse-grained model, one is faced with the problem of model misspecification; indeed, the data, coming from the full dynamics, are compatible with the coarse-grained model only at the time scales at which the effective dynamics is valid. This is related to the issue of high-frequency data that arises in econometrics \cite{AiJ14,AMZ05,ZMA05,OSP10}. 
+Efficient parameter estimation for stochastic models is essential in a wide range of applications in natural and social sciences. In several areas, the data originates from phenomena which vary continuously in time and which are endowed with a multiscale structure. This is the case, for example, in molecular dynamics, oceanography and atmosphere science or in econometrics. Frequently, it is desirable in this areas to infer from data a simpler model which captures effectively large-scale structures, or slow variations, disregarding small-scale fluctuations or treating them as a source of noise. The mismatch between the data and their desired slow-scale representation is a typical instance of a problem of model misspecification, which, if ignored or mistreated, can lead to wrong solutions. Indeed, the data, coming from the full dynamics, are compatible with the coarse-grained model only at the time scales at which the effective dynamics is valid.
 
-The issue of model misspecification in inverse problems with a multiscale structure has been treated in the context of partial differential equations (PDE). In particular, it has been shown that it is possible to infer a coarse-grained equation from data coming from the full model and to retrieve asymptotically the correct result \cite{NPS12}. A series of papers \cite{AbD18, AbD19, AGZ19} focuses on retrieving the full model when the multiscale coefficient is endowed with a specific parametrized structure. Being these problems ill-posed, the latter is achieved via Tikhonov regularization \cite{AbD19,NPS12}, adopting a Bayesian approach \cite{AbD18, NPS12} or exploiting techniques of Kalman filtering \cite{AGZ19}. In \cite{AbD18,AGZ19}, the authors highlight the need of accounting explicitly for the modelling error due to homogenization and apply statistical techniques taken from \cite{CDS18,CES14}.
+In this paper we consider a simple multiscale setting arising from models of molecular dynamics, with a complete separation between a fast and a slow scale. In particular, we consider diffusion processes for which the confining potential has slow variations, and whose motion is perturbed by a fast-scale potential with rapid periodic and bounded oscillations. Given this simple class of model problems, we are interested in determining the drift coefficient of an equation of the overdamped Langevin type in which the fast-scale potential is eliminated. The theory of homogenization guarantees that such a single-scale equation can be uniquely determined, and our goal is therefore to obtain effective coarse-grained dynamics from data consistently with respect to the homogenization result. 
 
-For simple models in molecular dynamics, the effect of model misspecification was studied in a series of papers \cite{PaS07,PPS09,PPS12,GaS17,GaS18} under the assumption of scale separation. In particular, for Brownian particles moving in two-scale potentials it was shown that, when fitting data from the full dynamics to the homogenized equation, the maximum likelihood estimator (MLE) is asymptotically biased \cite[Theorem 3.4]{PaS07}. To be more precise, in the large sample size limit the MLE converges to the coefficients of the unhomogenized equation, rather than to those of the homogenized one. The bias of the MLE can be eliminated by subsampling at an appropriate rate, which lies between the two characteristic time scales of the problem \cite[Theorems 3.5 and 3.6]{PaS07}. This is similar to the estimation of the integrated stochastic volatility in the presence of market micro-structure noise, where the data have to be subsampled at an appropriate rate \cite{AMZ05,ZMA05}. The correct subsampling rate can be in some instances rather extreme with respect to the frequency of the data and lead to get rid of more than $99\%$ of the data. As the intuition suggests, this increases significantly the bias of the estimator, which is usually taken care of with additional bias corrections and variance reduction procedures.
+Several methods to take into account model misspecification in multiscale frameworks as above exist. For diffusion processes, the proposed approaches rely in different measures to subsampling, which has proved itself to some extent effective in many applications, but which requires nevertheless precise knowledge of how separated the two characteristic time scales are. Robustness of this methodology is dubious, too, as inference results tend to be extremely sensitive to the subsampling rate. 
 
-The necessity to subsample the data can be alleviated by using appropriate martingale estimators, as was done in \cite{KPK13,KKP15}. This class of estimators can be applied to the case where the noise is multiplicative and also given by a deterministic chaotic system, as opposed to white noise. Estimators of this family have been applied to time series from paleoclimatic data and marine biology and augmented with appropriate model selection methodologies \cite{KPP15}.
+In the rest of the introduction, we first give a brief overview of the existing literature on the topic of deterministic and stochastic multiscale inference problems, then introduce our novel methodology and its favourable properties and conclude with an outline of this paper.
 
+\subsection{Literature Review}
+
+For simple models in molecular dynamics, the effect of model misspecification was studied in a series of papers \cite{PaS07,PPS09,PPS12,GaS17,GaS18} under the assumption of scale separation. In particular, for Brownian particles moving in two-scale potentials it was shown that, when fitting data from the full dynamics to the homogenized equation, the maximum likelihood estimator (MLE) is asymptotically biased \cite[Theorem 3.4]{PaS07}. To be more precise, in the large sample size limit the MLE converges to the coefficients of the unhomogenized equation, rather than to those of the homogenized one. The bias of the MLE can be eliminated by subsampling at an appropriate rate, which lies between the two characteristic time scales of the problem \cite[Theorems 3.5 and 3.6]{PaS07}. 
+
+Similar techniques can be employed in econometrics, in particular for the estimation of the integrated stochastic volatility in the presence of market micro-structure noise. In this case, too, the data have to be subsampled at an appropriate rate \cite{AMZ05,OSP10}. The correct subsampling rate can be in some instances rather extreme with respect to the frequency of the data and lead to get rid of more than $99\%$ of the data. As the intuition suggests, this increases significantly the bias of the estimator, which is usually taken care of with additional bias corrections and variance reduction procedures. The need of such methodology is accentuated by data being obtained at high-frequency \cite{AiJ14,ZMA05}.  
+
+The problem of extracting large-scale variations from multiscale data is studied in atmosphere and ocean science. In this field, too, subsampling the data is necessary to obtain an accurate coarse-grained model \cite{CoP09,YMV19}.
+
+The necessity to subsample the data can be alleviated by using appropriate martingale estimators, as was done in \cite{KPK13,KKP15}. This class of estimators can be applied to the case where the noise is multiplicative and also given by a deterministic chaotic system, as opposed to white noise. Estimators of this family have been applied to time series from paleoclimatic data and marine biology and augmented with appropriate model selection methodologies \cite{KPP15}. 
+
+Inference of diffusion processes can be naturally performed under a Bayesian perspective. If one focuses on the drift coefficient, the form of the likelihood function guarantees, under a Gaussian prior hypothesis, that the posterior distribution is itself a Gaussian. The versatility of the Bayesian approach in the infinite-dimensional case \cite{Stu10, DaS16} gives the possibility to extend the problem of inferring the drift of a diffusion process to the non-parametric case \cite{PSV09, PSZ13}. 
+
+The issue of model misspecification in inverse problems with a multiscale structure has been treated in the context of partial differential equations, too. In particular, it has been shown that it is possible to infer a coarse-grained equation from data coming from the full model and to retrieve asymptotically the correct result \cite{NPS12}. A series of papers \cite{AbD18, AbD19, AGZ19} focuses on retrieving the full model when the multiscale coefficient is endowed with a specific parametrized structure. Being these problems ill-posed, the latter is achieved via Tikhonov regularization \cite{AbD19,NPS12}, adopting a Bayesian approach \cite{AbD18, NPS12} or exploiting techniques of Kalman filtering \cite{AGZ19}. In \cite{AbD18,AGZ19}, the authors highlight the need of accounting explicitly for the modelling error due to homogenization and apply statistical techniques taken from \cite{CDS18,CES14}.
+
+\subsection{Our contributions}
 In this paper, we bypass the issue of subsampling by implementing an appropriate filtering methodology. In particular, we show that smoothing the data coming from the multiscale model with an appropriate linear time-invariant filter of the exponential family allows to retrieve the drift coefficient of the homogenized equation. The methodology we present is not involved computationally, easy to implement in practice and presents two main advantages:
 \begin{enumerate}
-	\item the filter's kernel depends on two parameters which can be tuned to obtain more robust results and which can be interpreted as analogous to the subsampling rate. Nevertheless, while the MLE is extremely sensitive with respect to the latter, changing the filter parameters does not have a strong influence on the result, therefore allowing our technique to be applied as a black-box tool for parameter estimation,
+	\item the filter's kernel depends on two parameters which can be tuned to obtain more robust results and which can be interpreted as analogous to the subsampling rate. Nevertheless, while the MLE is extremely sensitive with respect to the latter, our filtering methodology is robust with respect to its parameters, and can therefore be applied as a black-box tool for parameter estimation,
 	\item the entire stream of data is employed, which, in practice, enhances the quality of the filter-based MLE in terms of bias. Moreover, avoiding subsampling and thus discretising the data allows us to employ continuous-time theoretical tools.
 \end{enumerate}
+After having deduced unbiased estimators, we focus on how to insert the filtering methodology into a Bayesian approach. In particular, we analyse the effects of modifying the likelihood function if the smoothed trajectory is inserted in an appropriate manner. Under mild hypotheses on the filter parameters, we are able to show that the posterior distributions obtained with our methodology are asymptotically consistent with respect to the drift parameter of the homogenized equation. To our knowledge, this is the first instance of a successful Bayesian approach applied to multiscale diffusion processes.
 
-It is natural to reinterpret the problem of inferring the drift parameter of multiscale diffusion processes under a Bayesian perspective \cite{PSV09,PSZ13}. In particular, the form of the likelihood function guarantees, under a Gaussian prior hypothesis, that the posterior distribution is itself a Gaussian. Therefore, one can simply compute the mean and covariance of the posterior distribution to obtain a full uncertainty quantification of the inference process. The Bayesian approach has been adopted in several works concerning single and multiscale PDEs, too, and has proved itself to be versatile and efficient in this framework (see, e.g., \cite{AbD18, AGZ19}). Moreover, infinite-dimensional inverse problems are intrinsically ill-posed, and interpreting them in a Bayesian manner is an efficient tool for regularizing them and guaranteeing their well-posedness \cite{Stu10, DaS16}. The regularization property of a Bayesian approach has been recently demonstrated for inverse problems involving multiscale PDEs \cite{AbD18}. In this work, we investigate the effects of inserting our filtering methodology in a Bayesian framework. In particular, we analyse the effects of modifying the likelihood function inserting the filtered trajectory, showing how this corrects the faulty asymptotic behaviour which would be present in case no pre-processing would be applied.
-
+\subsection{Outline}
 The rest of the paper is organised as follows. In Section \ref{sec:Setting} we introduce the problem and lay the basis of our analysis setting the main assumptions and notation. In Section \ref{sec:Filter} we present our filtering methodology, with a particular focus on ergodic properties, on multiscale convergence and, naturally, on the properties of our estimators. In Section \ref{sec:Bayesian} we introduce the Bayesian framework and show how it can be enhanced with filtering techniques. Finally, in Section \ref{sec:NumExp} we demonstrate the effectiveness of our methodology via a series of numerical experiments.
 
 \section{Problem setting}\label{sec:Setting}
@@ -45,7 +60,7 @@ for smooth functions $V_i\colon \R \to \R$, $i = 1, \ldots, N$. Moreover, we ass
 \begin{equation}\label{eq:SDE_HOM}
 	\d X_t = - A \cdot V'(X_t) \dd t + \sqrt{2\Sigma} \dd W_t,
 \end{equation}
-where $W_t$ is the same Brownian motion as in \eqref{eq:SDE_MS}, such that $X_t^\epl \to X_t$ for $\epl\to 0$ in law as random variables in $\mathcal C^0([0, T]; \R)$. In particular, we have $A = K\alpha$ and $\Sigma = K \sigma$, where the coefficient $K$ is given by the formula
+where $W_t$ is the same Brownian motion as in \eqref{eq:SDE_MS}, such that $X_t^\epl \to X_t$ for $\epl\to 0$ in law as random variables in $\mathcal C^0([0, T]; \R)$. In particular, we have $A = K\alpha$ and $\Sigma = K \sigma$, where the coefficient \corr{$0<K<1$} is given by the formula
 \begin{equation}\label{eq:K_HOM}
 	K = \int_0^L (1 + \Phi'(y))^2 \, \mu(\d y),
 \end{equation}
@@ -57,8 +72,14 @@ and where the function $\Phi$ is the unique solution with zero-mean with respect
 \begin{equation}
 	-p'(y)\Phi'(y) + \sigma \Phi''(y) = p'(y), \quad 0 \leq y \leq L,
 \end{equation}
-endowed with periodic boundary conditions.
-
+endowed with periodic boundary conditions. \corr{Let us remark that in this one-dimensional setting it is possible to determine $\Phi$ explicitly, and the homogenization coefficient $K$ is given by
+\begin{equation}
+	K = \frac{L^2}{Z\widehat Z},
+\end{equation}
+where
+\begin{equation}
+	Z = \int_0^L e^{-p(y)/\sigma} \dd y, \quad \widehat Z = \int_0^L e^{p(y)/\sigma} \dd y.
+\end{equation}}
 We now briefly present the classical methodology for estimating the drift coefficient. Let $T > 0$ and let $X^\epl \defeq (X^\epl_t, 0\leq t \leq T)$ be a realization of the solution of \eqref{eq:SDE_MS} up to final time. Girsanov's change of measure formula applied to \eqref{eq:SDE_HOM} allows to write the likelihood of $X^\epl$ given a drift coefficient $A$ as
 \begin{equation}\label{eq:Likelihood}
 p(X^\epl \mid A) = \exp\left(-\frac{I(X^\epl\mid A)}{2\Sigma} \right), 
@@ -154,38 +175,13 @@ which can be interpreted as an ordinary differential equation for $Z_t^\epl$ dri
 \d Z^\epl_t &= \frac{1}{\delta} \left ( X^\epl_t - Z^\epl_t \right ) \dd t.
 \end{aligned}
 \end{equation}
-The first ingredient for verifying the ergodic properties of the two-dimensional process $(X^\epl, Z^\epl)^\top \defeq ((X^\epl_t, Z^\epl_t)^\top, 0 \leq t \leq T)$ is verifying that the measure induced by the stochastic process admits a smooth density with respect to the Lebesgue measure. Since noise is present only on the first component, this is a consequence of the theory of hypo-ellipticity, as summarized in the following Lemma.
+The first ingredient for verifying the ergodic properties of the two-dimensional process $(X^\epl, Z^\epl)^\top \defeq ((X^\epl_t, Z^\epl_t)^\top, 0 \leq t \leq T)$ is verifying that the measure induced by the stochastic process admits a smooth density with respect to the Lebesgue measure. Since noise is present only on the first component, this is a consequence of the theory of hypo-ellipticity, as summarized in the following Lemma, \corr{whose proof is given in Appendix \ref{ap:Proofs}.}
 
 \begin{lemma}\label{lem:density} Let $(X^\epl, Z^\epl)^\top$ be the solution of \eqref{eq:systemSDE} and let $\mu^\epl_t$ be the measure induced by the couple at time $t$. Then, the measure $\mu^\epl_t$ admits a smooth density $\rho^\epl_t$ with respect to the Lebesgue measure.
 \end{lemma}
 
-\begin{proof} We have to show that the joint process solution to \eqref{eq:systemSDE} is hypo-elliptic. Denoting as $f\colon \R \to \R$ the function 
-	\begin{equation}
-		f(x) = -\alpha \cdot V'(x) - \frac1\epl p'\left(\frac{x}\epl\right),
-	\end{equation}
-	the generator of the process $(X^\epl, Z^\epl)^\top$ is given by
-	\begin{equation}
-		\mathcal L = f \partial_x + \sigma \partial_{xx}^2 + \frac1\delta (x - z)\partial_z \eqdef \mathcal X_0 + \sigma \mathcal X_1^2, 
-	\end{equation}
-	where 
-	\begin{equation}
-		\mathcal X_0 = f \partial_x + \frac1\delta (x - z)\partial_z, \quad \mathcal X_1 = \partial_x.
-	\end{equation}
-	The commutator $[\mathcal X_0, \mathcal X_1]$ applied to a test function $v$ then gives
-	\begin{equation}
-	\begin{aligned}
-		[\mathcal X_0, \mathcal X_1]v &= f \partial_x^2 v + \frac1\delta (x - z) \partial_x \partial_z v  - \partial_x\left(f\partial_x v + \frac1\delta (x - z)\partial_z v\right)\\
-		&= -\partial_x f \partial_x v - \frac1\delta \partial_z v.
-	\end{aligned}
-	\end{equation}
-	Consequently, 
-	\begin{equation}
-		\mathrm{Lie}\left(\mathcal X_1, [\mathcal X_0, \mathcal X_1]\right) = \mathrm{Lie} \left(\partial_x, -\partial_x f \partial_x - \frac1\delta\partial_z\right),
-	\end{equation}
-	which spans $T_x\R^2$. The desired result then follows from Hörmander's theorem (see e.g. \cite[Chapter 6]{Pav14}).
-\end{proof}
 
-Once it is established that the law of the process admits a smooth density for all times $t>0$, which satisfies a time-dependent Fokker--Planck equation, we are interested in the limiting properties of this law. In particular, we know that the process $X^\epl$ alone is geometrically ergodic \cite[Theorem 4.4]{MSH02}, and we wish the couple $(X^\epl, Z^\epl)^\top$ to be endowed with the same property. The following Lemma guarantees that the couple is indeed geometrically ergodic exploiting an argument of dissipativity. 
+Once it is established that the law of the process admits a smooth density for all times $t>0$, which satisfies a time-dependent Fokker--Planck equation, we are interested in the limiting properties of this law. In particular, we know that the process $X^\epl$ alone is geometrically ergodic \cite[Theorem 4.4]{MSH02}, and we wish the couple $(X^\epl, Z^\epl)^\top$ to be endowed with the same property. The following Lemma guarantees that the couple is indeed geometrically ergodic, \corr{and its proof is given in Appendix \ref{ap:Proofs}.}
 
 \begin{lemma}\label{lem:ergodicity} Let Assumption \ref{as:regularity} hold and let $b > 0$ be given in Assumption \ref{as:regularity}\ref{as:regularity_diss}. Then, if $\delta > 1/(4b)$, the process $(X^\epl, Z^\epl)^\top$ solution of \eqref{eq:systemSDE} is geometrically ergodic, i.e., there exists $C, \lambda > 0$ such that for all measurable $f\colon \R^2\to \R$ such that for some integer $q > 0$ 
 	\begin{equation}
@@ -202,26 +198,7 @@ Once it is established that the law of the process admits a smooth density for a
 	\end{equation}
 \end{lemma}
 
-\begin{proof} Lemma \ref{lem:density} guarantees that the Fokker--Planck equation can be written directly from the system \eqref{eq:systemSDE}. For geometric ergodicity, let 
-\begin{equation}
-	 \mathcal S(x,z) \defeq \begin{pmatrix} -\sum_{i=1}^N V_i'(x) \\ \frac1\delta (x - z) \end{pmatrix} \cdot \begin{pmatrix} x \\ z \end{pmatrix} = -\sum_{i=1}^N V_i'(x)x+\frac1\delta(xz-z^2).
-\end{equation}
-Due to Assumption \ref{as:regularity}\ref{as:regularity_diss} and Young's inequality, we then have for all $\gamma > 0$
-\begin{equation}
-	\mathcal S(x,z) \leq a + \left(\frac{1}{2\gamma\delta} - b\right)x^2 + \frac1\delta\left(\frac{\gamma}{2} - 1\right)z^2.
-\end{equation}
-We choose $\gamma = \gamma^* \defeq 1 - b\delta + \sqrt{1 + (1 - b\delta)^2} > 0$ so that
-\begin{equation}
-	C(\gamma^*) \defeq -\frac{1}{2\gamma^*\delta} + b = -\frac1\delta\left(\frac{\gamma^*}{2} - 1\right),
-\end{equation}
-and we notice that $C(\gamma^*) > 0$ if $\delta > 1/(4b)$. In this case, we have
-\begin{equation}
-	\mathcal S(x, z) \leq a - C(\gamma^*) \norm{\begin{pmatrix} x & z \end{pmatrix}^\top}^2,
-\end{equation}
-and problem \eqref{eq:systemSDE} is dissipative. The result then follows from \cite[Theorem 4.4]{MSH02}.
-\end{proof}
-
-\begin{remark} Let us remark that for the multiscale equation \eqref{eq:SDE_MS} one should check the condition above for the potential $V(x) + p(x/\epl)$. Nevertheless, for functions $p$ satisfying Assumption \ref{as:regularity}, the result holds trivially.  
+\begin{remark} Let us remark that for the multiscale equation \eqref{eq:SDE_MS} one should check the condition above for the potential $V(x) + p(x/\epl)$. Nevertheless, for functions $p$ satisfying Assumption \ref{as:regularity}, the result holds trivially.
 \end{remark}
 
 \begin{remark} The condition $\delta > 1 / (4b)$ is not very restrictive. Let the parameter dimension $N = 1$ and let $V(x) \propto x^{2p}$ for an integer $p > 1$. Then, Assumption \ref{as:regularity}\ref{as:regularity_diss} holds for an arbitrarily large $b > 0$. Therefore, the parameter of the filter $\delta$ can be chosen along the entire positive real axis. A similar argument can be employed for higher dimensions $N > 1$.
@@ -246,7 +223,7 @@ Let us remark that this distribution can be obtained from direct computations in
 The basic properties of Gaussian processes imply that $Z$ is a Gaussian process, and that the couple $(X, Z)^\top$ is a Gaussian process, too, whose mean and covariance are computable explicitly.
 \end{example}
 
-In a general case, it is not possible to find an explicit solution to \eqref{eq:FPsystem}. Nevertheless, it is possible to show some relevant properties of the solution itself, which are summarized in the following Lemma.
+In a general case, it is not possible to find an explicit solution to \eqref{eq:FPsystem}. Nevertheless, it is possible to show some relevant properties of the solution itself, which are summarized in the following Lemma, \corr{whose proof is given in Appendix \ref{ap:Proofs}.}
 
 \begin{lemma}\label{lem:FPMarginal} Under the assumptions of Lemma \ref{lem:ergodicity}, let $\rho^\epl$ be the solution of \eqref{eq:FPsystem} and let us write 
 \begin{equation}\label{eq:densityDecomposition}
@@ -270,79 +247,9 @@ Moreover, it holds
 \end{equation}
 \end{lemma}
 
-\begin{proof} Integrating equation \eqref{eq:FPsystem} with respect to $z$ we obtain the stationary Fokker--Planck equation for the process $X^\epl$, i.e.
-\begin{equation}
-\label{FPx}
-\sigma (\phi^\epl)''(x) + \frac{\d}{\d x} \left( \left ( \alpha \cdot V'(x) + \frac{1}{\epl} p' \left ( \frac{x}\epl \right ) \right ) \phi^\epl(x)\right) = 0,
-\end{equation}
-whose solution is given by
-\begin{equation}
-\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(- \frac{1}{\sigma} \alpha \cdot V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
-\end{equation}
-and which proves \eqref{eq:marginalX}. By integrating equation \eqref{eq:FPsystem} with respect to $x$ and integrating by parts we obtain
-\begin{equation}
-\psi^\epl(z) + z (\psi^\epl)'(z) = \frac{\d}{\d z} \int_{\R} x \rho^\epl(x,z) \dd x,
-\end{equation}
-which can be written as
-\begin{equation}
-	\frac{\d}{\d z} (z \psi^\epl(z)) = \frac{\d}{\d z} \int_{\R} x \rho^\epl(x,z) \dd x.
-\end{equation}
-Now, since $\psi^\epl$ is the density of a probability distribution, this implies that 
-\begin{equation}\label{FPz}
-z \psi^\epl(z) = \int_{\R} x \rho^\epl(x,z) \dd x,
-\end{equation}
-which, replacing the decomposition \eqref{eq:densityDecomposition}, yields
-\begin{equation} \label{eq:z_condition}
-z = \int_{\R} x \phi^\epl(x) R^\epl(x,z) \dd x.
-\end{equation}
-In view of \eqref{eq:densityDecomposition} and \eqref{FPx}, equation \eqref{eq:FPsystem} can be rewritten as
-\begin{equation}\label{eq:psiEqualityPDE}
-\sigma \phi^\epl \psi^\epl \partial^2_{xx} R^\epl + \frac{1}{\delta} \phi^\epl \psi^\epl R^\epl + \sigma (\phi^\epl)' \psi^\epl \partial_x R^\epl + \frac{1}{\delta} (z-x) \phi^\epl ((\psi^\epl)' R + \psi^\epl \partial_z R^\epl) = 0.
-\end{equation}
-We now multiply the equation above by $x$ and integrate with respect to $x$. Let us consider some simplifications explicitly. First, an integration by parts yields
-\begin{equation}\label{eq:psiEqualityPDE_1}
-\begin{aligned}
-	\sigma \psi^\epl \int_{\R}  x \phi^\epl \partial^2_{xx} R^\epl \dd x+ \sigma \psi^\epl \int_{\R} x (\phi^\epl)' \partial_x R^\epl \dd x &= -\sigma \psi^\epl \int_{\R} \phi^\epl \partial_x R^\epl \dd x.
-\end{aligned}
-\end{equation}
-Then, applying \eqref{eq:z_condition}, we have
-\begin{equation}\label{eq:psiEqualityPDE_2}
-	\frac1\delta \psi^\epl \int_{\R} x \phi^\epl  R^\epl \dd x = \frac1\delta z \psi^\epl.
-\end{equation}
-Moreover, again applying \eqref{eq:z_condition}, we can compute
-\begin{equation}\label{eq:psiEqualityPDE_3}
-\begin{aligned}
-	\frac1\delta (\psi^\epl)' \int_\R (z-x)x \phi^\epl  R \dd x = \frac1\delta (\psi^\epl)' \left(z^2 - \int_{\R} x^2 \phi^\epl R^\epl \dd x\right).
-\end{aligned}
-\end{equation}
-Finally, we compute the last term always applying \eqref{eq:z_condition} obtaining
-\begin{equation}\label{eq:psiEqualityPDE_4}
-	\frac1\delta \psi^\epl \int_\R (z-x)x \phi^\epl \partial_z R \dd x = \frac1\delta \psi^\epl\left(z - \int_{\R} x^2 \phi^\epl \partial_z R^\epl \dd x\right).
-\end{equation}
-Replacing the equalities \eqref{eq:psiEqualityPDE_1}, \eqref{eq:psiEqualityPDE_2}, \eqref{eq:psiEqualityPDE_3} and \eqref{eq:psiEqualityPDE_4} into \eqref{eq:psiEqualityPDE} we obtain
-\begin{equation}
-(\psi^\epl)' \left ( z^2 - \int_{\R} x^2 \phi^\epl R^\epl \dd x \right ) + \psi^\epl \left ( 2z - \int_{\R} x^2 \phi^\epl \partial_z R^\epl \dd x - \delta \sigma \int_{\R} \phi^\epl \partial_x R^\epl \dd x \right ) = 0.
-\end{equation}
-We rewrite the equality above as
-\begin{equation} \label{eq:psiEquality}
-\delta \sigma \psi^\epl(z) \int_{\R} \phi^\epl(x) \partial_x R^\epl(x, z) \dd x = 
-\begin{aligned}[t] &(\psi^\epl)'(z) z^2 - (\psi^\epl)'(z) \int_{\R} x^2 \phi^\epl(x) R^\epl(x, z) \dd x \\
-& + 2 \psi^\epl(x) z - \psi^\epl \int_{\R} x^2 \phi^\epl(x) \partial_z R^\epl(x, z) \dd x.
-\end{aligned}
-\end{equation}
-Multiplying by $V'(z)$, integrating with respect to $z$ and integrating by parts, we obtain the following identity in $\R^N$
-\begin{equation}
-\begin{aligned}
-\sigma \delta \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z &=  \int_{\R} \int_{\R} (x^2 - z^2) V''(z) \rho_\epl(x,z) \dd x \dd z \\
-&= \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)],
-\end{aligned}
-\end{equation}
-which is the desired result.
-\end{proof}
-
 \subsection{Multiscale convergence}\label{sec:convMS}
 
-We now investigate the convergence of the couple $(X^\epl, Z^\epl)^\top$ with respect to the multiscale parameter $\epl \to 0$. In particular, it is known that the invariant measure of $X^\epl$ converges weakly to the invariant measure of $X$ solution of the homogenized equation \eqref{eq:SDE_HOM}. The following result guarantees the same kind of convergence for the couple $(X^\epl, Z^\epl)^\top$.
+We now investigate the convergence of the couple $(X^\epl, Z^\epl)^\top$ with respect to the multiscale parameter $\epl \to 0$. In particular, it is known that the invariant measure of $X^\epl$ converges weakly to the invariant measure of $X$ solution of the homogenized equation \eqref{eq:SDE_HOM}. The following result, \corr{whose proof is given in Appendix \ref{ap:Proofs},} guarantees the same kind of convergence for the couple $(X^\epl, Z^\epl)^\top$.
 
 \begin{lemma}\label{lem:convMeasure} Under Assumption \ref{as:regularity}, let $\mu^\epl$ be the invariant measure of the couple $(X^\epl, Z^\epl)^\top$ and let $(X_0^\epl, Z_0^\epl)^\top \sim \mu^\epl$. Then, the measure $\mu^\epl$ converges weakly to the measure $\mu^0(\d x, \d z) = \rho^0(x, z) \dd x \dd z$, whose density $\rho^0$ is the unique solution of the Fokker--Planck equation
 \begin{equation} \label{eq:FPsystem_homogenized}
@@ -350,16 +257,7 @@ We now investigate the convergence of the couple $(X^\epl, Z^\epl)^\top$ with re
 \end{equation}
 where $A$ and $\Sigma$ are the coefficients of the homogenized equation \eqref{eq:SDE_HOM}.
 \end{lemma}
-\begin{proof} Let $(X, Z)^\top \defeq \left((X_t, Z_t)^\top, 0\leq t \leq T\right)$ be the solution of
-	\begin{equation}
-	\label{eq:systemSDEHom}
-	\begin{aligned}
-		\d X_t &= -A \cdot V'(X_t) \dd t + \sqrt{2\Sigma} \dd W_t, \\
-		\d Z_t &= \frac{1}{\delta} \left ( X_t - Z_t \right ) \dd t,
-	\end{aligned}
-	\end{equation} 
-	with $(X_0, Z_0)^\top \sim \mu^0$. The arguments of Section \ref{sec:ergodic} can be repeated to conclude that the invariant measure of $(X, Z)^\top$ admits a smooth density $\rho^0$ which satisfies \eqref{eq:FPsystem_homogenized}. Moreover, standard homogenization theory (see e.g. \cite[Chapter 3]{BLP78}) guarantees that $(X^\epl,Z^\epl)^\top \to (X,Z)^\top$ for $\epl \to 0$ in law as random variables with values in $\mathcal C^0([0, T]; \R^2)$. The Portmanteau theorem can be employed to conclude that the measure $\mu^\epl$ converges weakly to $\mu^0$ for $\epl \to 0$.
-\end{proof}
+
 
 We conclude this section presenting an analogous result to Lemma \ref{lem:FPMarginal} for the limit distribution.
 
@@ -636,7 +534,7 @@ Let us remark that the posterior $\widetilde \mu_{T,\epl}$ has the same covarian
 \begin{equation}\label{eq:AHatMixedTilde}
 	\widetilde A^\epl_k(T) = - M^{-1} \widetilde h.
 \end{equation}
-The following theorem guarantees the unbiasedness of this estimator under a condition on the parameter $\delta$ of the filter, and we refer to the Appendix for its proof.
+The following theorem guarantees the unbiasedness of this estimator under a condition on the parameter $\delta$ of the filter, and we refer to Appendix \ref{ap:EstimatorTilde} for its proof.
 \begin{theorem}\label{thm:mainTheoremTilde} Let the assumptions of Theorem \ref{thm:mainTheorem} hold. Then, if $\delta$ in \eqref{eq:filter} satisfies $\delta = \delta(\epl)$ with $\delta(\epl) \to 0$ for $\epl \to 0$, it holds
 	\begin{equation}
 	\lim_{\epl \to 0} \lim_{T \to \infty} \widetilde A^\epl_k(T) = A, \quad \text{a.s.},
@@ -702,7 +600,7 @@ As a second experiment, we therefore test the variability of the estimator with 
 	\label{fig:KLStyle}
 \end{figure}
 
-\begin{table}[ht!]
+\begin{table}[t]
 	\centering
 	\begin{tabular}{cccccc}
 		\toprule
@@ -715,7 +613,7 @@ As a second experiment, we therefore test the variability of the estimator with 
 		$4$ & 1   & 0.62  & 1.22  & 0.57  & 0.13 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Numerical results for the four-dimensional parameter rounded to the second significant digit.}
+	\caption{Numerical results for the four-dimensional parameter.}
 	\label{tab:KLStyle}
 \end{table}
 
@@ -764,7 +662,135 @@ In this work we considered a novel methodology based on filtering for the estima
 
 \begin{appendices}
 	
-\section{}
+\section{Proof of Lemmas}\label{ap:Proofs}
+
+\begin{proof}[Proof of Lemma \ref{lem:density}] We have to show that the joint process solution to \eqref{eq:systemSDE} is hypo-elliptic. Denoting as $f\colon \R \to \R$ the function 
+	\begin{equation}
+	f(x) = -\alpha \cdot V'(x) - \frac1\epl p'\left(\frac{x}\epl\right),
+	\end{equation}
+	the generator of the process $(X^\epl, Z^\epl)^\top$ is given by
+	\begin{equation}
+	\mathcal L = f \partial_x + \sigma \partial_{xx}^2 + \frac1\delta (x - z)\partial_z \eqdef \mathcal X_0 + \sigma \mathcal X_1^2, 
+	\end{equation}
+	where 
+	\begin{equation}
+	\mathcal X_0 = f \partial_x + \frac1\delta (x - z)\partial_z, \quad \mathcal X_1 = \partial_x.
+	\end{equation}
+	The commutator $[\mathcal X_0, \mathcal X_1]$ applied to a test function $v$ then gives
+	\begin{equation}
+	\begin{aligned}
+	[\mathcal X_0, \mathcal X_1]v &= f \partial_x^2 v + \frac1\delta (x - z) \partial_x \partial_z v  - \partial_x\left(f\partial_x v + \frac1\delta (x - z)\partial_z v\right)\\
+	&= -\partial_x f \partial_x v - \frac1\delta \partial_z v.
+	\end{aligned}
+	\end{equation}
+	Consequently, 
+	\begin{equation}
+	\mathrm{Lie}\left(\mathcal X_1, [\mathcal X_0, \mathcal X_1]\right) = \mathrm{Lie} \left(\partial_x, -\partial_x f \partial_x - \frac1\delta\partial_z\right),
+	\end{equation}
+	which spans $T_x\R^2$. The desired result then follows from Hörmander's theorem (see e.g. \cite[Chapter 6]{Pav14}).
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:ergodicity}] Lemma \ref{lem:density} guarantees that the Fokker--Planck equation can be written directly from the system \eqref{eq:systemSDE}. For geometric ergodicity, let 
+	\begin{equation}
+	\mathcal S(x,z) \defeq \begin{pmatrix} -\sum_{i=1}^N V_i'(x) \\ \frac1\delta (x - z) \end{pmatrix} \cdot \begin{pmatrix} x \\ z \end{pmatrix} = -\sum_{i=1}^N V_i'(x)x+\frac1\delta(xz-z^2).
+	\end{equation}
+	Due to Assumption \ref{as:regularity}\ref{as:regularity_diss} and Young's inequality, we then have for all $\gamma > 0$
+	\begin{equation}
+	\mathcal S(x,z) \leq a + \left(\frac{1}{2\gamma\delta} - b\right)x^2 + \frac1\delta\left(\frac{\gamma}{2} - 1\right)z^2.
+	\end{equation}
+	We choose $\gamma = \gamma^* \defeq 1 - b\delta + \sqrt{1 + (1 - b\delta)^2} > 0$ so that
+	\begin{equation}
+	C(\gamma^*) \defeq -\frac{1}{2\gamma^*\delta} + b = -\frac1\delta\left(\frac{\gamma^*}{2} - 1\right),
+	\end{equation}
+	and we notice that $C(\gamma^*) > 0$ if $\delta > 1/(4b)$. In this case, we have
+	\begin{equation}
+	\mathcal S(x, z) \leq a - C(\gamma^*) \norm{\begin{pmatrix} x & z \end{pmatrix}^\top}^2,
+	\end{equation}
+	and problem \eqref{eq:systemSDE} is dissipative. The result then follows from \cite[Theorem 4.4]{MSH02}.
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:FPMarginal}] Integrating equation \eqref{eq:FPsystem} with respect to $z$ we obtain the stationary Fokker--Planck equation for the process $X^\epl$, i.e.
+	\begin{equation}
+	\label{FPx}
+	\sigma (\phi^\epl)''(x) + \frac{\d}{\d x} \left( \left ( \alpha \cdot V'(x) + \frac{1}{\epl} p' \left ( \frac{x}\epl \right ) \right ) \phi^\epl(x)\right) = 0,
+	\end{equation}
+	whose solution is given by
+	\begin{equation}
+	\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(- \frac{1}{\sigma} \alpha \cdot V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
+	\end{equation}
+	and which proves \eqref{eq:marginalX}. By integrating equation \eqref{eq:FPsystem} with respect to $x$ and integrating by parts we obtain
+	\begin{equation}
+	\psi^\epl(z) + z (\psi^\epl)'(z) = \frac{\d}{\d z} \int_{\R} x \rho^\epl(x,z) \dd x,
+	\end{equation}
+	which can be written as
+	\begin{equation}
+	\frac{\d}{\d z} (z \psi^\epl(z)) = \frac{\d}{\d z} \int_{\R} x \rho^\epl(x,z) \dd x.
+	\end{equation}
+	Now, since $\psi^\epl$ is the density of a probability distribution, this implies that 
+	\begin{equation}\label{FPz}
+	z \psi^\epl(z) = \int_{\R} x \rho^\epl(x,z) \dd x,
+	\end{equation}
+	which, replacing the decomposition \eqref{eq:densityDecomposition}, yields
+	\begin{equation} \label{eq:z_condition}
+	z = \int_{\R} x \phi^\epl(x) R^\epl(x,z) \dd x.
+	\end{equation}
+	In view of \eqref{eq:densityDecomposition} and \eqref{FPx}, equation \eqref{eq:FPsystem} can be rewritten as
+	\begin{equation}\label{eq:psiEqualityPDE}
+	\sigma \phi^\epl \psi^\epl \partial^2_{xx} R^\epl + \frac{1}{\delta} \phi^\epl \psi^\epl R^\epl + \sigma (\phi^\epl)' \psi^\epl \partial_x R^\epl + \frac{1}{\delta} (z-x) \phi^\epl ((\psi^\epl)' R + \psi^\epl \partial_z R^\epl) = 0.
+	\end{equation}
+	We now multiply the equation above by $x$ and integrate with respect to $x$. Let us consider some simplifications explicitly. First, an integration by parts yields
+	\begin{equation}\label{eq:psiEqualityPDE_1}
+	\begin{aligned}
+	\sigma \psi^\epl \int_{\R}  x \phi^\epl \partial^2_{xx} R^\epl \dd x+ \sigma \psi^\epl \int_{\R} x (\phi^\epl)' \partial_x R^\epl \dd x &= -\sigma \psi^\epl \int_{\R} \phi^\epl \partial_x R^\epl \dd x.
+	\end{aligned}
+	\end{equation}
+	Then, applying \eqref{eq:z_condition}, we have
+	\begin{equation}\label{eq:psiEqualityPDE_2}
+	\frac1\delta \psi^\epl \int_{\R} x \phi^\epl  R^\epl \dd x = \frac1\delta z \psi^\epl.
+	\end{equation}
+	Moreover, again applying \eqref{eq:z_condition}, we can compute
+	\begin{equation}\label{eq:psiEqualityPDE_3}
+	\begin{aligned}
+	\frac1\delta (\psi^\epl)' \int_\R (z-x)x \phi^\epl  R \dd x = \frac1\delta (\psi^\epl)' \left(z^2 - \int_{\R} x^2 \phi^\epl R^\epl \dd x\right).
+	\end{aligned}
+	\end{equation}
+	Finally, we compute the last term always applying \eqref{eq:z_condition} obtaining
+	\begin{equation}\label{eq:psiEqualityPDE_4}
+	\frac1\delta \psi^\epl \int_\R (z-x)x \phi^\epl \partial_z R \dd x = \frac1\delta \psi^\epl\left(z - \int_{\R} x^2 \phi^\epl \partial_z R^\epl \dd x\right).
+	\end{equation}
+	Replacing the equalities \eqref{eq:psiEqualityPDE_1}, \eqref{eq:psiEqualityPDE_2}, \eqref{eq:psiEqualityPDE_3} and \eqref{eq:psiEqualityPDE_4} into \eqref{eq:psiEqualityPDE} we obtain
+	\begin{equation}
+	(\psi^\epl)' \left ( z^2 - \int_{\R} x^2 \phi^\epl R^\epl \dd x \right ) + \psi^\epl \left ( 2z - \int_{\R} x^2 \phi^\epl \partial_z R^\epl \dd x - \delta \sigma \int_{\R} \phi^\epl \partial_x R^\epl \dd x \right ) = 0.
+	\end{equation}
+	We rewrite the equality above as
+	\begin{equation} \label{eq:psiEquality}
+	\delta \sigma \psi^\epl(z) \int_{\R} \phi^\epl(x) \partial_x R^\epl(x, z) \dd x = 
+	\begin{aligned}[t] &(\psi^\epl)'(z) z^2 - (\psi^\epl)'(z) \int_{\R} x^2 \phi^\epl(x) R^\epl(x, z) \dd x \\
+	& + 2 \psi^\epl(x) z - \psi^\epl \int_{\R} x^2 \phi^\epl(x) \partial_z R^\epl(x, z) \dd x.
+	\end{aligned}
+	\end{equation}
+	Multiplying by $V'(z)$, integrating with respect to $z$ and integrating by parts, we obtain the following identity in $\R^N$
+	\begin{equation}
+	\begin{aligned}
+	\sigma \delta \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z &=  \int_{\R} \int_{\R} (x^2 - z^2) V''(z) \rho_\epl(x,z) \dd x \dd z \\
+	&= \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)],
+	\end{aligned}
+	\end{equation}
+	which is the desired result.
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:convMeasure}] Let $(X, Z)^\top \defeq \left((X_t, Z_t)^\top, 0\leq t \leq T\right)$ be the solution of
+	\begin{equation}
+	\label{eq:systemSDEHom}
+	\begin{aligned}
+	\d X_t &= -A \cdot V'(X_t) \dd t + \sqrt{2\Sigma} \dd W_t, \\
+	\d Z_t &= \frac{1}{\delta} \left ( X_t - Z_t \right ) \dd t,
+	\end{aligned}
+	\end{equation} 
+	with $(X_0, Z_0)^\top \sim \mu^0$. The arguments of Section \ref{sec:ergodic} can be repeated to conclude that the invariant measure of $(X, Z)^\top$ admits a smooth density $\rho^0$ which satisfies \eqref{eq:FPsystem_homogenized}. Moreover, standard homogenization theory (see e.g. \cite[Chapter 3]{BLP78}) guarantees that $(X^\epl,Z^\epl)^\top \to (X,Z)^\top$ for $\epl \to 0$ in law as random variables with values in $\mathcal C^0([0, T]; \R^2)$. The Portmanteau theorem can be employed to conclude that the measure $\mu^\epl$ converges weakly to $\mu^0$ for $\epl \to 0$.
+\end{proof}
+
+\section{Proof of Theorem \ref{thm:mainTheoremTilde}}\label{ap:EstimatorTilde}
 Let us consider the estimator defined in \eqref{eq:AHatMixedTilde}, that is
 \begin{equation}
 	\widetilde A^\epl_k(T) = -M^{-1}\widetilde h,
