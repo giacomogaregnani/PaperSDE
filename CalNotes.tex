@@ -395,6 +395,45 @@ independently of $\epl$. Therefore
 which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, proves the desired result.
 \end{proof}
 
+Central limit theorem text.
+\begin{theorem} Central limit theorem statement.
+\end{theorem}
+
+\begin{proof} Let us remark that $Z_t^\epl$ is adapted with respect to the natural filtration $\mathcal F_t$ of the Wiener process $W \defeq \left(W_t, t \geq 0\right)$. Therefore, denoting
+	\begin{equation}
+		Q^\epl_t \defeq \int_0^t V'(Z^\epl_t) \dd W_t,
+	\end{equation}
+	we have that $Q^\epl_t$ is a martingale and its quadratic variation is given by
+	\begin{equation}
+		\langle Q^\epl \rangle_t = \int_0^t V'(Z^\epl_t) \otimes V'(Z^\epl_t) \dd t. 
+	\end{equation}
+	The ergodic theorem yields \corr{we need this in $L^1$}
+	\begin{equation}
+		\frac{\langle Q^\epl \rangle_t}{t} \to \E^{\rho^\epl}[V'(Z) \otimes V'(Z)], \quad \text{a.s.},
+	\end{equation}
+	and therefore the martingale central limit theorem gives 
+	\begin{equation}
+		\frac{1}{\sqrt{T}} Q^\epl_T \to \xi \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z) \otimes V'(Z)]), \quad \text{in law}.
+	\end{equation}
+	Now, let us remark that
+	\begin{equation}
+		\sqrt{T} I_2^\epl(T) = \frac{1}{\sqrt{T}} \widetilde M^{-1} Q^\epl_T,
+	\end{equation}
+	and that by the ergodic theorem 
+	\begin{equation}
+		\lim_{T \to \infty} \widetilde M^{-1} = \E^{\rho^\epl}[V'(Z) \otimes V'(X)]^{-1}.
+	\end{equation}
+	Therefore, we have by Slutsky's theorem that
+	\begin{equation}
+		\lim_{T \to \infty} \sqrt{T} I_2^\epl(T) \to \Xi \sim \mathcal N\left(0, \Gamma \right), \quad \text{in law}.
+	\end{equation}
+	where the covariance matrix $\Gamma$ is given by
+	\begin{equation}
+		\Gamma = \E^{\rho^\epl}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^\epl}[V'(Z) \otimes V'(Z)]\E^{\rho^\epl}[V'(X) \otimes V'(Z)]^{-1}.
+	\end{equation}
+\end{proof}
+
+
 \section{The Bayesian setting}\label{sec:Bayesian}
 
 In this section we present a Bayesian reinterpretation of the inference procedure, which, given the structure of the problem, allows to get at a full uncertainty quantification with a low computational effort. 
