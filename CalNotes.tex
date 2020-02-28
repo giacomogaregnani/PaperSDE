@@ -402,15 +402,28 @@ Central limit theorem text.
 	\end{equation}
 	where $\Lambda \sim \mathcal N(0, \Gamma)$ and 
 	\begin{equation}
-		\Gamma = 2\sigma \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^0}[V'(Z) \otimes V'(Z)]\E^{\rho^0}[V'(X) \otimes V'(Z)]^{-1}.
+		\Gamma = 2\sigma \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^0}[V'(Z) \otimes V'(Z)]\E^{\rho^0}[V'(X) \otimes V'(Z)]^{-1} \corr{+ \dots}.
 	\end{equation}
 \end{theorem}
 
-\begin{proof} Let us consider the decomposition \eqref{eq:alphaDecomposition}, which yields
+\begin{proof} Let us remark that in the proof of Theorem \ref{thm:mainTheorem} we showed that
 	\begin{equation}
-		\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \sqrt{T}\left(\alpha - A + I_1^\epl(T)\right) - \sqrt{T} I_2^\epl(T).
+	A = \frac1\delta \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)],
 	\end{equation}
-	\corr{Second term is OK:} We rewrite the term involving $I_2^\epl(T)$ as
+	and
+	\begin{equation}
+	\E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] = - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ] \alpha + \frac1\delta \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)].
+	\end{equation}
+	Hence, the decomposition \eqref{eq:alphaDecomposition} yields
+	\begin{equation}
+	\begin{aligned}
+	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = & \sqrt{T}\left( I_1^\epl(T) - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right) \\
+	&+ \sqrt{T} \frac1\delta \left( \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
+	&\qquad \qquad \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
+	&- \sqrt{T} I_2^\epl(T).
+	\end{aligned}
+	\end{equation}
+	\corr{Third term is OK:} We rewrite the term involving $I_2^\epl(T)$ as
 	\begin{equation}
 	\sqrt{T} I_2^\epl(T) = \frac{\sqrt{2\sigma}}{\sqrt{T}} \widetilde M^{-1} Q^\epl_T,
 	\end{equation}
@@ -445,13 +458,22 @@ Central limit theorem text.
 	\end{equation}
 	Finally, we denote by $\Lambda$ the limit for $\epl \to 0$ of the sequence of Gaussian random variables $\Lambda^\epl$.
 	
-	\corr{Idea for the first term:} Let $\mathcal L^\epl$ be the generator of the joint process $(X^\epl, Z^\epl)$, i.e.,
+	\corr{Idea for the first term:} The first term can be decomposed in
+	\begin{equation} \label{eq:decomposition_first_term}
+	\begin{aligned}
+	\sqrt{T}&\left( I_1^\epl(T) - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right) \\
+	&\hspace{2cm}= \sqrt{T} \left( I_1^\epl(T) - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t \right) \\
+	&\hspace{2cm} \quad + \sqrt{T} \left(\E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t \right. \\
+	&\hspace{4cm} \left. - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right),
+	\end{aligned}
+	\end{equation}
+	and now we focus on its second part. Let $\mathcal L^\epl$ be the generator of the joint process $(X^\epl, Z^\epl)$, i.e.,
 	\begin{equation}
 		\mathcal L^\epl = \begin{pmatrix} -V'(x) - \frac1\epl p'\left(\frac{x}{\epl}\right) \\ \frac1\delta (x - z)	\end{pmatrix} \cdot \nabla_{x, z} + \sigma \partial^2_{xx}.
 	\end{equation}
-	Then, let $\Phi^\epl$ the solution of the Poisson equation
+	Then, let $\Phi_1^\epl$ the solution of the Poisson equation
 	\begin{equation}
-		\mathcal L^\epl \Phi^\epl(x, z) = V'(z)\frac1\epl p'\left(\frac{x}{\epl}\right) - \E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right].
+		\mathcal L^\epl \Phi_1^\epl(x, z) = V'(z)\frac1\epl p'\left(\frac{x}{\epl}\right) - \E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right].
 	\end{equation}	
 	An application of Itô formula \cite[Remark 6.17]{PaS08} yields
 	\begin{equation}
@@ -459,32 +481,57 @@ Central limit theorem text.
 	\end{equation}
 	where the remainder $R_T^\epl$ is given by
 	\begin{equation}
-		R_T^\epl \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0),
+		R_T^\epl \defeq \Phi_1^\epl(X^\epl_T, Z^\epl_T) - \Phi_1^\epl(X^\epl_0, Z^\epl_0),
 	\end{equation}
 	and $S^\epl_T$ is the martingale defined as
 	\begin{equation}
-		S^\epl_T \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd t.
+		S^\epl_T \defeq \int_0^T \partial_x \Phi_1^\epl(X_t^\epl, Z_t^\epl) \dd t.
 	\end{equation}
 	Therefore, we have
+%	\begin{equation}
+%	\begin{aligned}
+%		\sqrt{T}\left(\alpha - A + I_1^\epl(T)\right) = & \sqrt{T}\left(\alpha - A + \widetilde M^{-1}\E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right]\right)\\
+%		& + \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} - \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}}.
+%	\end{aligned}
+%	\end{equation}
 	\begin{equation}
 	\begin{aligned}
-		\sqrt{T}\left(\alpha - A + I_1^\epl(T)\right) = & \sqrt{T}\left(\alpha - A + \widetilde M^{-1}\E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right]\right)\\
-		& + \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} - \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}}.
+		\sqrt{T} \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} & \left( \frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right) \\
+		&= \sqrt{T} \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \left( \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T} \right)
 	\end{aligned}
 	\end{equation}
 	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get by the ergodic theorem that
+%	\begin{equation}
+%		\lim_{T \to \infty} \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
+%	\end{equation}
 	\begin{equation}
-		\lim_{T \to \infty} \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
+		\lim_{T \to \infty} \frac{\E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
 	\end{equation}
 	Repeating the same reasoning as for $Q_T^\epl$, we get 
+%	\begin{equation}
+%		\lim_{T \to \infty} \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+%	\end{equation}
 	\begin{equation}
-		\lim_{T \to \infty} \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+	\lim_{T \to \infty} \sqrt{2\sigma} \frac{\E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
 	\end{equation}
 	where the covariance is given by
 	\begin{equation}
-		\Gamma_1^\epl = 2\sigma \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}\E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)]\E^{\rho^\epl}[V'(X^\epl) \otimes V'(Z^\epl)]^{-1}.
+		\Gamma_1^\epl = 2\sigma \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\E^{\rho^\epl}[V'(X^\epl) \otimes V'(Z^\epl)]^{-1}.
 	\end{equation}
+	\corr{For the second part of \eqref{eq:decomposition_first_term} we follow a similar procedure defining a different Poisson equation. The argument has to be slightly modified because we have to work with random matrix rather than random vector, but finally we obtain a second Gaussian term $\mathcal N(0, \Gamma_2^\epl)$. Therefore, we have to study the limit as $\epl$ goes to zero of the covariance matrices $\Gamma_1^\epl$ and $\Gamma_2^\epl$, which depend on the solutions $\Phi_1^\epl$ and $\Phi_2^\epl$ of the Poisson problems.} \\
 	
+	\corr{Idea for the second term:} The second term can be decomposed in 
+	\begin{equation}
+	\begin{aligned}
+	\sqrt{T} \frac1\delta & \left( \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
+	&\hspace{3cm} \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
+	&= \sqrt{T} \frac1\delta \left( \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
+	&\hspace{3cm} \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right) \\
+	&\quad + \sqrt{T} \frac1\delta \left( \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
+	&\hspace{3cm} \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right), \\
+	\end{aligned}
+	\end{equation}
+	\corr{and we need the rate of convergence of the measure $\rho^\epl$ to $\rho^0$.}
 \end{proof}
 
 
