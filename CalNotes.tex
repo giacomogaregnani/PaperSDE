@@ -396,41 +396,95 @@ which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, prov
 \end{proof}
 
 Central limit theorem text.
-\begin{theorem} Central limit theorem statement.
+\begin{theorem}\label{thm:CLT} Central limit theorem statement:
+	\begin{equation}
+		\lim_{\epl \to 0}\lim_{T \to \infty} \sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \Lambda, \quad \text{in law,}
+	\end{equation}
+	where $\Lambda \sim \mathcal N(0, \Gamma)$ and 
+	\begin{equation}
+		\Gamma = 2\sigma \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^0}[V'(Z) \otimes V'(Z)]\E^{\rho^0}[V'(X) \otimes V'(Z)]^{-1}.
+	\end{equation}
 \end{theorem}
 
-\begin{proof} Let us remark that $Z_t^\epl$ is adapted with respect to the natural filtration $\mathcal F_t$ of the Wiener process $W \defeq \left(W_t, t \geq 0\right)$. Therefore, denoting
+\begin{proof} Let us consider the decomposition \eqref{eq:alphaDecomposition}, which yields
 	\begin{equation}
-		Q^\epl_t \defeq \int_0^t V'(Z^\epl_t) \dd W_t,
+		\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \sqrt{T}\left(\alpha - A + I_1^\epl(T)\right) - \sqrt{T} I_2^\epl(T).
 	\end{equation}
-	we have that $Q^\epl_t$ is a martingale and its quadratic variation is given by
+	\corr{Second term is OK:} We rewrite the term involving $I_2^\epl(T)$ as
 	\begin{equation}
-		\langle Q^\epl \rangle_t = \int_0^t V'(Z^\epl_t) \otimes V'(Z^\epl_t) \dd t. 
+	\sqrt{T} I_2^\epl(T) = \frac{\sqrt{2\sigma}}{\sqrt{T}} \widetilde M^{-1} Q^\epl_T,
 	\end{equation}
-	The ergodic theorem yields \corr{we need this in $L^1$}
+	where, since $Z_t^\epl$ is adapted with respect to the natural filtration $\mathcal F_t$ of the Wiener process $W \defeq \left(W_t, t \geq 0\right)$, the quantity
 	\begin{equation}
-		\frac{\langle Q^\epl \rangle_t}{t} \to \E^{\rho^\epl}[V'(Z) \otimes V'(Z)], \quad \text{a.s.},
+	Q^\epl_T \defeq \int_0^T V'(Z^\epl_t) \dd W_t,
 	\end{equation}
-	and therefore the martingale central limit theorem gives 
+	is a martingale whose quadratic variation is given by
 	\begin{equation}
-		\frac{1}{\sqrt{T}} Q^\epl_T \to \xi \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z) \otimes V'(Z)]), \quad \text{in law}.
+	\langle Q^\epl \rangle_T = \int_0^T V'(Z^\epl_t) \otimes V'(Z^\epl_t) \dd t. 
 	\end{equation}
-	Now, let us remark that
+	Since the ergodic theorem guarantees that 
 	\begin{equation}
-		\sqrt{T} I_2^\epl(T) = \frac{1}{\sqrt{T}} \widetilde M^{-1} Q^\epl_T,
+	\lim_{T\to\infty}\frac{\langle Q^\epl \rangle_T}{T} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)], \quad \text{in } L^1(\mu^\epl),
 	\end{equation}
-	and that by the ergodic theorem 
+	the martingale central limit theorem gives 
 	\begin{equation}
-		\lim_{T \to \infty} \widetilde M^{-1} = \E^{\rho^\epl}[V'(Z) \otimes V'(X)]^{-1}.
+	\lim_{T\to\infty}\frac{1}{\sqrt{T}} Q^\epl_T = \Xi^\epl, \quad \text{in law},
+	\end{equation}
+	where $\Xi^\epl \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)])$.
+	Now, by the ergodic theorem 
+	\begin{equation}
+	\lim_{T \to \infty} \widetilde M^{-1} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}, \quad \text{a.s.}
 	\end{equation}
 	Therefore, we have by Slutsky's theorem that
 	\begin{equation}
-		\lim_{T \to \infty} \sqrt{T} I_2^\epl(T) \to \Xi \sim \mathcal N\left(0, \Gamma \right), \quad \text{in law}.
+	\lim_{T \to \infty} \sqrt{T} I_2^\epl(T) = \Lambda^\epl \sim \mathcal N\left(0, \Gamma^\epl\right), \quad \text{in law}.
 	\end{equation}
-	where the covariance matrix $\Gamma$ is given by
+	where the covariance matrix $\Gamma^\epl$ is given by
 	\begin{equation}
-		\Gamma = \E^{\rho^\epl}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^\epl}[V'(Z) \otimes V'(Z)]\E^{\rho^\epl}[V'(X) \otimes V'(Z)]^{-1}.
+		\Gamma^\epl = 2\sigma \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}\E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)]\E^{\rho^\epl}[V'(X^\epl) \otimes V'(Z^\epl)]^{-1}.
 	\end{equation}
+	Finally, we denote by $\Lambda$ the limit for $\epl \to 0$ of the sequence of Gaussian random variables $\Lambda^\epl$.
+	
+	\corr{Idea for the first term:} Let $\mathcal L^\epl$ be the generator of the joint process $(X^\epl, Z^\epl)$, i.e.,
+	\begin{equation}
+		\mathcal L^\epl = \begin{pmatrix} -V'(x) - \frac1\epl p'\left(\frac{x}{\epl}\right) \\ \frac1\delta (x - z)	\end{pmatrix} \cdot \nabla_{x, z} + \sigma \partial^2_{xx}.
+	\end{equation}
+	Then, let $\Phi^\epl$ the solution of the Poisson equation
+	\begin{equation}
+		\mathcal L^\epl \Phi^\epl(x, z) = V'(z)\frac1\epl p'\left(\frac{x}{\epl}\right) - \E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right].
+	\end{equation}	
+	An application of Itô formula \cite[Remark 6.17]{PaS08} yields
+	\begin{equation}
+		\frac{1}{T} \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t = \E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right] + \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T},
+	\end{equation}
+	where the remainder $R_T^\epl$ is given by
+	\begin{equation}
+		R_T^\epl \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0),
+	\end{equation}
+	and $S^\epl_T$ is the martingale defined as
+	\begin{equation}
+		S^\epl_T \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd t.
+	\end{equation}
+	Therefore, we have
+	\begin{equation}
+	\begin{aligned}
+		\sqrt{T}\left(\alpha - A + I_1^\epl(T)\right) = & \sqrt{T}\left(\alpha - A + \widetilde M^{-1}\E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right]\right)\\
+		& + \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} - \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}}.
+	\end{aligned}
+	\end{equation}
+	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get by the ergodic theorem that
+	\begin{equation}
+		\lim_{T \to \infty} \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
+	\end{equation}
+	Repeating the same reasoning as for $Q_T^\epl$, we get 
+	\begin{equation}
+		\lim_{T \to \infty} \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+	\end{equation}
+	where the covariance is given by
+	\begin{equation}
+		\Gamma_1^\epl = 2\sigma \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}\E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)]\E^{\rho^\epl}[V'(X^\epl) \otimes V'(Z^\epl)]^{-1}.
+	\end{equation}
+	
 \end{proof}
 
 
@@ -671,6 +725,14 @@ This potential function satisfies Assumption \ref{as:regularity} whenever $N$ is
 	\item $\widehat A^\epl_k(T)$ based on filtered data $Z^\epl$ computed with $\beta = 1$ and $\delta = 1$.
 \end{enumerate}
 In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle} and Table \ref{tab:KLStyle}, show that the filter-based estimation captures well the homogenized potential as well as the coefficient $A$. Moreover, it is possible to remark the negative result given by Theorem \ref{thm:Bias} holds in practice, i.e., with no pre-processing the estimator $\widehat A^\epl(T)$ tends to the drift coefficient $\alpha$ of the unhomogenized equation.
+
+\subsection{Central limit theorem}
+\begin{figure}[t]
+	\centering
+	\includegraphics[]{Figures/CLT}
+	\caption{Central limit theorem result. The histogram represents numerical results, the solid curve a Gaussian fit to the latter and the dashed curve $\rho_a$ represents the theoretical estimate given in Theorem \ref{thm:CLT}.}
+	\label{fig:CLT}
+\end{figure}
 
 \subsection{The Bayesian approach: bistable potential}
 \begin{figure}[t]
