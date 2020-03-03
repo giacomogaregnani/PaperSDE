@@ -503,9 +503,13 @@ Central limit theorem text.
 	\begin{equation}
 		R_T^\epl \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl_T \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
 	\end{equation}
-	Let us consider $J_{1,1}^\epl(T)$ and denote by $\Phi_1^\epl$ the solution of \eqref{eq:CLT_Poisson} with 
+	Let us consider $J_{1,1}^\epl(T)$, which can be written
 	\begin{equation}
-		\chi(x, z) = 
+	J_{1,1}^\epl(T) = \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( \frac{1}{T} \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \mathfrak p_\epl \right),
+	\end{equation}
+	and denote by $\Phi_1^\epl$ the solution of \eqref{eq:CLT_Poisson} with 
+	\begin{equation}
+		\chi(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z).
 	\end{equation}
 	
 	Let us first focus on $J_{1,2}^\epl(T)$. Denoting by 
@@ -519,27 +523,29 @@ Central limit theorem text.
 %	\end{aligned}
 %	\end{equation}
 	\begin{equation}
-		J_{1,1}^\epl(T)= \sqrt{T} \mathcal M_\epl^{-1} \left( \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T} \right)
+		J_{1,1}^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T} \right)
 	\end{equation}
-	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get
+	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get by the ergodic theorem
 %	\begin{equation}
 %		\lim_{T \to \infty} \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
 %	\end{equation}
 	\begin{equation}
-		\lim_{T \to \infty} \frac{\mathcal M_\epl^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
+		\lim_{T \to \infty} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
 	\end{equation}
-	Repeating the same reasoning as for $Q_T^\epl$, we get 
+	Repeating the same reasoning as for $Q_T^\epl$ and employing the ergodic theorem, we get 
 %	\begin{equation}
 %		\lim_{T \to \infty} \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
 %	\end{equation}
 	\begin{equation}
-	\lim_{T \to \infty} \sqrt{2\sigma} \frac{\mathcal M_\epl^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+	\lim_{T \to \infty} \sqrt{2\sigma} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
 	\end{equation}
 	where the covariance is given by
 	\begin{equation}
 		\Gamma_1^\epl = 2\sigma \mathcal M^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M^{-\top}.
 	\end{equation}
 	\corr{For the second part of \eqref{eq:decomposition_first_term} we follow a similar procedure defining a different Poisson equation. The argument has to be slightly modified because we have to work with random matrix rather than random vector, but finally we obtain a second Gaussian term $\mathcal N(0, \Gamma_2^\epl)$. Therefore, we have to study the limit as $\epl$ goes to zero of the covariance matrices $\Gamma_1^\epl$ and $\Gamma_2^\epl$, which depend on the solutions $\Phi_1^\epl$ and $\Phi_2^\epl$ of the Poisson problems.} \\
+	
+	
 	
 	\corr{Idea for the second term:} The second term can be decomposed in 
 	\begin{equation}
