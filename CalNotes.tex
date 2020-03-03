@@ -13,7 +13,7 @@
 
 \section{Introduction}
 
-Efficient parameter estimation for stochastic models is essential in a wide range of applications in natural and social sciences. In several areas, the data originates from phenomena which vary continuously in time and which are endowed with a multiscale structure. This is the case, for example, in molecular dynamics, oceanography and atmosphere science or in econometrics. Frequently, it is desirable in this areas to infer from data a simpler model which captures effectively large-scale structures, or slow variations, disregarding small-scale fluctuations or treating them as a source of noise. The mismatch between the data and their desired slow-scale representation is a typical instance of a problem of model misspecification, which, if ignored or mistreated, can lead to wrong solutions. Indeed, the data, coming from the full dynamics, are compatible with the coarse-grained model only at the time scales at which the effective dynamics is valid.
+Efficient parameter estimation for stochastic models is essential in a wide range of applications in natural and social sciences. In several areas, the data originate from phenomena which vary continuously in time and which are endowed with a multiscale structure. This is the case, for example, in molecular dynamics, oceanography and atmosphere science or in econometrics. Frequently, it is desirable in this areas to infer from data a simpler model which captures effectively large-scale structures, or slow variations, disregarding small-scale fluctuations or treating them as a source of noise. The mismatch between the data and their desired slow-scale representation is a typical instance of a problem of model misspecification, which, if ignored or mistreated, can lead to wrong solutions. Indeed, the data, coming from the full dynamics, are compatible with the coarse-grained model only at the time scales at which the effective dynamics is valid.
 
 In this paper we consider a simple multiscale setting arising from models of molecular dynamics, with a complete separation between a fast and a slow scale. In particular, we consider diffusion processes for which the confining potential has slow variations, and whose motion is perturbed by a fast-scale potential with rapid periodic and bounded oscillations. Given this simple class of model problems, we are interested in determining the drift coefficient of an equation of the overdamped Langevin type in which the fast-scale potential is eliminated. The theory of homogenization guarantees that such a single-scale equation can be uniquely determined, and our goal is therefore to obtain effective coarse-grained dynamics from data consistently with respect to the homogenization result. 
 
@@ -100,9 +100,9 @@ and where $\otimes$ denotes the outer product in $\R^N$. Let us now state the as
 \begin{assumption}\label{as:regularity} The potentials $p$ and $V$ satisfy
 	\begin{enumerate}
 		\item $p \in \mathcal C^\infty(\R) \cap L^\infty(\R)$ and is $L$-periodic for some $L > 0$,
-		\item\label{as:regularity_diss} $V_i \in \mathcal C^\infty(\R)$ for all $i=1, \ldots, N$ is polynomially bounded from above and bounded from below, and there exist $a,b > 0$ such that
+		\item\label{as:regularity_diss} $V_i \in \mathcal C^\infty(\R)$ for all $i=1, \ldots, N$ is polynomially bounded from above and bounded from below,  and there exist $a,b > 0$ such that
 		\begin{equation}
-		-\sum_{i=1}^N V_i'(x)x \leq a - bx^2.
+		-\alpha \cdot V'(x) x \leq a - bx^2.
 		\end{equation} 
 		\item $V'$ is Lipschitz continuous, i.e. there exists a constant $C > 0$ such that
 		\begin{equation}
@@ -111,6 +111,15 @@ and where $\otimes$ denotes the outer product in $\R^N$. Let us now state the as
 		\item for all $T > 0$, the symmetric matrix $M$ is positive definite and there exists $\bar \lambda > 0$ such that $\lambda_{\min}(M) \geq \bar \lambda$.
 	\end{enumerate}
 \end{assumption}
+
+\corr{
+\begin{remark}\label{rem:regularity_diss} In the following, in particular in the proof of Lemma \ref{lem:ergodicity}, we will employ Assumption \ref{as:regularity}\ref{as:regularity_diss} for the whole drift of the SDE \eqref{eq:SDE_MS}, i.e., the function 
+	\begin{equation}
+		V^\epl(x) \defeq \alpha \cdot V(x) - p\left(\frac{x}{\epl}\right).
+	\end{equation}
+	Since $p \in L^\infty$, the assumption above is sufficient for $V^\epl$ to satisfy Assumption \ref{as:regularity}\ref{as:regularity_diss} with different values for $a$ and $b$. In particular, if the condition holds for $\alpha \cdot V$ for a given $b > 0$, then one can choose a new value for the same coefficient which is arbitrarily close to the original one for $V^\epl$.
+\end{remark}
+}
 
 Under these assumptions, the MLE given in \eqref{eq:MLE} is indeed the unique minimizer of the likelihood function, as shown in \cite[Theorem 2.4]{PSV09}.
 
@@ -197,9 +206,6 @@ Once it is established that the law of the process admits a smooth density for a
 	\sigma \partial^2_{xx} \rho^\epl(x,z) +  \partial_x \left( \left( \alpha \cdot V'(x) + \frac{1}{\epl} p' \left ( \frac{x}\epl \right ) \right ) \rho^\epl(x,z) \right) + \frac{1}{\delta} \partial_z \left((z - x) \rho^\epl(x,z)\right) = 0.
 	\end{equation}
 \end{lemma}
-
-\begin{remark} Let us remark that for the multiscale equation \eqref{eq:SDE_MS} one should check the condition above for the potential $V(x) + p(x/\epl)$. Nevertheless, for functions $p$ satisfying Assumption \ref{as:regularity}, the result holds trivially.
-\end{remark}
 
 \begin{remark} The condition $\delta > 1 / (4b)$ is not very restrictive. Let the parameter dimension $N = 1$ and let $V(x) \propto x^{2p}$ for an integer $p > 1$. Then, Assumption \ref{as:regularity}\ref{as:regularity_diss} holds for an arbitrarily large $b > 0$. Therefore, the parameter of the filter $\delta$ can be chosen along the entire positive real axis. A similar argument can be employed for higher dimensions $N > 1$.
 \end{remark}
@@ -406,20 +412,31 @@ Central limit theorem text.
 	\end{equation}
 \end{theorem}
 
-\begin{proof} Let us remark that in the proof of Theorem \ref{thm:mainTheorem} we showed that
+\begin{proof} Let us introduce the notation
 	\begin{equation}
-	A = \frac1\delta \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)],
+		\mathcal M_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ], \quad \mathcal M_0 \defeq \E^{\rho^0} [ V'(Z) \otimes V'(X) ],
+	\end{equation}
+	and the notation
+	\begin{equation}
+		\mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ]\
+	\end{equation}
+	and let us remark that from the proof of Theorem \ref{thm:mainTheorem} one can deduce the equalities
+	\begin{equation}\label{eq:CTL_A}
+		A = \frac1\delta \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)],
 	\end{equation}
 	and
-	\begin{equation}
-	\E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] = - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ] \alpha + \frac1\delta \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)].
+	\begin{equation}\label{eq:CTL_alpha}
+		\alpha = \mathcal M_\epl^{-1} \left(\frac1\delta \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathfrak p_\epl \right).
 	\end{equation}
-	Hence, the decomposition \eqref{eq:alphaDecomposition} yields
+	Let us furthermore remark that the decomposition \eqref{eq:alphaDecomposition} yields
+	\begin{equation}
+		\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \sqrt{T} \left(\alpha - A + I_1^\epl - I_2^\epl\right).
+	\end{equation}
+	Replacing the expression for $A$ and $\alpha$ given in \eqref{eq:CTL_A} and \eqref{eq:CTL_alpha}, we get
 	\begin{equation}
 	\begin{aligned}
-	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = & \sqrt{T}\left( I_1^\epl(T) - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right) \\
-	&+ \sqrt{T} \frac1\delta \left( \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
-	&\qquad \qquad \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
+	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) &= \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \\
+	&+  \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
 	&- \sqrt{T} I_2^\epl(T).
 	\end{aligned}
 	\end{equation}
@@ -446,7 +463,7 @@ Central limit theorem text.
 	where $\Xi^\epl \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)])$.
 	Now, by the ergodic theorem 
 	\begin{equation}
-	\lim_{T \to \infty} \widetilde M^{-1} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}, \quad \text{a.s.}
+	\lim_{T \to \infty} \widetilde M^{-1} = \mathcal M_\epl^{-1}, \quad \text{a.s.}
 	\end{equation}
 	Therefore, we have by Slutsky's theorem that
 	\begin{equation}
@@ -454,39 +471,46 @@ Central limit theorem text.
 	\end{equation}
 	where the covariance matrix $\Gamma^\epl$ is given by
 	\begin{equation}
-		\Gamma^\epl = 2\sigma \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}\E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)]\E^{\rho^\epl}[V'(X^\epl) \otimes V'(Z^\epl)]^{-1}.
+		\Gamma^\epl = 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)]\mathcal M_\epl^{-\top}.
 	\end{equation}
 	Finally, we denote by $\Lambda$ the limit for $\epl \to 0$ of the sequence of Gaussian random variables $\Lambda^\epl$.
 	
-	\corr{Idea for the first term:} The first term can be decomposed in
+	\corr{Idea for the first term:} Let us introduce the notation
+	\begin{equation}
+		J_1^\epl(T) \defeq \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl\right),
+	\end{equation}
+	and let us remark that we can rewrite
 	\begin{equation} \label{eq:decomposition_first_term}
 	\begin{aligned}
-	\sqrt{T}&\left( I_1^\epl(T) - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right) \\
-	&\hspace{2cm}= \sqrt{T} \left( I_1^\epl(T) - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t \right) \\
-	&\hspace{2cm} \quad + \sqrt{T} \left(\E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t \right. \\
-	&\hspace{4cm} \left. - \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right),
+	J_1^\epl(T) &= \sqrt{T} \left( I_1^\epl(T) - \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\mathfrak p_\epl \right) \\
+	& \quad + \sqrt{T} \left(\left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} - \mathcal M_\epl^{-1}\right) \mathfrak p_\epl\\
+	&\eqdef J_{1,1}^\epl(T) + J_{1,2}^\epl(T).
 	\end{aligned}
 	\end{equation}
-	and now we focus on its second part. Let $\mathcal L^\epl$ be the generator of the joint process $(X^\epl, Z^\epl)$, i.e.,
+	In order to treat the terms $J_{1,1}^\epl(T)$ and $J_{1,2}^\epl(T)$, we will employ a technique presented in \cite[Remark 6.17]{PaS08}. Denoting by $\mathcal L^\epl$ be the generator of the joint process $(X^\epl, Z^\epl)$, i.e.,
 	\begin{equation}
-		\mathcal L^\epl = \begin{pmatrix} -V'(x) - \frac1\epl p'\left(\frac{x}{\epl}\right) \\ \frac1\delta (x - z)	\end{pmatrix} \cdot \nabla_{x, z} + \sigma \partial^2_{xx}.
+		\mathcal L^\epl = -\left(V'(x) + \frac1\epl p'\left(\frac{x}{\epl}\right)\right)\partial_x + \frac1\delta (x - z) \partial_z  + \sigma \partial^2_{xx},
 	\end{equation}
-	Then, let $\Phi_1^\epl$ the solution of the Poisson equation
-	\begin{equation}
-		\mathcal L^\epl \Phi_1^\epl(x, z) = V'(z)\frac1\epl p'\left(\frac{x}{\epl}\right) - \E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right].
+	let $\Phi^\epl$ the solution of the Poisson equation
+	\begin{equation}\label{eq:CLT_Poisson}
+		\mathcal L^\epl \Phi^\epl(x, z) = \chi(x, z) - \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)].
 	\end{equation}	
-	An application of Itô formula \cite[Remark 6.17]{PaS08} yields
+	where $\chi$ is a sufficiently smooth function. Then, an application of Itô formula  yields
 	\begin{equation}
-		\frac{1}{T} \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t = \E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right] + \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T},
+	\frac{1}{T} \int_0^T  \chi(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)] + \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T},
 	\end{equation}
-	where the remainder $R_T^\epl$ is given by
+	where
 	\begin{equation}
-		R_T^\epl \defeq \Phi_1^\epl(X^\epl_T, Z^\epl_T) - \Phi_1^\epl(X^\epl_0, Z^\epl_0),
+		R_T^\epl \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl_T \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
 	\end{equation}
-	and $S^\epl_T$ is the martingale defined as
+	Let us consider $J_{1,1}^\epl(T)$ and denote by $\Phi_1^\epl$ the solution of \eqref{eq:CLT_Poisson} with 
 	\begin{equation}
-		S^\epl_T \defeq \int_0^T \partial_x \Phi_1^\epl(X_t^\epl, Z_t^\epl) \dd t.
+		\chi(x, z) = 
 	\end{equation}
+	
+	Let us first focus on $J_{1,2}^\epl(T)$. Denoting by 
+		
+	
 	Therefore, we have
 %	\begin{equation}
 %	\begin{aligned}
@@ -495,28 +519,25 @@ Central limit theorem text.
 %	\end{aligned}
 %	\end{equation}
 	\begin{equation}
-	\begin{aligned}
-		\sqrt{T} \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} & \left( \frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] \right) \\
-		&= \sqrt{T} \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \left( \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T} \right)
-	\end{aligned}
+		J_{1,1}^\epl(T)= \sqrt{T} \mathcal M_\epl^{-1} \left( \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T} \right)
 	\end{equation}
-	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get by the ergodic theorem that
+	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get
 %	\begin{equation}
 %		\lim_{T \to \infty} \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
 %	\end{equation}
 	\begin{equation}
-		\lim_{T \to \infty} \frac{\E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
+		\lim_{T \to \infty} \frac{\mathcal M_\epl^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
 	\end{equation}
 	Repeating the same reasoning as for $Q_T^\epl$, we get 
 %	\begin{equation}
 %		\lim_{T \to \infty} \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
 %	\end{equation}
 	\begin{equation}
-	\lim_{T \to \infty} \sqrt{2\sigma} \frac{\E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+	\lim_{T \to \infty} \sqrt{2\sigma} \frac{\mathcal M_\epl^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
 	\end{equation}
 	where the covariance is given by
 	\begin{equation}
-		\Gamma_1^\epl = 2\sigma \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)]^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\E^{\rho^\epl}[V'(X^\epl) \otimes V'(Z^\epl)]^{-1}.
+		\Gamma_1^\epl = 2\sigma \mathcal M^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M^{-\top}.
 	\end{equation}
 	\corr{For the second part of \eqref{eq:decomposition_first_term} we follow a similar procedure defining a different Poisson equation. The argument has to be slightly modified because we have to work with random matrix rather than random vector, but finally we obtain a second Gaussian term $\mathcal N(0, \Gamma_2^\epl)$. Therefore, we have to study the limit as $\epl$ goes to zero of the covariance matrices $\Gamma_1^\epl$ and $\Gamma_2^\epl$, which depend on the solutions $\Phi_1^\epl$ and $\Phi_2^\epl$ of the Poisson problems.} \\
 	
@@ -840,9 +861,9 @@ In this work we considered a novel methodology based on filtering for the estima
 
 \begin{proof}[Proof of Lemma \ref{lem:ergodicity}] Lemma \ref{lem:density} guarantees that the Fokker--Planck equation can be written directly from the system \eqref{eq:systemSDE}. For geometric ergodicity, let 
 	\begin{equation}
-	\mathcal S(x,z) \defeq \begin{pmatrix} -\sum_{i=1}^N V_i'(x) \\ \frac1\delta (x - z) \end{pmatrix} \cdot \begin{pmatrix} x \\ z \end{pmatrix} = -\sum_{i=1}^N V_i'(x)x+\frac1\delta(xz-z^2).
+	\mathcal S(x,z) \defeq \begin{pmatrix} -\alpha \cdot V'(x) - \frac1\epl p'(\frac{x}{\epl}) \\ \frac1\delta (x - z) \end{pmatrix} \cdot \begin{pmatrix} x \\ z \end{pmatrix} =  -\left(\alpha \cdot V'(x) + \frac1\epl p'\left(\frac{x}{\epl}\right)\right)x + \frac1\delta(xz-z^2).
 	\end{equation}
-	Due to Assumption \ref{as:regularity}\ref{as:regularity_diss} and Young's inequality, we then have for all $\gamma > 0$
+	Due to Assumption \ref{as:regularity}\ref{as:regularity_diss}, Remark \ref{rem:regularity_diss} and Young's inequality, we then have for all $\gamma > 0$
 	\begin{equation}
 	\mathcal S(x,z) \leq a + \left(\frac{1}{2\gamma\delta} - b\right)x^2 + \frac1\delta\left(\frac{\gamma}{2} - 1\right)z^2.
 	\end{equation}
