@@ -23,7 +23,7 @@ In the rest of the introduction, we first give a brief overview of the existing 
 
 \subsection{Literature Review}
 
-For simple models in molecular dynamics, the effect of model misspecification was studied in a series of papers \cite{PaS07,PPS09,PPS12,GaS17,GaS18} under the assumption of scale separation. In particular, for Brownian particles moving in two-scale potentials it was shown that, when fitting data from the full dynamics to the homogenized equation, the maximum likelihood estimator (MLE) is asymptotically biased \cite[Theorem 3.4]{PaS07}. To be more precise, in the large sample size limit the MLE converges to the coefficients of the unhomogenized equation, rather than to those of the homogenized one. The bias of the MLE can be eliminated by subsampling at an appropriate rate, which lies between the two characteristic time scales of the problem \cite[Theorems 3.5 and 3.6]{PaS07}. 
+For simple models in molecular dynamics, the effect of model misspecification was studied in a series of papers \cite{ABT10,ABJ13,PaS07,PPS09,PPS12,GaS17,GaS18} under the assumption of scale separation. In particular, for Brownian particles moving in two-scale potentials it was shown that, when fitting data from the full dynamics to the homogenized equation, the maximum likelihood estimator (MLE) is asymptotically biased \cite[Theorem 3.4]{PaS07}. To be more precise, in the large sample size limit the MLE converges to the coefficients of the unhomogenized equation, rather than to those of the homogenized one. The bias of the MLE can be eliminated by subsampling at an appropriate rate, which lies between the two characteristic time scales of the problem \cite[Theorems 3.5 and 3.6]{PaS07}. 
 
 Similar techniques can be employed in econometrics, in particular for the estimation of the integrated stochastic volatility in the presence of market micro-structure noise. In this case, too, the data have to be subsampled at an appropriate rate \cite{AMZ05,OSP10}. The correct subsampling rate can be in some instances rather extreme with respect to the frequency of the data and lead to get rid of more than $99\%$ of the data. As the intuition suggests, this increases significantly the bias of the estimator, which is usually taken care of with additional bias corrections and variance reduction procedures. The need of such methodology is accentuated by data being obtained at high-frequency \cite{AiJ14,ZMA05}.  
 
@@ -401,167 +401,20 @@ independently of $\epl$. Therefore
 which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, proves the desired result.
 \end{proof}
 
-Central limit theorem text.
+\subsection{Central limit theorem}
+
+\corr{Text to be added with motivation, proof in Appendix \ref{ap:CLT}.
 \begin{theorem}\label{thm:CLT} Central limit theorem statement:
 	\begin{equation}
 		\lim_{\epl \to 0}\lim_{T \to \infty} \sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \Lambda, \quad \text{in law,}
 	\end{equation}
-	where $\Lambda \sim \mathcal N(0, \Gamma)$ and 
+	where $\Lambda \sim \mathcal N(0, \Gamma)$ and
 	\begin{equation}
-		\Gamma = 2\sigma \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^0}[V'(Z) \otimes V'(Z)]\E^{\rho^0}[V'(X) \otimes V'(Z)]^{-1} \corr{+ \dots}.
+		\Gamma = 2\sigma \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^0}[V'(Z) \otimes V'(Z)]\E^{\rho^0}[V'(X) \otimes V'(Z)]^{-1}.
 	\end{equation}
+	This covariance may not be correct (see proof in the Appendix) but it is just the limit of the ``third term'' 
 \end{theorem}
-
-\begin{proof} Let us introduce the notation
-	\begin{equation}
-		\mathcal M_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ], \quad \mathcal M_0 \defeq \E^{\rho^0} [ V'(Z) \otimes V'(X) ],
-	\end{equation}
-	and the notation
-	\begin{equation}
-		\mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ]\
-	\end{equation}
-	and let us remark that from the proof of Theorem \ref{thm:mainTheorem} one can deduce the equalities
-	\begin{equation}\label{eq:CTL_A}
-		A = \frac1\delta \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)],
-	\end{equation}
-	and
-	\begin{equation}\label{eq:CTL_alpha}
-		\alpha = \mathcal M_\epl^{-1} \left(\frac1\delta \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathfrak p_\epl \right).
-	\end{equation}
-	Let us furthermore remark that the decomposition \eqref{eq:alphaDecomposition} yields
-	\begin{equation}
-		\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \sqrt{T} \left(\alpha - A + I_1^\epl - I_2^\epl\right).
-	\end{equation}
-	Replacing the expression for $A$ and $\alpha$ given in \eqref{eq:CTL_A} and \eqref{eq:CTL_alpha}, we get
-	\begin{equation}
-	\begin{aligned}
-	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) &= \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \\
-	&+  \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
-	&- \sqrt{T} I_2^\epl(T).
-	\end{aligned}
-	\end{equation}
-	\corr{Third term is OK:} We rewrite the term involving $I_2^\epl(T)$ as
-	\begin{equation}
-	\sqrt{T} I_2^\epl(T) = \frac{\sqrt{2\sigma}}{\sqrt{T}} \widetilde M^{-1} Q^\epl_T,
-	\end{equation}
-	where, since $Z_t^\epl$ is adapted with respect to the natural filtration $\mathcal F_t$ of the Wiener process $W \defeq \left(W_t, t \geq 0\right)$, the quantity
-	\begin{equation}
-	Q^\epl_T \defeq \int_0^T V'(Z^\epl_t) \dd W_t,
-	\end{equation}
-	is a martingale whose quadratic variation is given by
-	\begin{equation}
-	\langle Q^\epl \rangle_T = \int_0^T V'(Z^\epl_t) \otimes V'(Z^\epl_t) \dd t. 
-	\end{equation}
-	Since the ergodic theorem guarantees that 
-	\begin{equation}
-	\lim_{T\to\infty}\frac{\langle Q^\epl \rangle_T}{T} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)], \quad \text{in } L^1(\mu^\epl),
-	\end{equation}
-	the martingale central limit theorem gives 
-	\begin{equation}
-	\lim_{T\to\infty}\frac{1}{\sqrt{T}} Q^\epl_T = \Xi^\epl, \quad \text{in law},
-	\end{equation}
-	where $\Xi^\epl \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)])$.
-	Now, by the ergodic theorem 
-	\begin{equation}
-	\lim_{T \to \infty} \widetilde M^{-1} = \mathcal M_\epl^{-1}, \quad \text{a.s.}
-	\end{equation}
-	Therefore, we have by Slutsky's theorem that
-	\begin{equation}
-	\lim_{T \to \infty} \sqrt{T} I_2^\epl(T) = \Lambda^\epl \sim \mathcal N\left(0, \Gamma^\epl\right), \quad \text{in law}.
-	\end{equation}
-	where the covariance matrix $\Gamma^\epl$ is given by
-	\begin{equation}
-		\Gamma^\epl = 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)]\mathcal M_\epl^{-\top}.
-	\end{equation}
-	Finally, we denote by $\Lambda$ the limit for $\epl \to 0$ of the sequence of Gaussian random variables $\Lambda^\epl$.
-	
-	\corr{Idea for the first term:} Let us introduce the notation
-	\begin{equation}
-		J_1^\epl(T) \defeq \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl\right),
-	\end{equation}
-	and let us remark that we can rewrite
-	\begin{equation} \label{eq:decomposition_first_term}
-	\begin{aligned}
-	J_1^\epl(T) &= \sqrt{T} \left( I_1^\epl(T) - \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\mathfrak p_\epl \right) \\
-	& \quad + \sqrt{T} \left(\left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} - \mathcal M_\epl^{-1}\right) \mathfrak p_\epl\\
-	&\eqdef J_{1,1}^\epl(T) + J_{1,2}^\epl(T).
-	\end{aligned}
-	\end{equation}
-	In order to treat the terms $J_{1,1}^\epl(T)$ and $J_{1,2}^\epl(T)$, we will employ a technique presented in \cite[Remark 6.17]{PaS08}. Denoting by $\mathcal L^\epl$ be the generator of the joint process $(X^\epl, Z^\epl)$, i.e.,
-	\begin{equation}
-		\mathcal L^\epl = -\left(V'(x) + \frac1\epl p'\left(\frac{x}{\epl}\right)\right)\partial_x + \frac1\delta (x - z) \partial_z  + \sigma \partial^2_{xx},
-	\end{equation}
-	let $\Phi^\epl$ the solution of the Poisson equation
-	\begin{equation}\label{eq:CLT_Poisson}
-		\mathcal L^\epl \Phi^\epl(x, z) = \chi(x, z) - \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)].
-	\end{equation}	
-	where $\chi$ is a sufficiently smooth function. Then, an application of Itô formula  yields
-	\begin{equation}
-	\frac{1}{T} \int_0^T  \chi(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)] + \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T},
-	\end{equation}
-	where
-	\begin{equation}
-		R_T^\epl \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl_T \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
-	\end{equation}
-	Let us consider $J_{1,1}^\epl(T)$, which can be written
-	\begin{equation}
-	J_{1,1}^\epl(T) = \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( \frac{1}{T} \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \mathfrak p_\epl \right),
-	\end{equation}
-	and denote by $\Phi_1^\epl$ the solution of \eqref{eq:CLT_Poisson} with 
-	\begin{equation}
-		\chi(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z).
-	\end{equation}
-	
-	Let us first focus on $J_{1,2}^\epl(T)$. Denoting by 
-		
-	
-	Therefore, we have
-%	\begin{equation}
-%	\begin{aligned}
-%		\sqrt{T}\left(\alpha - A + I_1^\epl(T)\right) = & \sqrt{T}\left(\alpha - A + \widetilde M^{-1}\E^{\rho^\epl}\left[V'(Z^\epl)\frac1\epl p'\left(\frac{X^\epl}{\epl}\right)\right]\right)\\
-%		& + \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} - \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}}.
-%	\end{aligned}
-%	\end{equation}
-	\begin{equation}
-		J_{1,1}^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( \frac{R_T^\epl}{T} - \sqrt{2\sigma}\frac{S^\epl_T}{T} \right)
-	\end{equation}
-	Since \corr{$R^\epl_T$ is bounded independently of $\epl$}, we first get by the ergodic theorem
-%	\begin{equation}
-%		\lim_{T \to \infty} \frac{\widetilde M^{-1} R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
-%	\end{equation}
-	\begin{equation}
-		\lim_{T \to \infty} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{R_T^\epl}{\sqrt{T}} = 0, \quad \text{a.s.}
-	\end{equation}
-	Repeating the same reasoning as for $Q_T^\epl$ and employing the ergodic theorem, we get 
-%	\begin{equation}
-%		\lim_{T \to \infty} \sqrt{2\sigma} \frac{\widetilde M^{-1} S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
-%	\end{equation}
-	\begin{equation}
-	\lim_{T \to \infty} \sqrt{2\sigma} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{S_T^\epl}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
-	\end{equation}
-	where the covariance is given by
-	\begin{equation}
-		\Gamma_1^\epl = 2\sigma \mathcal M^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M^{-\top}.
-	\end{equation}
-	\corr{For the second part of \eqref{eq:decomposition_first_term} we follow a similar procedure defining a different Poisson equation. The argument has to be slightly modified because we have to work with random matrix rather than random vector, but finally we obtain a second Gaussian term $\mathcal N(0, \Gamma_2^\epl)$. Therefore, we have to study the limit as $\epl$ goes to zero of the covariance matrices $\Gamma_1^\epl$ and $\Gamma_2^\epl$, which depend on the solutions $\Phi_1^\epl$ and $\Phi_2^\epl$ of the Poisson problems.} \\
-	
-	
-	
-	\corr{Idea for the second term:} The second term can be decomposed in 
-	\begin{equation}
-	\begin{aligned}
-	\sqrt{T} \frac1\delta & \left( \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
-	&\hspace{3cm} \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
-	&= \sqrt{T} \frac1\delta \left( \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
-	&\hspace{3cm} \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right) \\
-	&\quad + \sqrt{T} \frac1\delta \left( \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \right. \\
-	&\hspace{3cm} \left. - \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right), \\
-	\end{aligned}
-	\end{equation}
-	\corr{and we need the rate of convergence of the measure $\rho^\epl$ to $\rho^0$.}
-\end{proof}
-
-
+}
 \section{The Bayesian setting}\label{sec:Bayesian}
 
 In this section we present a Bayesian reinterpretation of the inference procedure, which, given the structure of the problem, allows to get at a full uncertainty quantification with a low computational effort. 
@@ -724,7 +577,7 @@ The following result gives the convergence of the modified posterior distributio
 
 In this section we show numerical experiments confirming our theoretical findings and showing the potentiality of the filtering approach.
 
-\subsection{Parameters of the filter}
+\subsection{Parameters of the filter}\label{sec:Num_Param}
 \begin{figure}[t]
 	\centering
 	\begin{tabular}{ccc}
@@ -755,6 +608,19 @@ As a second experiment, we therefore test the variability of the estimator with 
 	\label{fig:OUBeta}
 \end{figure}
 
+\subsection{Central limit theorem}
+\begin{figure}[t]
+	\centering
+	\includegraphics[]{Figures/CLT}
+	\caption{Central limit theorem result. The histogram represents numerical results, the solid curve a Gaussian fit to the latter and the dashed curve the theoretical estimate given in Theorem \ref{thm:CLT}.}
+	\label{fig:CLT}
+\end{figure}
+
+In this experiment we wish to confirm the validity of Theorem \ref{thm:CLT}. We consider the same test equation as for Section \ref{sec:Num_Param}, i.e., the quadratic potential $V(x) = x^2/2$ with fluctuating potential $p(y) = \sin(y)$, multiscale parameter $\epl = 0.05$ and diffusion coefficient $\sigma = 1$. The parameters of the filter are set to $\beta = 1$ and $\delta = 1$. We compute the estimator $\widehat A^\epl_k(T)$ with final time $T = 10^3$ on $2000$ realizations of the solution and estimate the quantity 
+\begin{equation}	
+	\Delta_A^\epl(T) \defeq \sqrt{T}\left(\widehat A^\epl_k(T) - A\right),	
+\end{equation}
+where $A$ is the drift coefficient of the homogenized equation. Results, depicted in Figure \ref{fig:CLT}, show that the distribution of $\Delta_A^\epl(T)$ indeed follows a zero-mean Gaussian law, \corr{whose covariance agrees with the theoretical results (?)}.
 
 \subsection{Multi-dimensional drift coefficient}
 
@@ -799,14 +665,6 @@ This potential function satisfies Assumption \ref{as:regularity} whenever $N$ is
 	\item $\widehat A^\epl_k(T)$ based on filtered data $Z^\epl$ computed with $\beta = 1$ and $\delta = 1$.
 \end{enumerate}
 In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle} and Table \ref{tab:KLStyle}, show that the filter-based estimation captures well the homogenized potential as well as the coefficient $A$. Moreover, it is possible to remark the negative result given by Theorem \ref{thm:Bias} holds in practice, i.e., with no pre-processing the estimator $\widehat A^\epl(T)$ tends to the drift coefficient $\alpha$ of the unhomogenized equation.
-
-\subsection{Central limit theorem}
-\begin{figure}[t]
-	\centering
-	\includegraphics[]{Figures/CLT}
-	\caption{Central limit theorem result. The histogram represents numerical results, the solid curve a Gaussian fit to the latter and the dashed curve $\rho_a$ represents the theoretical estimate given in Theorem \ref{thm:CLT}.}
-	\label{fig:CLT}
-\end{figure}
 
 \subsection{The Bayesian approach: bistable potential}
 \begin{figure}[t]
@@ -862,7 +720,7 @@ In this work we considered a novel methodology based on filtering for the estima
 	\begin{equation}
 	\mathrm{Lie}\left(\mathcal X_1, [\mathcal X_0, \mathcal X_1]\right) = \mathrm{Lie} \left(\partial_x, -\partial_x f \partial_x - \frac1\delta\partial_z\right),
 	\end{equation}
-	which spans $T_x\R^2$. The desired result then follows from Hörmander's theorem (see e.g. \cite[Chapter 6]{Pav14}).
+	which spans the tangent space of $\R^2$ at $(x, z)$, denoted $T_{x, z}\R^2$. The desired result then follows from Hörmander's theorem (see e.g. \cite[Chapter 6]{Pav14}).
 \end{proof}
 
 \begin{proof}[Proof of Lemma \ref{lem:ergodicity}] Lemma \ref{lem:density} guarantees that the Fokker--Planck equation can be written directly from the system \eqref{eq:systemSDE}. For geometric ergodicity, let 
@@ -963,6 +821,195 @@ In this work we considered a novel methodology based on filtering for the estima
 	\end{aligned}
 	\end{equation} 
 	with $(X_0, Z_0)^\top \sim \mu^0$. The arguments of Section \ref{sec:ergodic} can be repeated to conclude that the invariant measure of $(X, Z)^\top$ admits a smooth density $\rho^0$ which satisfies \eqref{eq:FPsystem_homogenized}. Moreover, standard homogenization theory (see e.g. \cite[Chapter 3]{BLP78}) guarantees that $(X^\epl,Z^\epl)^\top \to (X,Z)^\top$ for $\epl \to 0$ in law as random variables with values in $\mathcal C^0([0, T]; \R^2)$. The Portmanteau theorem can be employed to conclude that the measure $\mu^\epl$ converges weakly to $\mu^0$ for $\epl \to 0$.
+\end{proof}
+
+\section{Proof of Theorem \ref{thm:CLT}}\label{ap:CLT}
+
+Let us first introduce a technical Lemma.
+\begin{lemma}\label{lem:CLT} Let $\mathcal L_\epl$ be the generator of the couple $(X^\epl, Z^\epl)^\top$, i.e.,
+	\begin{equation}
+		\mathcal L_\epl = -\left(\alpha \cdot V'(x) + \frac1\epl p'\left(\frac{x}{\epl}\right)\right)\partial_x + \frac1\delta (x - z) \partial_z  + \sigma \partial^2_{xx}.
+	\end{equation} 
+	Moreover, let $\rho^\epl$ be the invariant measure of $(X^\epl, Z^\epl)^\top$ and $\Phi^\epl\colon \R^2 \to \R^N$ be the solution of 
+	\begin{equation}\label{eq:CLT_Poisson}
+		-\mathcal L_\epl \Phi^\epl = \chi -  \E^{\rho^\epl}[\chi],
+	\end{equation}
+	for $\chi \colon \R^2 \to \R^N$ satisfying $\E^{\rho^\epl}[\Phi^\epl] = 0$. Then, it holds
+	\begin{equation}\label{eq:CLT_PoissonIto}
+		\frac{1}{T} \int_0^T  \chi(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)] - \frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T},
+	\end{equation}
+	where
+	\begin{equation}\label{eq:CLT_PoissonRemainders}
+		R^\epl(T) \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl(T) \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
+	\end{equation}
+	Moreover, it holds
+	\begin{equation}\label{eq:CLT_Equiv}
+		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl \otimes \partial_x \Phi^\epl] = \E^{\rho^\epl}[\chi \otimes \Phi^\epl + \Phi^\epl \otimes \chi].
+	\end{equation}	
+\end{lemma}
+\begin{proof} The proof of \eqref{eq:CLT_PoissonIto} and \eqref{eq:CLT_PoissonRemainders} is an application of the Itô formula (see e.g. \cite[Remark 6.17]{PaS08}). For \eqref{eq:CLT_Equiv}, it is possible to show that since $\mathcal L_\epl^*\rho^\epl = 0$ it holds 
+	\begin{equation}
+		\mathcal L_\epl^* (\Phi^\epl \rho) = 2 \sigma \rho^\epl \partial_{xx}^2 \Phi^\epl - \rho^\epl \mathcal L_\epl\Phi^\epl + 2 \sigma \partial_x \Phi^\epl \partial_x \rho^\epl.
+	\end{equation}
+	Therefore, an integration by parts yields 
+	\begin{equation}
+	\begin{aligned}
+		\E^{\rho^\epl}[\mathcal L_\epl \Phi^\epl \otimes \Phi^\epl] &= 	\int_{\R}\int_{\R} \Phi^\epl \otimes \mathcal L_\epl^*\left(\Phi^\epl \rho^\epl\right) \dd x \dd z \\
+		&= -\int_{\R}\int_{\R}\Phi^\epl \otimes \mathcal L_\epl \Phi^\epl \rho^\epl \dd x \dd z- 2\sigma \int_{\R}\int_{\R} \partial_x \Phi^\epl \otimes \partial_x \Phi^\epl \rho^\epl \dd x \dd z\\
+		&= -\E^{\rho^\epl}[\Phi^\epl \otimes \mathcal L_\epl \Phi^\epl] - 2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl \otimes \partial_x \Phi^\epl]. 
+	\end{aligned}
+	\end{equation}
+	Finally, since $\E^{\rho^\epl}[\Phi] = 0$ 
+	\begin{equation}
+	\begin{aligned}
+		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl \otimes \partial_x \Phi^\epl] &= -\E^{\rho^\epl}[\mathcal L_\epl \Phi^\epl \otimes \Phi^\epl + \Phi^\epl \otimes \mathcal L_\epl \Phi^\epl]\\
+		&= \E^{\rho^\epl}[\chi \otimes \Phi^\epl + \Phi^\epl \otimes \chi],
+	\end{aligned}
+	\end{equation}
+	which is the desired result.
+\end{proof}
+
+We can now proceed with the main proof.
+\begin{proof}[Proof of Theorem \ref{thm:CLT}] Let us introduce the notation
+	\begin{equation}\label{eq:CLT_DefMEps}
+	\mathcal M_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ], \quad \mathcal M_0 \defeq \E^{\rho^0} [ V'(Z) \otimes V'(X) ],
+	\end{equation}
+	and the notation
+	\begin{equation}
+	\mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ]\
+	\end{equation}
+	and let us remark that from the proof of Theorem \ref{thm:mainTheorem} one can deduce the equalities
+	\begin{equation}\label{eq:CTL_A}
+	A = \frac1\delta \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)],
+	\end{equation}
+	and
+	\begin{equation}\label{eq:CTL_alpha}
+	\alpha = \mathcal M_\epl^{-1} \left(\frac1\delta \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathfrak p_\epl \right).
+	\end{equation}
+	Let us furthermore remark that the decomposition \eqref{eq:alphaDecomposition} yields
+	\begin{equation}
+	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \sqrt{T} \left(\alpha - A + I_1^\epl - I_2^\epl\right).
+	\end{equation}
+	Replacing the expression for $A$ and $\alpha$ given in \eqref{eq:CTL_A} and \eqref{eq:CTL_alpha}, we get
+	\begin{equation}
+	\begin{aligned}
+	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) &= \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \\
+	&+  \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
+	&- \sqrt{T} I_2^\epl(T).
+	\end{aligned}
+	\end{equation}
+	\corr{Third term is OK:} We rewrite the term involving $I_2^\epl(T)$ as
+	\begin{equation}
+	\sqrt{T} I_2^\epl(T) = \frac{\sqrt{2\sigma}}{\sqrt{T}} \widetilde M^{-1} Q^\epl(T),
+	\end{equation}
+	where, since $Z_t^\epl$ is adapted with respect to the natural filtration $\mathcal F_t$ of the Wiener process $W \defeq \left(W_t, t \geq 0\right)$, the quantity
+	\begin{equation}
+	Q^\epl(T) \defeq \int_0^T V'(Z^\epl_t) \dd W_t,
+	\end{equation}
+	is a martingale whose quadratic variation is given by
+	\begin{equation}
+	\langle Q^\epl \rangle_T = \int_0^T V'(Z^\epl_t) \otimes V'(Z^\epl_t) \dd t. 
+	\end{equation}
+	Since the ergodic theorem guarantees that 
+	\begin{equation}
+	\lim_{T\to\infty}\frac{\langle Q^\epl \rangle_T}{T} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)], \quad \text{in } L^1(\mu^\epl),
+	\end{equation}
+	the martingale central limit theorem gives 
+	\begin{equation}
+	\lim_{T\to\infty}\frac{1}{\sqrt{T}} Q^\epl(T) = \Xi^\epl, \quad \text{in law},
+	\end{equation}
+	where $\Xi^\epl \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)])$.
+	Now, by the ergodic theorem 
+	\begin{equation}
+	\lim_{T \to \infty} \widetilde M^{-1} = \mathcal M_\epl^{-1}, \quad \text{a.s.}
+	\end{equation}
+	Therefore, we have by Slutsky's theorem that
+	\begin{equation}
+	\lim_{T \to \infty} \sqrt{T} I_2^\epl(T) = \Lambda^\epl \sim \mathcal N\left(0, \Gamma^\epl\right), \quad \text{in law}.
+	\end{equation}
+	where the covariance matrix $\Gamma^\epl$ is given by
+	\begin{equation}
+	\Gamma^\epl = 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)]\mathcal M_\epl^{-\top}.
+	\end{equation}
+	Finally, we denote by $\Lambda$ the limit for $\epl \to 0$ of the sequence of Gaussian random variables $\Lambda^\epl$.
+	
+	\corr{Idea for the first term:} Let us introduce the notation
+	\begin{equation}
+	J_1^\epl(T) \defeq \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl\right),
+	\end{equation}
+	and let us remark that we can rewrite
+	\begin{equation} \label{eq:decomposition_first_term}
+	\begin{aligned}
+	J_1^\epl(T) &= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\left(\frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \mathfrak p_\epl \right) \\
+	& \quad + \sqrt{T} \left(\left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} - \mathcal M_\epl^{-1}\right) \mathfrak p_\epl\\
+	&\eqdef J_{1,1}^\epl(T) + J_{1,2}^\epl(T).
+	\end{aligned}
+	\end{equation}
+	Let us denote by $\Phi_1^\epl$ the solution of \eqref{eq:CLT_Poisson} in Lemma \ref{lem:CLT} with right hand side
+	\begin{equation}
+	\chi_1(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z).
+	\end{equation}
+	Then, denoting as $R_1^\epl(T)$ and $S_1^\epl(T)$ the quantities introduced in \eqref{eq:CLT_PoissonRemainders} with $\Phi_1^\epl$ in place of $\Phi^\epl$, we have
+	\begin{equation}
+	J_{1,1}^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( -\frac{R_1^\epl(T)}{T} + \sqrt{2\sigma}\frac{S_1^\epl(T)}{T} \right).
+	\end{equation}
+	Since \corr{$R_1^\epl(T)$ is bounded independently of $\epl$ (is it clear?)}, we first get by the ergodic theorem
+	\begin{equation}
+	\lim_{T \to \infty} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{R_1^\epl(T)}{\sqrt{T}} = 0, \quad \text{a.s.}
+	\end{equation}
+	Repeating the same reasoning as for $Q^\epl(T)$ and employing the ergodic theorem, we get 
+	\begin{equation}
+	\lim_{T \to \infty} J_{1,1}^\epl(T) = \lim_{T \to \infty} \sqrt{2\sigma} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{S^\epl_1(T)}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+	\end{equation}
+	where the covariance is given by due to \eqref{eq:CLT_Equiv}
+	\begin{equation}
+	\begin{aligned}
+	\Gamma_1^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
+	&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[\Phi_1^\epl(X^\epl, Z^\epl) \otimes \chi_1(X^\epl, Z^\epl) + \chi_1(X^\epl, Z^\epl) \otimes \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
+	\end{aligned}
+	\end{equation}
+	Let us now consider the term $J_{1,2}^\epl(T)$ and rewrite it as
+	\begin{equation}
+	J_{1,2}^\epl(T) =  \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\left(\mathfrak p_\epl - \frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl  \dd t\right).
+	\end{equation}	
+	Let now us denote by $\Phi_2^\epl$ the solution of \eqref{eq:CLT_Poisson} in Lemma \ref{lem:CLT} with right hand side
+	\begin{equation}
+	\chi_2(x, z) = V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl.
+	\end{equation}
+	Applying \eqref{eq:CLT_PoissonIto} and by the definition \eqref{eq:CLT_DefMEps} of $\mathcal M_\epl$, we get
+	\begin{equation}
+	\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl \dd t =  \mathfrak p_\epl - \frac{R_2^\epl(T)}{T} + \sqrt{2\sigma}\frac{S_2^\epl(T)}{T},
+	\end{equation}
+	where $R_2^\epl(T)$ and $S_2^\epl(T)$ are the quantities introduced in \eqref{eq:CLT_PoissonRemainders} with $\Phi_2^\epl$ in place of $\Phi^\epl$. Therefore, 
+	\begin{equation}
+	J_{1,2}^\epl(T) =  \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\left(\frac{R_2^\epl(T)}{T} - \sqrt{2\sigma}\frac{S_2^\epl(T)}{T}\right).
+	\end{equation}
+	Repeating the same reasoning as for $R_1^\epl(T)$ and $S_1^\epl(T)$ and applying the ergodic theorem, we get
+	\begin{equation}
+	\lim_{T \to \infty} J_{1,2}^\epl(T) = \Lambda_2^\epl \sim \mathcal N(0, \Gamma_2^\epl),
+	\end{equation}
+	where the covariance is given by due to \eqref{eq:CLT_Equiv}
+	\begin{equation}
+	\begin{aligned}
+		\Gamma_2^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x \Phi_2^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_2^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
+		&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[\Phi_2^\epl(X^\epl, Z^\epl) \otimes \chi_2(X^\epl, Z^\epl) + \chi_2(X^\epl, Z^\epl) \otimes \Phi_2^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
+	\end{aligned}
+	\end{equation}
+	\corr{For the covariances $\Gamma_1^\epl$ and $\Gamma_2^\epl$ we don't know how they behave in the limit $\epl \to 0$. It would be nice if they were vanishing, but they involve the solutions $\Phi_1^\epl$ and $\Phi_2^\epl$, which have r.h.s. depending of $\epl$ (especially $\Phi_1$).}
+	
+	\corr{Idea for the second term:} Let us now introduce the notation
+	\begin{equation}
+		J_2^\epl(T) = \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1} \E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \mathcal M_0^{-1} \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right).
+	\end{equation}
+	We have the decomposition
+	\begin{equation}
+	\begin{aligned}
+	J^\epl_{2}(T) &=  \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1}  - \mathcal M_0^{-1} \right)\E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] \\
+	&\quad + \frac{\sqrt{T}}\delta \mathcal M_0^{-1}\left(\E^{\rho^\epl}[((X^\epl)^2 - (Z^\epl)^2)V''(Z^\epl)] - \E^{\rho^0}[(X^2 - Z^2)V''(Z)] \right) \\
+	&\eqdef J_{2,1}^\epl(T) + J_{2,2}^\epl(T).
+	\end{aligned}
+	\end{equation}
+	\corr{In order to send the terms above to zero, we need the convergence rate of $\mu^\epl$ to $\mu^0$ w.r.t. $\epl$ (by fixing $T = \epl^{-\gamma}$ with an appropriate $\gamma$). Some arguments in this sense seem to appear in [\textit{Periodic Homogenization for Hypoelliptic Diffusions} -- M. Hairer and G.A. Pavliotis 2004] but it is not clear to us whether it applies to this case too.}
 \end{proof}
 
 \section{Proof of Theorem \ref{thm:mainTheoremTilde}}\label{ap:EstimatorTilde}
@@ -1077,6 +1124,7 @@ We can finally prove the unbiasedness of the estimator $\widetilde A^\epl_k(T)$.
 	\end{equation}
 	Therefore, due to Theorem \ref{thm:mainTheorem}, the inequality \eqref{eq:DistATildeAHat} and since $\delta \to 0$ for $\epl \to 0$, the desired result holds.
 \end{proof}
+
 \end{appendices}
 
 
