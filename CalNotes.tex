@@ -832,11 +832,11 @@ Let us first introduce a technical Lemma.
 	\end{equation} 
 	Moreover, let $\rho^\epl$ be the invariant measure of $(X^\epl, Z^\epl)^\top$ and $\Phi^\epl\colon \R^2 \to \R^N$ be the solution of 
 	\begin{equation}\label{eq:CLT_Poisson}
-		-\mathcal L_\epl \Phi^\epl = \chi -  \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)],
+		-\mathcal L_\epl \Phi^\epl = \chi^\epl -  \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)],
 	\end{equation}
-	for $\chi \colon \R^2 \to \R^N$ satisfying $\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl)] = 0$. Then, it holds
+	for $\chi^\epl \colon \R^2 \to \R^N$ satisfying $\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl)] = 0$. Then, it holds
 	\begin{equation}\label{eq:CLT_PoissonIto}
-		\frac{1}{T} \int_0^T  \chi(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)] - \frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T},
+		\frac{1}{T} \int_0^T  \chi^\epl(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)] - \frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T},
 	\end{equation}
 	where
 	\begin{equation}\label{eq:CLT_PoissonRemainders}
@@ -846,14 +846,14 @@ Let us first introduce a technical Lemma.
 	\begin{equation}\label{eq:CLT_Equiv}
 		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)] = \E^{\rho^\epl}
 		\begin{aligned}[t]
-		[&\chi(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
-		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi(X^\epl, Z^\epl)].
+		[&\chi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
+		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)].
 		\end{aligned}
 	\end{equation}	
 \end{lemma}
 \begin{proof} The proof of \eqref{eq:CLT_PoissonIto} and \eqref{eq:CLT_PoissonRemainders} is an application of the Itô formula (see e.g. \cite[Remark 6.17]{PaS08}). For \eqref{eq:CLT_Equiv}, it is possible to show that since $\mathcal L_\epl^*\rho^\epl = 0$ it holds 
 	\begin{equation}
-		\mathcal L_\epl^* (\Phi^\epl \rho) = 2 \sigma \rho^\epl \partial_{xx}^2 \Phi^\epl - \rho^\epl \mathcal L_\epl\Phi^\epl + 2 \sigma \partial_x \Phi^\epl \partial_x \rho^\epl.
+		\mathcal L_\epl^* (\Phi^\epl \rho^\epl) = 2 \sigma \rho^\epl \partial_{xx}^2 \Phi^\epl - \rho^\epl \mathcal L_\epl\Phi^\epl + 2 \sigma \partial_x \Phi^\epl \partial_x \rho^\epl.
 	\end{equation}
 	Therefore, an integration by parts yields 
 	\begin{equation}
@@ -878,8 +878,8 @@ Let us first introduce a technical Lemma.
 		\\
 		&= \E^{\rho^\epl}
 		\begin{aligned}[t]
-		[&\chi(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
-		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi(X^\epl, Z^\epl)],
+		[&\chi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
+		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)],
 		\end{aligned}
 	\end{aligned}
 	\end{equation}
@@ -957,62 +957,42 @@ We can now proceed with the main proof.
 	and let us remark that we can rewrite
 	\begin{equation} \label{eq:decomposition_first_term}
 	\begin{aligned}
-	J_1^\epl(T) &= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\left(\frac1T \int_0^T \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t) \dd t - \mathfrak p_\epl \right) \\
-	& \quad + \sqrt{T} \left(\left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} - \mathcal M_\epl^{-1}\right) \mathfrak p_\epl\\
-	&\eqdef J_{1,1}^\epl(T) + J_{1,2}^\epl(T).
+	J_1^\epl(T) = \sqrt{T} &\left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\\
+		&\quad \times \left(\frac1T \int_0^T \left( \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t)	- V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \dd t	 \right).
 	\end{aligned}
 	\end{equation}
-	Let us denote by $\Phi_1^\epl$ the solution of \eqref{eq:CLT_Poisson} in Lemma \ref{lem:CLT} with right hand side
+	Let us denote by $\Phi^\epl$ the solution of \eqref{eq:CLT_Poisson} in Lemma \ref{lem:CLT} with right hand side
 	\begin{equation}
-	\chi_1(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z).
+	\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
 	\end{equation}
-	Then, denoting as $R_1^\epl(T)$ and $S_1^\epl(T)$ the quantities introduced in \eqref{eq:CLT_PoissonRemainders} with $\Phi_1^\epl$ in place of $\Phi^\epl$, we have
+	and note that $\E^{\rho^\epl}[\chi^\epl(X^\epl,Z^\epl)] = 0$. Then we have
 	\begin{equation}
-	J_{1,1}^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( -\frac{R_1^\epl(T)}{T} + \sqrt{2\sigma}\frac{S_1^\epl(T)}{T} \right).
+	J_1^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( -\frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T} \right),
 	\end{equation}
-	Since \corr{$R_1^\epl(T)$ is bounded independently of $\epl$ (is it clear?)}, we first get by the ergodic theorem
+	where $R^\epl(T)$ and $S^\epl(T)$ are defined in \eqref{eq:CLT_PoissonRemainders}. Since \corr{$R^\epl(T)$ is bounded independently of $\epl$ (is it clear?)}, we first get by the ergodic theorem
 	\begin{equation}
-	\lim_{T \to \infty} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{R_1^\epl(T)}{\sqrt{T}} = 0, \quad \text{a.s.}
+	\lim_{T \to \infty} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{R^\epl(T)}{\sqrt{T}} = 0, \quad \text{a.s.}
 	\end{equation}
-	Repeating the same reasoning as for $Q^\epl(T)$ and employing the ergodic theorem, we get 
+	Repeating the same reasoning as for $Q^\epl(T)$ and employing the ergodic theorem and the Slutsky's theorem, we get 
 	\begin{equation}
-	\lim_{T \to \infty} J_{1,1}^\epl(T) = \lim_{T \to \infty} \sqrt{2\sigma} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{S^\epl_1(T)}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
+	\lim_{T \to \infty} J_1^\epl(T) = \lim_{T \to \infty} \sqrt{2\sigma} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{S^\epl(T)}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
 	\end{equation}
 	where the covariance is given by due to \eqref{eq:CLT_Equiv}
 	\begin{equation}
 	\begin{aligned}
-	\Gamma_1^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x \Phi_1^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
-	&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[\Phi_1^\epl(X^\epl, Z^\epl) \otimes \chi_1(X^\epl, Z^\epl) + \chi_1(X^\epl, Z^\epl) \otimes \Phi_1^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
+	\Gamma_1^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
+	&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl) + \chi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
 	\end{aligned}
 	\end{equation}
-	Let us now consider the term $J_{1,2}^\epl(T)$ and rewrite it as
+	\corr{For the covariance $\Gamma_1^\epl$ we don't know how it behaves in the limit $\epl \to 0$. It would be nice if it was vanishing, but it involves the solution $\Phi^\epl$, which has r.h.s. depending of $\epl$. We noticed that the homogenized problem of
 	\begin{equation}
-	J_{1,2}^\epl(T) =  \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\left(\mathfrak p_\epl - \frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl  \dd t\right).
-	\end{equation}	
-	Let now us denote by $\Phi_2^\epl$ the solution of \eqref{eq:CLT_Poisson} in Lemma \ref{lem:CLT} with right hand side
-	\begin{equation}
-	\chi_2(x, z) = V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl.
+		-\mathcal L_\epl \Phi^\epl = \chi^\epl,
 	\end{equation}
-	Applying \eqref{eq:CLT_PoissonIto} and by the definition \eqref{eq:CLT_DefMEps} of $\mathcal M_\epl$, we get
+	is given by
 	\begin{equation}
-	\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl \dd t =  \mathfrak p_\epl - \frac{R_2^\epl(T)}{T} + \sqrt{2\sigma}\frac{S_2^\epl(T)}{T},
+		-\mathcal L_0 \Phi^0 = 0,
 	\end{equation}
-	where $R_2^\epl(T)$ and $S_2^\epl(T)$ are the quantities introduced in \eqref{eq:CLT_PoissonRemainders} with $\Phi_2^\epl$ in place of $\Phi^\epl$. Therefore, 
-	\begin{equation}
-	J_{1,2}^\epl(T) =  \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\left(\frac{R_2^\epl(T)}{T} - \sqrt{2\sigma}\frac{S_2^\epl(T)}{T}\right).
-	\end{equation}
-	Repeating the same reasoning as for $R_1^\epl(T)$ and $S_1^\epl(T)$ and applying the ergodic theorem, we get
-	\begin{equation}
-	\lim_{T \to \infty} J_{1,2}^\epl(T) = \Lambda_2^\epl \sim \mathcal N(0, \Gamma_2^\epl),
-	\end{equation}
-	where the covariance is given by due to \eqref{eq:CLT_Equiv}
-	\begin{equation}
-	\begin{aligned}
-		\Gamma_2^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x \Phi_2^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi_2^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
-		&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[\Phi_2^\epl(X^\epl, Z^\epl) \otimes \chi_2(X^\epl, Z^\epl) + \chi_2(X^\epl, Z^\epl) \otimes \Phi_2^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
-	\end{aligned}
-	\end{equation}
-	\corr{For the covariances $\Gamma_1^\epl$ and $\Gamma_2^\epl$ we don't know how they behave in the limit $\epl \to 0$. It would be nice if they were vanishing, but they involve the solutions $\Phi_1^\epl$ and $\Phi_2^\epl$, which have r.h.s. depending of $\epl$ (especially $\Phi_1$).}
+	whose zero-mean solution is $\Phi^0 = 0$.}
 	
 	\corr{Idea for the second term:} Let us now introduce the notation
 	\begin{equation}
