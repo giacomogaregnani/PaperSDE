@@ -832,9 +832,9 @@ Let us first introduce a technical Lemma.
 	\end{equation} 
 	Moreover, let $\rho^\epl$ be the invariant measure of $(X^\epl, Z^\epl)^\top$ and $\Phi^\epl\colon \R^2 \to \R^N$ be the solution of 
 	\begin{equation}\label{eq:CLT_Poisson}
-		-\mathcal L_\epl \Phi^\epl = \chi -  \E^{\rho^\epl}[\chi],
+		-\mathcal L_\epl \Phi^\epl = \chi -  \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)],
 	\end{equation}
-	for $\chi \colon \R^2 \to \R^N$ satisfying $\E^{\rho^\epl}[\Phi^\epl] = 0$. Then, it holds
+	for $\chi \colon \R^2 \to \R^N$ satisfying $\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl)] = 0$. Then, it holds
 	\begin{equation}\label{eq:CLT_PoissonIto}
 		\frac{1}{T} \int_0^T  \chi(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi(X^\epl, Z^\epl)] - \frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T},
 	\end{equation}
@@ -844,7 +844,11 @@ Let us first introduce a technical Lemma.
 	\end{equation}
 	Moreover, it holds
 	\begin{equation}\label{eq:CLT_Equiv}
-		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl \otimes \partial_x \Phi^\epl] = \E^{\rho^\epl}[\chi \otimes \Phi^\epl + \Phi^\epl \otimes \chi].
+		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)] = \E^{\rho^\epl}
+		\begin{aligned}[t]
+		[&\chi(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
+		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi(X^\epl, Z^\epl)].
+		\end{aligned}
 	\end{equation}	
 \end{lemma}
 \begin{proof} The proof of \eqref{eq:CLT_PoissonIto} and \eqref{eq:CLT_PoissonRemainders} is an application of the Itô formula (see e.g. \cite[Remark 6.17]{PaS08}). For \eqref{eq:CLT_Equiv}, it is possible to show that since $\mathcal L_\epl^*\rho^\epl = 0$ it holds 
@@ -854,16 +858,29 @@ Let us first introduce a technical Lemma.
 	Therefore, an integration by parts yields 
 	\begin{equation}
 	\begin{aligned}
-		\E^{\rho^\epl}[\mathcal L_\epl \Phi^\epl \otimes \Phi^\epl] &= 	\int_{\R}\int_{\R} \Phi^\epl \otimes \mathcal L_\epl^*\left(\Phi^\epl \rho^\epl\right) \dd x \dd z \\
+		\E^{\rho^\epl}[\mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl)] &= 	\int_{\R}\int_{\R} \Phi^\epl \otimes \mathcal L_\epl^*\left(\Phi^\epl \rho^\epl\right) \dd x \dd z \\
 		&= -\int_{\R}\int_{\R}\Phi^\epl \otimes \mathcal L_\epl \Phi^\epl \rho^\epl \dd x \dd z- 2\sigma \int_{\R}\int_{\R} \partial_x \Phi^\epl \otimes \partial_x \Phi^\epl \rho^\epl \dd x \dd z\\
-		&= -\E^{\rho^\epl}[\Phi^\epl \otimes \mathcal L_\epl \Phi^\epl] - 2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl \otimes \partial_x \Phi^\epl]. 
+		&= 
+		\begin{aligned}[t]
+		&-\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl)] \\
+		&- 2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)].
+		\end{aligned}
 	\end{aligned}
 	\end{equation}
-	Finally, since $\E^{\rho^\epl}[\Phi] = 0$ 
+	Finally, since $\E^{\rho^\epl}[\Phi(X^\epl, Z^\epl)] = 0$ 
 	\begin{equation}
 	\begin{aligned}
-		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl \otimes \partial_x \Phi^\epl] &= -\E^{\rho^\epl}[\mathcal L_\epl \Phi^\epl \otimes \Phi^\epl + \Phi^\epl \otimes \mathcal L_\epl \Phi^\epl]\\
-		&= \E^{\rho^\epl}[\chi \otimes \Phi^\epl + \Phi^\epl \otimes \chi],
+		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)] &= -\E^{\rho^\epl}
+		\begin{aligned}[t]
+		[&\mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
+		& + \Phi^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl)]
+		\end{aligned}
+		\\
+		&= \E^{\rho^\epl}
+		\begin{aligned}[t]
+		[&\chi(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
+		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi(X^\epl, Z^\epl)],
+		\end{aligned}
 	\end{aligned}
 	\end{equation}
 	which is the desired result.
