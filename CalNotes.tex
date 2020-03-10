@@ -886,7 +886,8 @@ Let us first introduce a technical Lemma.
 	which is the desired result.
 \end{proof}
 
-\begin{lemma} Let $u^\epl$ be the solution of \eqref{eq:CLT_Poisson} with 
+\begin{lemma} \label{lem:CLT_hom}
+	Let $u^\epl$ be the solution of \eqref{eq:CLT_Poisson} with 
 	\begin{equation}
 		\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
 	\end{equation}
@@ -966,11 +967,23 @@ Let us first introduce a technical Lemma.
 	\end{equation}
 	we get
 	\begin{equation}
-		0 = (V'(z) \otimes V'(x))(A - \alpha - (K - 1)\alpha) - K \sigma \partial^2_{xx}u_0 + \left(K \alpha \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0,
+		0 = (V'(z) \otimes V'(x))(A - \alpha - (K - 1)\alpha) - K \sigma \partial^2_{xx}u_0 + \left(K \alpha \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0.
 	\end{equation}
-	which, since $A = K\alpha$ and $\Sigma = K\sigma$, implies
+	Moreover, since $A = K\alpha$ and $\Sigma = K\sigma$, it implies
 	\begin{equation}
 		0 = -\Sigma \partial^2_{xx}u_0 + \left(A \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0,
+	\end{equation}
+	which can be written as
+	\begin{equation}\label{eq:CLT_Poisson_hom}
+		- \mathcal L_0 u_0 = 0,
+	\end{equation}
+	where $\mathcal L_0$ is the generator of the couple $(X^0,Z^0)^\top$. Finally, the unique solution of \eqref{eq:CLT_Poisson_hom} satisfying
+	\begin{equation}
+		\E^{\rho^0}[u_0(X,Z)] = 0,
+	\end{equation}
+	is given by
+	\begin{equation}
+		u_0(x,z) = 0.
 	\end{equation}
 \end{proof}
 
@@ -1049,7 +1062,7 @@ We can now proceed with the main proof.
 		&\quad \times \left(\frac1T \int_0^T \left( \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t)	- V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \dd t	 \right).
 	\end{aligned}
 	\end{equation}
-	Let us denote by $\Phi^\epl$ the solution of \eqref{eq:CLT_Poisson} with right hand side
+	Let us denote by $u^\epl$ the solution of \eqref{eq:CLT_Poisson} with right hand side
 	\begin{equation}
 	\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
 	\end{equation}
@@ -1068,19 +1081,11 @@ We can now proceed with the main proof.
 	where the covariance is given by due to \eqref{eq:CLT_Equiv}
 	\begin{equation}
 	\begin{aligned}
-	\Gamma_1^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
-	&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl) + \chi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
+	\Gamma_1^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
+	&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[u^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl) + \chi^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
 	\end{aligned}
 	\end{equation}
-	\corr{For the covariance $\Gamma_1^\epl$ we don't know how it behaves in the limit $\epl \to 0$. It would be nice if it was vanishing, but it involves the solution $\Phi^\epl$, which has r.h.s. depending of $\epl$. We noticed that the homogenized problem of
-	\begin{equation}
-		-\mathcal L_\epl \Phi^\epl = \chi^\epl,
-	\end{equation}
-	is given by
-	\begin{equation}
-		-\mathcal L_0 \Phi^0 = 0,
-	\end{equation}
-	whose zero-mean solution is $\Phi^0 = 0$.}
+	\corr{For the covariance $\Gamma_1^\epl$ we don't know how it behaves in the limit $\epl \to 0$. It would be nice if it was vanishing since it involves the solution $u^\epl$, which goes to zero (in some sense) due to Lemma \ref{lem:CLT_hom}.}
 	
 	\corr{Idea for the second term:} Let us now introduce the notation
 	\begin{equation}
