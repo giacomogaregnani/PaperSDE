@@ -69,7 +69,7 @@ with
 	\mu(\d y) = \frac1Z e^{-p(y)/\sigma} \dd y, \quad\text{where}\quad Z = \int_0^L e^{-p(y)/\sigma} \dd y,
 \end{equation}
 and where the function $\Phi$ is the unique solution with zero-mean with respect to the measure $\mu$ of the elliptic partial differential equation
-\begin{equation}
+\begin{equation}\label{eq:CellProblem}
 	-p'(y)\Phi'(y) + \sigma \Phi''(y) = p'(y), \quad 0 \leq y \leq L,
 \end{equation}
 endowed with periodic boundary conditions. \corr{Let us remark that in this one-dimensional setting it is possible to determine $\Phi$ explicitly, and the homogenization coefficient $K$ is given by
@@ -830,60 +830,148 @@ Let us first introduce a technical Lemma.
 	\begin{equation}
 		\mathcal L_\epl = -\left(\alpha \cdot V'(x) + \frac1\epl p'\left(\frac{x}{\epl}\right)\right)\partial_x + \frac1\delta (x - z) \partial_z  + \sigma \partial^2_{xx}.
 	\end{equation} 
-	Moreover, let $\rho^\epl$ be the invariant measure of $(X^\epl, Z^\epl)^\top$ and $\Phi^\epl\colon \R^2 \to \R^N$ be the solution of 
+	Moreover, let $\rho^\epl$ be the density of the invariant measure of $(X^\epl, Z^\epl)^\top$ and $u^\epl\colon \R^2 \to \R^N$ be the solution of 
 	\begin{equation}\label{eq:CLT_Poisson}
-		-\mathcal L_\epl \Phi^\epl = \chi^\epl -  \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)],
+		-\mathcal L_\epl u^\epl = \chi^\epl -  \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)],
 	\end{equation}
-	for $\chi^\epl \colon \R^2 \to \R^N$ satisfying $\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl)] = 0$. Then, it holds
+	satisfying $\E^{\rho^\epl}[u^\epl(X^\epl, Z^\epl)] = 0$ for $\chi^\epl \colon \R^2 \to \R^N$. Then, it holds
 	\begin{equation}\label{eq:CLT_PoissonIto}
 		\frac{1}{T} \int_0^T  \chi^\epl(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)] - \frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T},
 	\end{equation}
 	where
 	\begin{equation}\label{eq:CLT_PoissonRemainders}
-		R^\epl(T) \defeq \Phi^\epl(X^\epl_T, Z^\epl_T) - \Phi^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl(T) \defeq \int_0^T \partial_x \Phi^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
+		R^\epl(T) \defeq u^\epl(X^\epl_T, Z^\epl_T) - u^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl(T) \defeq \int_0^T \partial_x u^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
 	\end{equation}
 	Moreover, it holds
 	\begin{equation}\label{eq:CLT_Equiv}
-		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)] = \E^{\rho^\epl}
+		2\sigma \E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)] = \E^{\rho^\epl}
 		\begin{aligned}[t]
-		[&\chi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
-		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)].
+		[&\chi^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl) \\
+		&+ u^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)].
 		\end{aligned}
 	\end{equation}	
 \end{lemma}
 \begin{proof} The proof of \eqref{eq:CLT_PoissonIto} and \eqref{eq:CLT_PoissonRemainders} is an application of the Itô formula (see e.g. \cite[Remark 6.17]{PaS08}). For \eqref{eq:CLT_Equiv}, it is possible to show that since $\mathcal L_\epl^*\rho^\epl = 0$ it holds 
 	\begin{equation}
-		\mathcal L_\epl^* (\Phi^\epl \rho^\epl) = 2 \sigma \rho^\epl \partial_{xx}^2 \Phi^\epl - \rho^\epl \mathcal L_\epl\Phi^\epl + 2 \sigma \partial_x \Phi^\epl \partial_x \rho^\epl.
+		\mathcal L_\epl^* (u^\epl \rho^\epl) = 2 \sigma \rho^\epl \partial_{xx}^2 u^\epl - \rho^\epl \mathcal L_\epl u^\epl + 2 \sigma \partial_x u^\epl \partial_x \rho^\epl.
 	\end{equation}
 	Therefore, an integration by parts yields 
 	\begin{equation}
 	\begin{aligned}
-		\E^{\rho^\epl}[\mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl)] &= 	\int_{\R}\int_{\R} \Phi^\epl \otimes \mathcal L_\epl^*\left(\Phi^\epl \rho^\epl\right) \dd x \dd z \\
-		&= -\int_{\R}\int_{\R}\Phi^\epl \otimes \mathcal L_\epl \Phi^\epl \rho^\epl \dd x \dd z- 2\sigma \int_{\R}\int_{\R} \partial_x \Phi^\epl \otimes \partial_x \Phi^\epl \rho^\epl \dd x \dd z\\
+		\E^{\rho^\epl}[\mathcal L_\epl u^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl)] &= 	\int_{\R}\int_{\R} u^\epl \otimes \mathcal L_\epl^*\left(u^\epl \rho^\epl\right) \dd x \dd z \\
+		&= -\int_{\R}\int_{\R}u^\epl \otimes \mathcal L_\epl u^\epl \rho^\epl \dd x \dd z- 2\sigma \int_{\R}\int_{\R} \partial_x u^\epl \otimes \partial_x u^\epl \rho^\epl \dd x \dd z\\
 		&= 
 		\begin{aligned}[t]
-		&-\E^{\rho^\epl}[\Phi^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl)] \\
-		&- 2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)].
+		&-\E^{\rho^\epl}[u^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl u^\epl(X^\epl, Z^\epl)] \\
+		&- 2\sigma \E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)].
 		\end{aligned}
 	\end{aligned}
 	\end{equation}
-	Finally, since $\E^{\rho^\epl}[\Phi(X^\epl, Z^\epl)] = 0$ 
+	Finally, since $\E^{\rho^\epl}[u(X^\epl, Z^\epl)] = 0$ 
 	\begin{equation}
 	\begin{aligned}
-		2\sigma \E^{\rho^\epl}[\partial_x \Phi^\epl(X^\epl, Z^\epl) \otimes \partial_x \Phi^\epl(X^\epl, Z^\epl)] &= -\E^{\rho^\epl}
+		2\sigma \E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)] &= -\E^{\rho^\epl}
 		\begin{aligned}[t]
-		[&\mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
-		& + \Phi^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl \Phi^\epl(X^\epl, Z^\epl)]
+		[&\mathcal L_\epl u^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl) \\
+		& + u^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl u^\epl(X^\epl, Z^\epl)]
 		\end{aligned}
 		\\
 		&= \E^{\rho^\epl}
 		\begin{aligned}[t]
-		[&\chi^\epl(X^\epl, Z^\epl) \otimes \Phi^\epl(X^\epl, Z^\epl) \\
-		&+ \Phi^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)],
+		[&\chi^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl) \\
+		&+ u^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)],
 		\end{aligned}
 	\end{aligned}
 	\end{equation}
 	which is the desired result.
+\end{proof}
+
+\begin{lemma} Let $u^\epl$ be the solution of \eqref{eq:CLT_Poisson} with 
+	\begin{equation}
+		\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
+	\end{equation}
+	where
+	\begin{equation}
+		\mathcal M_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ], \quad \mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ].
+	\end{equation}
+	Then, $u^\epl \to 0$ \corr{in which sense?} for $\epl \to 0$.
+\end{lemma}
+\begin{proof} We here present a formal proof based on asymptotic expansion with respect to $\epl$. Let us first remark that by definition
+	\begin{equation}
+		\E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)] = 0,
+	\end{equation}
+	and therefore problem \eqref{eq:CLT_Poisson} reads
+	\begin{equation}
+		-\mathcal L^\epl u^\epl = \chi^\epl.
+	\end{equation}
+	Let us now denote $y = x/\epl$ and write
+	\begin{equation}
+		u^\epl(x, z) = u_0(x, y, z) + \epl u_1(x, y, z) + \epl^2 u_2(x, y, z) + \ldots,
+	\end{equation}
+	which implies that
+	\begin{equation}
+	\begin{aligned}
+		\partial_x u^\epl &= \partial_x(u_0(x, y, z) + \epl u_1(x, y, z) + \epl^2 u_2(x, y, z) + \ldots) \\
+		&\quad+ \frac1\epl\partial_y(u_0(x, y, z) + \epl u_1(x, y, z) + \epl^2 u_2(x, y, z) + \ldots).
+	\end{aligned}
+	\end{equation}
+	Let us first remark that from the proof of Theorem \ref{thm:mainTheorem} we have that
+	\begin{equation}
+		\lim_{\epl \to 0} \mathcal M_\epl^{-1}\mathfrak p_\epl = A - \alpha.
+	\end{equation} 	
+	Replacing $u^\epl$ in \eqref{eq:CLT_Poisson} and grouping the terms of order $\epl^0$, $\epl^{-1}$ and $\epl^{-2}$ we get the system
+	\begin{align}
+		L_0 u_0 &= 0, \label{eq:CLT_AsExp1}\\
+		L_1 u_0 + L_0 u_1 &= - p'(y) V'(z), \label{eq:CLT_AsExp2}\\
+		L_0 u_2 + L_1 u_1 + L_2 u_0 &= \left(V'(z) \otimes V'(x)\right) (A - \alpha),\label{eq:CLT_AsExp3}
+	\end{align}
+	where 
+	\begin{equation}
+	\begin{aligned}
+		L_0 &= -p'(y) \partial_y + \sigma \partial^2_{yy},\\
+		L_1 &= -p'(y) \partial_x - \alpha \cdot V'(x) \partial_y + 2 \sigma \partial^2_{xy}, \\
+		L_2 &= 	-\alpha \cdot V'(x) \partial_x - \frac1{\delta}(z - x)	\partial_z + \sigma \partial^2_{xx}.
+	\end{aligned}
+	\end{equation}
+	Let us first remark that equation \eqref{eq:CLT_AsExp1} is satisfied for $u_0 = u_0(x, z)$ independent of $y$. In particular, the kernel of $L_0$ is made of constants and the kernel of $L_0^*$ is one-dimensional and $\mathrm{Ker}(L_0^*) = \mathrm{Span}\{\rho\}$ where
+	\begin{equation}\label{eq:CLT_Invariant}
+		\rho(y) = \frac1Z e^{-p(y)/\sigma}, \quad\text{where}\quad Z = \int_0^L e^{-p(y)/\sigma} \dd y,
+	\end{equation} 
+	where $L$ is the period of $p$. Since $u_0$ is independent of $y$ equation \eqref{eq:CLT_AsExp2} reduces to 
+	\begin{equation}
+		L_0 u_1 = p'(y)\left(\partial_x u_0 -V'(z)\right).
+	\end{equation}
+	Let us remark that the general solution $u_1$ can be written as
+	\begin{equation}
+		u_1(x,y,z) = \Phi(y)\left(\partial_x u_0(x, z) - V'(z)\right),
+	\end{equation}
+	where $\Phi \colon \R \to \R$ satisfies
+	\begin{equation}
+		-L_0 \Phi = -p'(y).
+	\end{equation} 
+	Let us remark that this cell problem is the same as \eqref{eq:CellProblem}. We consider now equation \eqref{eq:CLT_AsExp3} and remark that we can rewrite it as
+	\begin{equation}
+	\begin{aligned}
+		L_0 u_2 &= (V'(z) \otimes V'(x))(A - \alpha) - \left(2\Phi'(y) - \frac1\sigma p'(y) \Phi(y) + 1\right) \sigma \partial^2_{xx}u_0 \\
+		&\quad +\left(\Phi'(y) + 1\right) \left( \alpha \cdot V'(x) \right) \partial_x u_0 - \left(V'(z) \otimes V'(x) \right)\alpha \Phi'(y) + \frac1\delta(z-x) \partial_z u_0.
+	\end{aligned}
+	\end{equation}
+	By the Fredholm alternative, in order for \eqref{eq:CLT_AsExp3} to have a solution we need the right hand side to have zero-mean with respect to $\rho$ in \eqref{eq:CLT_Invariant}. Therefore, recalling that the homogenization coefficient $K$ in \eqref{eq:K_HOM} is given by
+	\begin{equation}
+		K = \int_0^L (1 + \Phi'(y))^2 \rho(y) \dd y
+	\end{equation}
+	and remarking that integrations by part allow to rewrite $K$ as
+	\begin{equation}
+		K = \int_0^L (1 + \Phi'(y)) \rho(y) \dd y, \quad  K = \int_0^L \left(2\Phi'(y) - \frac1\sigma p'(y) \Phi(y) + 1\right) \rho(y) \dd y,
+	\end{equation}
+	we get
+	\begin{equation}
+		0 = (V'(z) \otimes V'(x))(A - \alpha - (K - 1)\alpha) - K \sigma \partial^2_{xx}u_0 + \left(K \alpha \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0,
+	\end{equation}
+	which, since $A = K\alpha$ and $\Sigma = K\sigma$, implies
+	\begin{equation}
+		0 = -\Sigma \partial^2_{xx}u_0 + \left(A \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0,
+	\end{equation}
 \end{proof}
 
 We can now proceed with the main proof.
@@ -893,7 +981,7 @@ We can now proceed with the main proof.
 	\end{equation}
 	and the notation
 	\begin{equation}
-	\mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ]\
+	\mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ]
 	\end{equation}
 	and let us remark that from the proof of Theorem \ref{thm:mainTheorem} one can deduce the equalities
 	\begin{equation}\label{eq:CTL_A}
@@ -961,11 +1049,11 @@ We can now proceed with the main proof.
 		&\quad \times \left(\frac1T \int_0^T \left( \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t)	- V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \dd t	 \right).
 	\end{aligned}
 	\end{equation}
-	Let us denote by $\Phi^\epl$ the solution of \eqref{eq:CLT_Poisson} in Lemma \ref{lem:CLT} with right hand side
+	Let us denote by $\Phi^\epl$ the solution of \eqref{eq:CLT_Poisson} with right hand side
 	\begin{equation}
 	\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
 	\end{equation}
-	and note that $\E^{\rho^\epl}[\chi^\epl(X^\epl,Z^\epl)] = 0$. Then we have
+	and note that $\E^{\rho^\epl}[\chi^\epl(X^\epl,Z^\epl)] = 0$. Then, by Lemma \ref{lem:CLT}, we have
 	\begin{equation}
 	J_1^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( -\frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T} \right),
 	\end{equation}
