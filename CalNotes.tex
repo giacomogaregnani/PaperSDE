@@ -799,7 +799,7 @@ In this work we considered a novel methodology based on filtering for the estima
 	\begin{equation} \label{eq:psiEquality}
 	\delta \sigma \psi^\epl(z) \int_{\R} \phi^\epl(x) \partial_x R^\epl(x, z) \dd x = 
 	\begin{aligned}[t] &(\psi^\epl)'(z) z^2 - (\psi^\epl)'(z) \int_{\R} x^2 \phi^\epl(x) R^\epl(x, z) \dd x \\
-	& + 2 \psi^\epl(x) z - \psi^\epl \int_{\R} x^2 \phi^\epl(x) \partial_z R^\epl(x, z) \dd x.
+	& + 2 \psi^\epl(z) z - \psi^\epl \int_{\R} x^2 \phi^\epl(x) \partial_z R^\epl(x, z) \dd x.
 	\end{aligned}
 	\end{equation}
 	Multiplying by $V'(z)$, integrating with respect to $z$ and integrating by parts, we obtain the following identity in $\R^N$
@@ -1143,7 +1143,7 @@ where the matrix $M$ is taken from \eqref{eq:MandH} and the vector $\widetilde{h
 	\E^{\phi^\epl}\abs{X_t^\epl - X_s^\epl}^{2p} \leq C\left(\epl^{2p} + (t-s)^{2p} + (t-s)^p\right),
 	\end{equation}
 	holds for all $t > s$ due to \cite[Lemma 6.1]{PaS07}. Finally, it is possible to verify by induction on $r$ that for all integers $r$ it holds
-	\begin{equation}
+	\begin{equation}\label{eq:FilterTminusS}
 	\int_0^t k(t-s) (t - s)^r \dd s \leq r! \, \delta^r, 
 	\end{equation}
 	which implies that there exists a constant $C > 0$ depending only on $p$ such that
@@ -1214,6 +1214,110 @@ We can finally prove the unbiasedness of the estimator $\widetilde A^\epl_k(T)$.
 	\end{equation}
 	Therefore, due to Theorem \ref{thm:mainTheorem}, the inequality \eqref{eq:DistATildeAHat} and since $\delta \to 0$ for $\epl \to 0$, the desired result holds.
 \end{proof}
+
+\section{Some calculations}
+
+\begin{lemma}
+	\begin{equation}
+		Z_t^\epl - X_t^\epl = \delta (A \cdot V'(X_t^\epl)) + \ldots
+	\end{equation}
+\end{lemma}
+\begin{proof} Let $t > s$, $\Phi$ solution of \eqref{eq:CellProblem} and $Y_t^\epl = X_t^\epl / \epl$. Then, an application of the Itô formula yields \cite[Formula 5.8]{PaS07}
+	\begin{equation}\label{eq:App_DiffXtXs}
+	\begin{aligned}
+		X_t^\epl - X_s^\epl &= -\int_s^t (\alpha \cdot V'(X_r^\epl))(1 + \Phi'(Y^\epl_r)) \dd r\\
+		&\quad +\sqrt{2\sigma} \int_s^t (1 + \Phi'(Y_r^\epl)) \dd W_r + \epl(\Phi(Y^\epl_t)-\Phi(Y^\epl_s)).
+	\end{aligned}
+	\end{equation}
+	Recall that we have
+	\begin{equation}
+		X_t^\epl - Z_t^\epl = \int_0^t k(t-s) (X_t - X_s) \dd s + e^{-t/\delta}X_t.
+	\end{equation}
+	Plugging \eqref{eq:App_DiffXtXs} into the equation above, we obtain
+	\begin{equation}
+		X_t^\epl - Z_t^\epl = I_1^\epl(t) + I_2^\epl(t) + I_3^\epl(t) + I_4^\epl(t),
+	\end{equation}
+	where
+	\begin{equation}
+	\begin{aligned}
+		I_1^\epl(t) &\defeq -\int_0^t k(t-s)\int_s^t (\alpha \cdot V'(X_r^\epl))(1 + \Phi'(Y^\epl_r)) \dd r \dd s,\\
+		I_2^\epl(t) &\defeq \sqrt{2\sigma}\int_0^t k(t-s) \int_s^t (1 + \Phi'(Y_r^\epl)) \dd W_r \dd s, \\
+		I_3^\epl(t) &\defeq \epl \int_0^t k(t-s)(\Phi(Y^\epl_t)-\Phi(Y^\epl_s)) \dd s,\\
+		I_4^\epl(t) &= e^{-t / \delta}X_t.
+	\end{aligned}
+	\end{equation}
+	Let us analyze the terms above singularly. For $I_1^\epl(t)$, one can show \cite[Proposition 5.8]{PaS07}
+	\begin{equation}
+		 \int_s^t (\alpha \cdot V'(X_r^\epl)) (1 + \Phi'(Y^\epl_r)) \dd r = (t - s)(A \cdot V'(X_t^\epl)) + R_1^\epl(t-s),
+	\end{equation}
+	in law, where
+	\begin{equation}\label{eq:FirstTermPavStu}
+		\left(\E^{\phi^\epl}\abs{R_1^\epl(t-s)}^p\right)^{1/p} \leq C(\epl^2 + \epl(t-s)^{1/2}+(t-s)^{3/2}).
+	\end{equation}
+	Therefore, 
+	\begin{equation}\label{eq:Diff_I1}
+	\begin{aligned}
+		I_1^\epl(t) &= -(A \cdot V'(X_t^\epl)) \int_0^t k(t-s) (t-s)\dd s + \int_0^t k(t-s)R^\epl(t-s) \dd s\\
+		&= -\delta (A \cdot  V'(X_t^\epl)) + e^{-t/\delta}(t + \delta)(A \cdot V'(X_t^\epl)) + \widetilde R_1^\epl(t),
+	\end{aligned}
+	\end{equation}
+	where we exploited the equality
+	\begin{equation}
+		\int_0^t k(t-s) (t-s) \dd s = \delta - e^{-t/\delta}(t + \delta),
+	\end{equation}
+	and where
+	\begin{equation}
+		\widetilde R_1^\epl(t) \defeq \int_0^t k(t-s)R_1^\epl(t-s) \dd s.
+	\end{equation}
+	Now, Jensen's inequality with $\kappa(\d s)$ and the inequalities \eqref{eq:FirstTermPavStu} and \eqref{eq:FilterTminusS} yield for all integers $p \geq 1$ and a constant $C$ depending only on $p$
+	\begin{equation}
+	\begin{aligned}
+		\E\abs{\widetilde R_1^\epl(t)}^{2p} &= (1-e^{-t/\delta})^{2p}\E\abs{\int_0^t R_1^\epl(t-s) \kappa(\d s)}^{2p}\\
+		&\leq (1-e^{-t/\delta})^{2p} \int_0^t \E \abs{R_1^\epl(t-s)}^{2p} \kappa(\d s)\\
+		&\leq C (1-e^{-t/\delta})^{2p-1} \int_0^t k(t-s)(\epl^{4p} + \epl(t-s)^p+(t-s)^{3p}) \dd s\\
+		&\leq C \left( \epl^{4p} + \epl \delta^p + \delta^{3p} \right).
+	\end{aligned}
+	\end{equation}
+	We now consider the second term. Let us remark that it holds \cite[Proposition 5.7, Section 6.2]{PaS07}
+	\begin{equation}
+		\sqrt{2\sigma} \int_s^t \left(1+\Phi'(Y_s^\epl)\right) \dd W_r = \sqrt{2\Sigma}\left(\widehat W_t - \widehat W_s\right) + R_2^\epl(t-s),
+	\end{equation}
+	in law, where $\Sigma$ is the diffusion coefficient of the homogenized equation \eqref{eq:SDE_HOM}, $\widehat W_t$ is a standard Brownian motion and 
+	\begin{equation}
+		\left(\E\abs{R_2^\epl(t-s)}^p\right)^{1/p} \leq C\epl^\iota,
+	\end{equation}
+	for all $\iota \in (0, 1/2)$. Therefore, it holds in law
+	\begin{equation}
+		I_2^\epl(t) = \int_0^t k(t-s) \left(\widehat W_t - \widehat W_s\right) \dd s + \widetilde R_2^\epl(t),
+	\end{equation}
+	where
+	\begin{equation}
+		\widetilde R_2^\epl(t) \defeq \int_0^t k(t-s) R_2^\epl(t-s) \dd s.
+	\end{equation}
+	Let us now remark that applying Jensen's inequality with $\kappa(\d s)$, due to the moments of the Gaussian distribution and applying \eqref{eq:FilterTminusS}, we have for a constant $C > 0$ depending only on $p$
+	\begin{equation}
+	\begin{aligned}
+		\E\abs{\int_0^t k(t-s) \left(\widehat W_t - \widehat W_s\right) \dd s}^p &\leq (1-e^{-t/\delta})^{p-1} \int_0^t (2\Sigma)^{p/2}k(t-s)\E\abs{\widehat W_t - \widehat W_s}^p \dd s\\
+		&\leq C \int_0^t k(t - s) (t-s)^p \dd s \\
+		&\leq C \delta^p.
+	\end{aligned}
+	\end{equation}
+	Moreover, always applying Jensen's inequality with $\kappa(\d s)$ we simply obtain
+	\begin{equation}
+		\E\abs{\widetilde R_2^\epl(t)}^p \leq C \epl^{p\iota}.
+	\end{equation}
+	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
+	\begin{equation}
+		\abs{I_3^\epl(t)} \leq C \epl, 
+	\end{equation}
+	almost surely. Finally, due to \cite[Corollary 5.4]{PaS07}, we know that $X_t^\epl$ has bounded moments of all orders and therefore
+	\begin{equation}
+		\E\abs{I_4^\epl(t)}^p \leq C e^{-pt/\delta},
+	\end{equation}
+	which concludes the proof.
+\end{proof}
+
+
 
 \end{appendices}
 
