@@ -892,9 +892,9 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\end{equation}
 	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, the remainder $R(\epl,\delta)$ satisfies for every $p > 0$ the estimate
 	\begin{equation} \label{eq:remainder_zeta}
-	\left( \E^{\rho_\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl^2 + \epl \delta^{1/2} \right),
+	\left( \E^{\phi^\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl + \epl \delta^{1/2} \right),
 	\end{equation}
-	where $C$ is independent of $\epl$ and $\delta$.
+	where $C$ is independent of $\epl$ and $\delta$ and $\phi^\epl$ is the density of the invariant measure of $X^\epl$.
 \end{lemma}
 \begin{proof} Recall that by definition of $Z_t^\epl$ we have
 	\begin{equation}
@@ -971,7 +971,7 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\end{equation}
 	where we applied Jensen's inequality, an estimate for the moments of stochastic integrals \cite[Formula (3.25), p. 163]{KaS91} and the boundedness of $\Phi$. Therefore, for $t$ large enough, we have
 	\begin{equation}
-		\E\abs{R_2^\epl(t)}^p \leq C \sqrt{t}e^{-pt/\delta}.
+		\E^{\phi^\epl}\abs{R_2^\epl(t)}^p \leq C \sqrt{t}e^{-pt/\delta}.
 	\end{equation}
 	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
 	\begin{equation}
