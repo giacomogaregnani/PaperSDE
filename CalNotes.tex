@@ -409,20 +409,6 @@ which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, prov
 		where $A$ is the drift coefficient of the homogenized equation \eqref{eq:SDE_MS}.
 \end{theorem}}
 
-\subsection{Central limit theorem}
-
-\corr{Text to be added with motivation, proof in Appendix \ref{ap:CLT}.
-\begin{theorem}\label{thm:CLT} Central limit theorem statement:
-	\begin{equation}
-		\lim_{\epl \to 0}\lim_{T \to \infty} \sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \Lambda, \quad \text{in law,}
-	\end{equation}
-	where $\Lambda \sim \mathcal N(0, \Gamma)$ and
-	\begin{equation}
-		\Gamma = 2\sigma \E^{\rho^0}[V'(Z) \otimes V'(X)]^{-1}\E^{\rho^0}[V'(Z) \otimes V'(Z)]\E^{\rho^0}[V'(X) \otimes V'(Z)]^{-1}.
-	\end{equation}
-	This covariance may not be correct (see proof in the Appendix) but it is just the limit of the ``third term'' 
-\end{theorem}
-}
 
 \section{The Bayesian setting}\label{sec:Bayesian}
 
@@ -617,20 +603,6 @@ As a second experiment, we therefore test the variability of the estimator with 
 	\label{fig:OUBeta}
 \end{figure}
 
-\subsection{Central limit theorem}
-\begin{figure}[t]
-	\centering
-	\includegraphics[]{Figures/CLT}
-	\caption{Central limit theorem result. The histogram represents numerical results, the solid curve a Gaussian fit to the latter and the dashed curve the theoretical estimate given in Theorem \ref{thm:CLT}.}
-	\label{fig:CLT}
-\end{figure}
-
-In this experiment we wish to confirm the validity of Theorem \ref{thm:CLT}. We consider the same test equation as for Section \ref{sec:Num_Param}, i.e., the quadratic potential $V(x) = x^2/2$ with fluctuating potential $p(y) = \sin(y)$, multiscale parameter $\epl = 0.05$ and diffusion coefficient $\sigma = 1$. The parameters of the filter are set to $\beta = 1$ and $\delta = 1$. We compute the estimator $\widehat A^\epl_k(T)$ with final time $T = 10^3$ on $2000$ realizations of the solution and estimate the quantity 
-\begin{equation}	
-	\Delta_A^\epl(T) \defeq \sqrt{T}\left(\widehat A^\epl_k(T) - A\right),	
-\end{equation}
-where $A$ is the drift coefficient of the homogenized equation. Results, depicted in Figure \ref{fig:CLT}, show that the distribution of $\Delta_A^\epl(T)$ indeed follows a zero-mean Gaussian law, \corr{whose covariance agrees with the theoretical results (?)}.
-
 \subsection{Multi-dimensional drift coefficient}
 
 \begin{figure}[t]
@@ -790,31 +762,145 @@ In this work we considered a novel methodology based on filtering for the estima
 	with $(X_0, Z_0)^\top \sim \mu^0$. The arguments of Section \ref{sec:ergodic} can be repeated to conclude that the invariant measure of $(X, Z)^\top$ admits a smooth density $\rho^0$ which satisfies \eqref{eq:FPsystem_homogenized}. Moreover, standard homogenization theory (see e.g. \cite[Chapter 3]{BLP78}) guarantees that $(X^\epl,Z^\epl)^\top \to (X,Z)^\top$ for $\epl \to 0$ in law as random variables with values in $\mathcal C^0([0, T]; \R^2)$. The Portmanteau theorem can be employed to conclude that the measure $\mu^\epl$ converges weakly to $\mu^0$ for $\epl \to 0$.
 \end{proof}
 
-\section{Proof of Theorem \ref{thm:mainTheorem_zeta}} \label{ap:zeta}
+\section{Estimates on the filtered solution}
 
-\begin{lemma} \label{lem:zeta}
-	For $\epl,\delta>0$ sufficiently small and $t>0$ sufficiently big, there exists a standard Brownian motion $B_t$ independent of the processes $X_t$ and $Z_t$ such that
+In this section, we prove a series of results which quantify the distance between the multiscale solution $X_t^\epl$ and the filtered trajectory $Z_t^\epl$. First, we prove a Jensen-like inequality for the kernel of the filter.
+
+\begin{lemma}\label{lem:FilterJensen} Let $\delta > 0$ and $k(r)$ be defined as
 	\begin{equation}
-	X_t^\epl - Z_t^\epl = \sqrt{2\Sigma}\delta \int_0^t k(t-s) \dd B_s + R(\epl,\delta),
+		k(r) = \frac1\delta e^{-r/\delta}.
 	\end{equation}
-	in law. The remainder $R(\epl,\delta)$ satisfies, for every $p > 0$ and $\iota \in (0,1/2)$, the estimate
+	Then, for any $t > 0$, $p \geq 0$ and any function $g\in \mathcal C^0(0, t)$ it holds 
+	\begin{equation}
+		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq (1 - e^{-t/\delta})^{p-1}\int_0^t k(t-s) \abs{g(s)}^p \dd s.
+	\end{equation}
+	Moreover, if $p \geq 1$ and since $0 < (1-e^{-t/\delta}) < 1$ for all $t > 0$, it holds
+	\begin{equation}
+		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq \int_0^t k(t-s) \abs{g(s)}^p \dd s.
+	\end{equation}
+\end{lemma}
+\begin{proof} Let us first note that
+	\begin{equation}
+		\int_0^t k(t-s) \dd s = 1 - e^{-t/\delta}.
+	\end{equation}
+	Therefore, the measure $\kappa_t(\d s)$ on $(0, t)$ defined as
+	\begin{equation}
+		\kappa_t(\d s) \defeq \frac{k(t-s)}{1 - e^{-t/\delta}} \dd s,
+	\end{equation}
+	is a probability measure. An application of Jensen's inequality therefore yields
+	\begin{equation}
+	\begin{aligned}
+		\abs{\int_0^t k(t-s) g(s) \dd s}^p &\leq (1 - e^{-t/\delta})^p \int_0^t \abs{g(s)}^p \kappa_t(\d s) \\
+		&= (1 - e^{-t/\delta})^{p-1} \int_0^t k(t-s) \abs{g(s)}^p \dd s,
+	\end{aligned}
+	\end{equation}
+	which is the desired result.
+\end{proof}
+
+The following lemma characterizes the action of the filter when it is applied to polynomials.
+\begin{lemma}\label{lem:FilterPoly} With the notation of Lemma \ref{lem:FilterJensen}, it holds for all $p \geq 0$
+	\begin{equation}
+		\int_0^t k(t-s)(t-s)^p \dd s \leq C \delta^p,
+	\end{equation}
+	where $C > 0$ is a positive constant independent of $\delta$.
+\end{lemma}
+\begin{proof} The change of variable $u = (t-s)/\delta$ yields
+	\begin{equation}
+		\int_0^t k(t-s)(t-s)^p \dd s = \delta^p \int_0^{t/\delta} u^p e^{-u} \dd u = \delta^p \gamma\left(p+1, \frac{t}{\delta}\right),
+	\end{equation}
+	where $\gamma$ is the lower incomplete Gamma function, which is bounded by the complete Gamma function $\Gamma(p+1)$ independently of the second argument.
+\end{proof}
+We can now prove a rough estimate of the difference between the trajectories $X_t^\epl$ and $Z_t^\epl$ when they are at stationarity.
+
+\begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
+	\begin{equation}
+		\left(\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p\right)^{1/p} \leq C\left(\epl + \delta^{1/2}\right),
+	\end{equation}
+	for a constant $C > 0$ independent of $\epl$ and $\delta$.
+\end{lemma}
+\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ we have
+	\begin{equation}
+	\begin{aligned}
+		X_t^\epl - Z_t^\epl &= X_t^\epl - \int_0^t k(t-s) X_s^\epl \dd s\\
+		&= \int_0^t k(t - s) \left(X_t^\epl - X_s^\epl\right) \dd s + e^{-t/\delta} X^\epl_t.
+	\end{aligned}
+	\end{equation}
+	Therefore, Lemma \ref{lem:FilterJensen} yields for a constant $C > 0$ depending only on $p$
+	\begin{equation}
+		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\int_0^t \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^p k(t-s) \dd s + Ce^{-pt/\delta} \E^{\phi^\epl} \abs{X^\epl_t}^p.
+	\end{equation}
+	Moreover, the estimate
+	\begin{equation}
+		\E^{\phi^\epl}\abs{X_t^\epl - X_s^\epl}^p \leq C\left(\epl^p + (t-s)^p + (t-s)^{p/2}\right),
+	\end{equation}
+	holds for all $t > s$ due to \cite[Lemma 6.1]{PaS07}. Finally, since the moments of $X_t^\epl$ are bounded \cite[Corollary 5.4]{PaS07} and due to Lemma \ref{lem:FilterPoly} there exists a constant $C > 0$ depending only on $p$ such that
+	\begin{equation}
+		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2} + e^{-pt/\delta}\right).
+	\end{equation}
+	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $C$ depending on the initial condition and $p$  
+	\begin{equation}
+	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
+	\end{equation}
+	which, for $t$ sufficiently big, yields the desired result.
+\end{proof}
+
+It is relevant to study the quantities
+\begin{equation}\label{eq:CalM}
+\mathcal M_\epl \defeq \E^{\rho^\epl}[V'(X^\epl) \otimes V'(X^\epl)] \quad \text{and} \quad \widetilde{\mathcal M}_\epl \defeq \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)],
+\end{equation}
+which are by the ergodic theorem the time limit of the matrices appearing in the estimators $\widehat A^\epl(T)$ and $\widehat A^\epl_k(T)$, respectively. In particular, the distance between the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ can be bounded, which is summarized in the following lemma.
+
+\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Lemma \ref{lem:distanceZandX} hold. Then the matrices $\mathcal M$ and $\widetilde{\mathcal M}_\epl$ defined in \eqref{eq:CalM} satisfy
+	\begin{equation}
+	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 \leq C\left(\epl + \delta^{1/2}\right),
+	\end{equation}
+	for a constant $C > 0$ independent of $\epl$ and $\delta$.
+\end{lemma}
+\begin{proof} Applying Jensen's and Cauchy--Schwarz inequalities we have
+	\begin{equation}
+	\begin{aligned}
+	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 &\leq \E^{\rho^\epl} \norm{\left(V'(Z^\epl) - V'(X^\epl)\right) \otimes V'(X^\epl)}_2 \\
+	&\leq \left(\E^{\rho^\epl}\norm{V'(Z^\epl) - V'(X^\epl)}_2^2\right)^{1/2} \left(\E^{\rho^\epl} \norm{V'(X^\epl)}_2^{2}\right)^{1/2}.
+	\end{aligned}
+	\end{equation}
+	The Lipschitz condition on $V'$ together with the boundedness of the moments of $X^\epl$ and Lemma \ref{lem:distanceZandX} yield for a constant $C > 0$
+	\begin{equation}
+	\begin{aligned}
+	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 &\leq C\left(\E^{\rho^\epl}\abs{Z^\epl - X^\epl}^{2}\right)^{1/2} \leq C \left(\epl + \delta^{1/2} \right),
+	\end{aligned}
+	\end{equation}
+	which is the desired result.
+\end{proof}
+
+The final result presented in this section is a sharper quantification of the difference between $X^\epl_t$ and $Z^\epl_t$ than Lemma \ref{lem:distanceZandX}. In particular, denoting $Y_t^\epl \defeq X_t^\epl/\epl$, we will make use of the decomposition
+\cite[Formula 5.8]{PaS07}
+\begin{equation}\label{eq:App_DiffXtXs}
+\begin{aligned}
+	X_t^\epl - X_s^\epl &= -\int_s^t (\alpha \cdot V'(X_r^\epl))(1 + \Phi'(Y^\epl_r)) \dd r\\
+	&\quad +\sqrt{2\sigma} \int_s^t (1 + \Phi'(Y_r^\epl)) \dd W_r - \epl(\Phi(Y^\epl_t)-\Phi(Y^\epl_s)),
+\end{aligned}
+\end{equation}
+which is obtained applying the Itô formula to $\Phi$, the solution of the cell problem \eqref{eq:CellProblem}. 
+
+\begin{lemma} \label{lem:zeta} Let Assumption \ref{as:regularity} hold and $\epl,\delta>0$ be sufficiently small. Then, it holds for every $t > 0$ sufficiently big 
+	\begin{equation}
+		X_t^\epl - Z_t^\epl = \delta \beta^\epl_t + R(\epl,\delta),
+	\end{equation}
+	where the stochastic process $\beta_t^\epl$ is defined as
+	\begin{equation}\label{eq:defBeta}
+		\beta_t^\epl \defeq \sqrt{2\sigma} \int_0^t k(t-s)(1 + \Phi'(Y_s^\epl)) \dd W_s,
+	\end{equation}
+	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, the remainder $R(\epl,\delta)$ satisfies for every $p > 0$ the estimate
 	\begin{equation} \label{eq:remainder_zeta}
-		\left( \E^{\rho_\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl^\iota + \epl \delta^{1/2} \right),
+	\left( \E^{\rho_\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl^2 + \epl \delta^{1/2} \right),
 	\end{equation}
 	where $C$ is independent of $\epl$ and $\delta$.
 \end{lemma}
-\begin{proof} Let $t > s$, $\Phi$ solution of \eqref{eq:CellProblem} and $Y_t^\epl = X_t^\epl / \epl$. Then, an application of the Itô formula yields \cite[Formula 5.8]{PaS07}
-	\begin{equation}\label{eq:App_DiffXtXs}
-	\begin{aligned}
-	X_t^\epl - X_s^\epl &= -\int_s^t (\alpha \cdot V'(X_r^\epl))(1 + \Phi'(Y^\epl_r)) \dd r\\
-	&\quad +\sqrt{2\sigma} \int_s^t (1 + \Phi'(Y_r^\epl)) \dd W_r - \epl(\Phi(Y^\epl_t)-\Phi(Y^\epl_s)).
-	\end{aligned}
-	\end{equation}
-	Recall that we have
+\begin{proof} Recall that by definition of $Z_t^\epl$ we have
 	\begin{equation}
 	X_t^\epl - Z_t^\epl = \int_0^t k(t-s) (X_t^\epl - X_s^\epl) \dd s + e^{-t/\delta}X_t^\epl.
 	\end{equation}
-	Plugging \eqref{eq:App_DiffXtXs} into the equation above, we obtain
+	Plugging the decomposition \eqref{eq:App_DiffXtXs} into the equation above, we obtain
 	\begin{equation}
 	X_t^\epl - Z_t^\epl = I_1^\epl(t) + I_2^\epl(t) + I_3^\epl(t) + I_4^\epl(t),
 	\end{equation}
@@ -831,11 +917,11 @@ In this work we considered a novel methodology based on filtering for the estima
 	\begin{equation}
 	\int_s^t (\alpha \cdot V'(X_r^\epl)) (1 + \Phi'(Y^\epl_r)) \dd r = (t - s)(A \cdot V'(X_t^\epl)) + R_1^\epl(t-s),
 	\end{equation}
-	in law, where
+	in law, where the remainder $R_1^\epl$ satisfies 
 	\begin{equation}\label{eq:FirstTermPavStu}
 	\left(\E^{\phi^\epl}\abs{R_1^\epl(t-s)}^p\right)^{1/p} \leq C(\epl^2 + \epl(t-s)^{1/2}+(t-s)^{3/2}).
 	\end{equation}
-	Therefore, 
+	Therefore, it holds 
 	\begin{equation}\label{eq:Diff_I1}
 	\begin{aligned}
 	I_1^\epl(t) &= -(A \cdot V'(X_t^\epl)) \int_0^t k(t-s) (t-s)\dd s + \int_0^t k(t-s)R^\epl(t-s) \dd s\\
@@ -850,63 +936,43 @@ In this work we considered a novel methodology based on filtering for the estima
 	\begin{equation}
 	\widetilde R_1^\epl(t) \defeq \int_0^t k(t-s)R_1^\epl(t-s) \dd s.
 	\end{equation}
-	Now, Jensen's inequality with $\kappa(\d s)$ and the inequalities \eqref{eq:FirstTermPavStu} and \eqref{eq:FilterTminusS} yield for all integers $p \geq 1$ and a constant $C$ depending only on $p$
+	Now, Lemma \ref{lem:FilterJensen}, the inequality \eqref{eq:FirstTermPavStu} and Lemma \ref{lem:FilterPoly} yield for all $p \geq 1$
 	\begin{equation}
 	\begin{aligned}
-	\E^{\phi^\epl}\abs{\widetilde R_1^\epl(t)}^{2p} &= (1-e^{-t/\delta})^{2p}\E^{\phi^\epl}\abs{\int_0^t R_1^\epl(t-s) \kappa(\d s)}^{2p}\\
-	&\leq (1-e^{-t/\delta})^{2p} \int_0^t \E^{\phi^\epl} \abs{R_1^\epl(t-s)}^{2p} \kappa(\d s)\\
-	&\leq C (1-e^{-t/\delta})^{2p-1} \int_0^t k(t-s)(\epl^{4p} + \epl^{2p}(t-s)^p+(t-s)^{3p}) \dd s\\
-	&\leq C \left( \epl^{4p} + \epl^{2p} \delta^p + \delta^{3p} \right).
+		\E^{\phi^\epl}\abs{\widetilde R_1^\epl(t)}^p &\leq C \int_0^t k(t-s)\E^{\phi^\epl} \abs{R_1^\epl(t-s)}^p \dd s\\
+		&\leq C \int_0^t k(t-s)(\epl^{2p} + \epl^p(t-s)^{p/2}+(t-s)^{3p/2}) \dd s\\
+		&\leq C \left( \epl^{2p} + \epl^p \delta^{p/2} + \delta^{3p/2} \right),
 	\end{aligned}
 	\end{equation}
-	Therefore, for $t$ sufficiently big, we get
+	where $C$ is a positive constant independent of $\epl$ and $\delta$. Therefore, for $t$ sufficiently big and $\delta$ sufficiently small, we get
+	\begin{equation}
+		\left(\E^{\phi^\epl}\abs{I_1^\epl(t)}^{p}\right)^{1/p} \leq C \left( \delta + \epl^2 + \epl \delta^{1/2} \right).
+	\end{equation}
+	We now consider the second term. Let us introduce the notation  
+	\begin{equation}
+		Q_t \defeq \int_0^t \left(1 + \Phi'(Y_r^\epl)\right) \dd W_r,
+	\end{equation}
+	and therefore rewrite
+	\begin{equation}
+		I_2^\epl(t) = \sqrt{2\sigma} Q_t \int_0^t k(t-s)(Q_t - Q_s) \dd s.
+	\end{equation}
+	An application of the Itô formula to $u(s, Q_s)$ where $u(s, x) = k(t-s)x$ yields
 	\begin{equation}
 	\begin{aligned}
-		\left(\E^{\phi^\epl}\abs{I_1^\epl(t)}^{p}\right)^{1/p} \le& C \left( \delta + \epl^2 + \epl \delta^{1/2} + \delta^{3/2} \right) \\
-		\le& C \left( \delta + \epl^2 + \epl \delta^{1/2} \right).
+		I_2^\epl(t) &= \sqrt{2\sigma} \left(Q_t\int_0^t k(t-s) \dd s - Q_t + \delta \int_0^t k(t-s)\left(1 + \Phi'(Y_s^\epl)\right) \dd W_s\right)\\
+		  			&= \delta \beta_t^\epl - \sqrt{2\sigma} e^{-t/\delta} Q_t \eqdef \delta \beta_t^\epl - R_2^\epl(t).
 	\end{aligned}
 	\end{equation}
-	We now consider the second term. Let us remark that it holds \cite[Proposition 5.7, Section 6.2]{PaS07}
+	where $\beta_t^\epl$ is defined in \eqref{eq:defBeta}. For the remainder $R_2^\epl(t)$, let us remark that for all $p \geq 1$ it holds
 	\begin{equation}
-	\sqrt{2\sigma} \int_s^t \left(1+\Phi'(Y_s^\epl)\right) \dd W_r = \sqrt{2\Sigma}\left( B_t - B_s\right) + R_2^\epl(t-s),
+	\begin{aligned}
+		\left(\E\abs{Q_t}^p\right)^2 \leq \E\abs{Q_t}^{2p} \leq Ct^{p-1}\int_0^t \E \abs{1 + \Phi'(Y_r^\epl)}^{2p} \dd r \leq C t
+	\end{aligned}
 	\end{equation}
-	in law, where $\Sigma$ is the diffusion coefficient of the homogenized equation \eqref{eq:SDE_HOM}, $B_t$ is a standard Brownian motion \corr{independent of the process $X_t$ (?)} and 
+	where we applied Jensen's inequality, an estimate for the moments of stochastic integrals \cite[Formula (3.25), p. 163]{KaS91} and the boundedness of $\Phi$. Therefore, for $t$ large enough, we have
 	\begin{equation}
-	\left(\E^{\phi^\epl}\abs{R_2^\epl(t-s)}^p\right)^{1/p} \leq C\epl^\iota,
+		\E\abs{R_2^\epl(t)}^p \leq C \sqrt{t}e^{-pt/\delta}.
 	\end{equation}
-	for all $\iota \in (0, 1/2)$. Therefore, it holds in law
-	\begin{equation} \label{eq:I2_decomposition}
-	I_2^\epl(t) = \sqrt{2\Sigma} \int_0^t k(t-s) \left(B_t - B_s\right) \dd s + \widetilde R_2^\epl(t),
-	\end{equation}
-	where
-	\begin{equation}
-	\widetilde R_2^\epl(t) \defeq \sqrt{2\Sigma} \int_0^t k(t-s) R_2^\epl(t-s) \dd s.
-	\end{equation}
-	Applying Jensen's inequality with $\kappa(\d s)$ we obtain
-	\begin{equation}
-	\left(\E^{\phi^\epl} \abs{\widetilde R_2^\epl(t)}^p\right)^{1/p} \leq C \epl^{\iota}.
-	\end{equation}
-	Let us remark that an application of the Itô formula yields
-	\begin{equation}
-		\dd \left( k(t-s)B_s \right) = \frac1\delta k(t-s)B_s \dd s + k(t-s) \dd B_s,
-	\end{equation}
-	which implies
-	\begin{equation} \label{eq:Ito_kB}
-		\int_0^t k(t-s)B_s \dd s = B_t - \delta \int_0^t k(t-s) \dd B_s.
-	\end{equation}
-	Substituting \eqref{eq:Ito_kB} into \eqref{eq:I2_decomposition} and recalling that
-	\begin{equation}
-		\int_0^t k(t-s) \dd s = 1 - e^{-t/\delta},
-	\end{equation}
-	we obtain
-	\begin{equation}
-		I_2^\epl(t) = \sqrt{2\Sigma} \delta \int_0^t k(t-s) \dd B_s - \sqrt{2\Sigma} e^{-t/\delta} B_t.
-	\end{equation}
-	Moreover note that
-	\begin{equation}
-			\left(\E^{\phi^\epl} \abs{\sqrt{2\Sigma} e^{-t/\delta} B_t}^p\right)^{1/p} \le C e^{-t/\delta}.
-	\end{equation}
-	
 	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
 	\begin{equation}
 	\abs{I_3^\epl(t)} \leq C \epl, 
@@ -917,6 +983,17 @@ In this work we considered a novel methodology based on filtering for the estima
 	\end{equation}
 	which concludes the proof.
 \end{proof}
+
+\corr{
+\begin{remark} Let us remark that one can show for all $p \geq 1$ and a constant $C > 0$ independent of $\delta$
+	\begin{equation}
+		\left(\E\abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1/2}.
+	\end{equation}
+	Therefore, the estimate presented in Lemma \ref{lem:zeta} is consistent with the rough estimate of Lemma \ref{lem:distanceZandX}, and the term highlighted in the statement of Lemma \ref{lem:zeta} is indeed the dominating term in terms of powers of $\delta$.
+\end{remark}
+}
+
+\section{Proof of Theorem \ref{thm:mainTheorem_zeta}} \label{ap:zeta}
 
 \begin{proof}[Proof of Theorem \ref{thm:mainTheorem_zeta}]
 	Let us introduce the notation
@@ -942,14 +1019,14 @@ In this work we considered a novel methodology based on filtering for the estima
 	where
 	\begin{equation}
 	\begin{aligned}
-		J_1^\epl(t) &= 2\Sigma\delta \E^{\rho^\epl} \left[ \left( \int_0^t k(t-s) \dd B_s \right)^2 V''(Z_t^\epl) \right], \\
-		J_2^\epl(t) &= 2\sqrt{2\Sigma} \E^{\rho^\epl} \left[ \left( \int_0^t k(t-s) \dd B_s \right) R(\epl,\delta) V''(Z_t^\epl) \right], \\
-		J_3^\epl(t) &= \frac1\delta \E^{\rho^\epl} \left[ R(\epl,\delta)^2 V''(Z_t^\epl) \right].
+		J_1^\epl(t) &= 2\Sigma\delta \E \left[ \left( \int_0^t k(t-s) \dd B_s \right)^2 V''(Z_t^\epl) \right], \\
+		J_2^\epl(t) &= 2\sqrt{2\Sigma} \E \left[ \left( \int_0^t k(t-s) \dd B_s \right) R(\epl,\delta) V''(Z_t^\epl) \right], \\
+		J_3^\epl(t) &= \frac1\delta \E\left[ R(\epl,\delta)^2 V''(Z_t^\epl) \right].
 	\end{aligned}
 	\end{equation}
 	Let us consider the three terms separately. First, since the Brownian motion $B_s$ is independent of the process $Z_t^\epl$, applying Itô isometry we get
 	\begin{equation}
-	J_1^\epl(t) = 2\Sigma\delta \left( \int_0^t k(t-s)^2 \dd s \right) \E [V''(Z_t^\epl)] = \Sigma \E^{\rho^\epl} [V''(Z_t^\epl)],
+	J_1^\epl(t) = 2\Sigma\delta \left( \int_0^t k(t-s)^2 \dd s \right) \E [V''(Z_t^\epl)] = \Sigma \E [V''(Z_t^\epl)],
 	\end{equation}
 	and, by Lemma \ref{lem:distanceZandX} and weak convergence of the invariant measure, we obtain
 	\begin{equation}
@@ -977,387 +1054,25 @@ In this work we considered a novel methodology based on filtering for the estima
 	which implies the desired result.
 \end{proof}
 
-\section{Proof of Theorem \ref{thm:CLT}}\label{ap:CLT}
-
-Let us first introduce a technical Lemma.
-\begin{lemma}\label{lem:CLT} Let $\mathcal L_\epl$ be the generator of the couple $(X^\epl, Z^\epl)^\top$, i.e.,
-	\begin{equation}
-		\mathcal L_\epl = -\left(\alpha \cdot V'(x) + \frac1\epl p'\left(\frac{x}{\epl}\right)\right)\partial_x + \frac1\delta (x - z) \partial_z  + \sigma \partial^2_{xx}.
-	\end{equation} 
-	Moreover, let $\rho^\epl$ be the density of the invariant measure of $(X^\epl, Z^\epl)^\top$ and $u^\epl\colon \R^2 \to \R^N$ be the solution of 
-	\begin{equation}\label{eq:CLT_Poisson}
-		-\mathcal L_\epl u^\epl = \chi^\epl -  \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)],
-	\end{equation}
-	satisfying $\E^{\rho^\epl}[u^\epl(X^\epl, Z^\epl)] = 0$ for $\chi^\epl \colon \R^2 \to \R^N$. Then, it holds
-	\begin{equation}\label{eq:CLT_PoissonIto}
-		\frac{1}{T} \int_0^T  \chi^\epl(X_t^\epl, Z_t^\epl) \dd t = \E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)] - \frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T},
-	\end{equation}
-	where
-	\begin{equation}\label{eq:CLT_PoissonRemainders}
-		R^\epl(T) \defeq u^\epl(X^\epl_T, Z^\epl_T) - u^\epl(X^\epl_0, Z^\epl_0), \quad S^\epl(T) \defeq \int_0^T \partial_x u^\epl(X_t^\epl, Z_t^\epl) \dd W_t.
-	\end{equation}
-	Moreover, it holds
-	\begin{equation}\label{eq:CLT_Equiv}
-		2\sigma \E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)] = \E^{\rho^\epl}
-		\begin{aligned}[t]
-		[&\chi^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl) \\
-		&+ u^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)].
-		\end{aligned}
-	\end{equation}	
-\end{lemma}
-\begin{proof} The proof of \eqref{eq:CLT_PoissonIto} and \eqref{eq:CLT_PoissonRemainders} is an application of the Itô formula (see e.g. \cite[Remark 6.17]{PaS08}). For \eqref{eq:CLT_Equiv}, it is possible to show that since $\mathcal L_\epl^*\rho^\epl = 0$ it holds 
-	\begin{equation}
-		\mathcal L_\epl^* (u^\epl \rho^\epl) = 2 \sigma \rho^\epl \partial_{xx}^2 u^\epl - \rho^\epl \mathcal L_\epl u^\epl + 2 \sigma \partial_x u^\epl \partial_x \rho^\epl.
-	\end{equation}
-	Therefore, an integration by parts yields 
-	\begin{equation}
-	\begin{aligned}
-		\E^{\rho^\epl}[\mathcal L_\epl u^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl)] &= 	\int_{\R}\int_{\R} u^\epl \otimes \mathcal L_\epl^*\left(u^\epl \rho^\epl\right) \dd x \dd z \\
-		&= -\int_{\R}\int_{\R}u^\epl \otimes \mathcal L_\epl u^\epl \rho^\epl \dd x \dd z- 2\sigma \int_{\R}\int_{\R} \partial_x u^\epl \otimes \partial_x u^\epl \rho^\epl \dd x \dd z\\
-		&= 
-		\begin{aligned}[t]
-		&-\E^{\rho^\epl}[u^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl u^\epl(X^\epl, Z^\epl)] \\
-		&- 2\sigma \E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)].
-		\end{aligned}
-	\end{aligned}
-	\end{equation}
-	Finally, since $\E^{\rho^\epl}[u(X^\epl, Z^\epl)] = 0$ 
-	\begin{equation}
-	\begin{aligned}
-		2\sigma \E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)] &= -\E^{\rho^\epl}
-		\begin{aligned}[t]
-		[&\mathcal L_\epl u^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl) \\
-		& + u^\epl(X^\epl, Z^\epl) \otimes \mathcal L_\epl u^\epl(X^\epl, Z^\epl)]
-		\end{aligned}
-		\\
-		&= \E^{\rho^\epl}
-		\begin{aligned}[t]
-		[&\chi^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl) \\
-		&+ u^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl)],
-		\end{aligned}
-	\end{aligned}
-	\end{equation}
-	which is the desired result.
-\end{proof}
-
-\begin{lemma} \label{lem:CLT_hom}
-	Let $u^\epl$ be the solution of \eqref{eq:CLT_Poisson} with 
-	\begin{equation}
-		\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
-	\end{equation}
-	where
-	\begin{equation}
-		\mathcal M_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ], \quad \mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ].
-	\end{equation}
-	Then, $u^\epl \to 0$ \corr{in which sense?} for $\epl \to 0$.
-\end{lemma}
-\begin{proof} We here present a formal proof based on asymptotic expansion with respect to $\epl$. Let us first remark that by definition
-	\begin{equation}
-		\E^{\rho^\epl}[\chi^\epl(X^\epl, Z^\epl)] = 0,
-	\end{equation}
-	and therefore problem \eqref{eq:CLT_Poisson} reads
-	\begin{equation}
-		-\mathcal L^\epl u^\epl = \chi^\epl.
-	\end{equation}
-	Let us now denote $y = x/\epl$ and write
-	\begin{equation}
-		u^\epl(x, z) = u_0(x, y, z) + \epl u_1(x, y, z) + \epl^2 u_2(x, y, z) + \ldots,
-	\end{equation}
-	which implies that
-	\begin{equation}
-	\begin{aligned}
-		\partial_x u^\epl &= \partial_x(u_0(x, y, z) + \epl u_1(x, y, z) + \epl^2 u_2(x, y, z) + \ldots) \\
-		&\quad+ \frac1\epl\partial_y(u_0(x, y, z) + \epl u_1(x, y, z) + \epl^2 u_2(x, y, z) + \ldots).
-	\end{aligned}
-	\end{equation}
-	Let us first remark that from the proof of Theorem \ref{thm:mainTheorem} we have that
-	\begin{equation}
-		\lim_{\epl \to 0} \mathcal M_\epl^{-1}\mathfrak p_\epl = A - \alpha.
-	\end{equation} 	
-	Replacing $u^\epl$ in \eqref{eq:CLT_Poisson} and grouping the terms of order $\epl^0$, $\epl^{-1}$ and $\epl^{-2}$ we get the system
-	\begin{align}
-		L_0 u_0 &= 0, \label{eq:CLT_AsExp1}\\
-		L_1 u_0 + L_0 u_1 &= - p'(y) V'(z), \label{eq:CLT_AsExp2}\\
-		L_0 u_2 + L_1 u_1 + L_2 u_0 &= \left(V'(z) \otimes V'(x)\right) (A - \alpha),\label{eq:CLT_AsExp3}
-	\end{align}
-	where 
-	\begin{equation}
-	\begin{aligned}
-		L_0 &= -p'(y) \partial_y + \sigma \partial^2_{yy},\\
-		L_1 &= -p'(y) \partial_x - \alpha \cdot V'(x) \partial_y + 2 \sigma \partial^2_{xy}, \\
-		L_2 &= 	-\alpha \cdot V'(x) \partial_x - \frac1{\delta}(z - x)	\partial_z + \sigma \partial^2_{xx}.
-	\end{aligned}
-	\end{equation}
-	Let us first remark that equation \eqref{eq:CLT_AsExp1} is satisfied for $u_0 = u_0(x, z)$ independent of $y$. In particular, the kernel of $L_0$ is made of constants and the kernel of $L_0^*$ is one-dimensional and $\mathrm{Ker}(L_0^*) = \mathrm{Span}\{\rho\}$ where
-	\begin{equation}\label{eq:CLT_Invariant}
-		\rho(y) = \frac1Z e^{-p(y)/\sigma}, \quad\text{where}\quad Z = \int_0^L e^{-p(y)/\sigma} \dd y,
-	\end{equation} 
-	where $L$ is the period of $p$. Since $u_0$ is independent of $y$ equation \eqref{eq:CLT_AsExp2} reduces to 
-	\begin{equation}
-		L_0 u_1 = p'(y)\left(\partial_x u_0 -V'(z)\right).
-	\end{equation}
-	Let us remark that the general solution $u_1$ can be written as
-	\begin{equation}
-		u_1(x,y,z) = \Phi(y)\left(\partial_x u_0(x, z) - V'(z)\right),
-	\end{equation}
-	where $\Phi \colon \R \to \R$ satisfies
-	\begin{equation}
-		-L_0 \Phi = -p'(y).
-	\end{equation} 
-	Let us remark that this cell problem is the same as \eqref{eq:CellProblem}. We consider now equation \eqref{eq:CLT_AsExp3} and remark that we can rewrite it as
-	\begin{equation}
-	\begin{aligned}
-		L_0 u_2 &= (V'(z) \otimes V'(x))(A - \alpha) - \left(2\Phi'(y) - \frac1\sigma p'(y) \Phi(y) + 1\right) \sigma \partial^2_{xx}u_0 \\
-		&\quad +\left(\Phi'(y) + 1\right) \left( \alpha \cdot V'(x) \right) \partial_x u_0 - \left(V'(z) \otimes V'(x) \right)\alpha \Phi'(y) + \frac1\delta(z-x) \partial_z u_0.
-	\end{aligned}
-	\end{equation}
-	By the Fredholm alternative, in order for \eqref{eq:CLT_AsExp3} to have a solution we need the right hand side to have zero-mean with respect to $\rho$ in \eqref{eq:CLT_Invariant}. Therefore, recalling that the homogenization coefficient $K$ in \eqref{eq:K_HOM} is given by
-	\begin{equation}
-		K = \int_0^L (1 + \Phi'(y))^2 \rho(y) \dd y
-	\end{equation}
-	and remarking that integrations by part allow to rewrite $K$ as
-	\begin{equation}
-		K = \int_0^L (1 + \Phi'(y)) \rho(y) \dd y, \quad  K = \int_0^L \left(2\Phi'(y) - \frac1\sigma p'(y) \Phi(y) + 1\right) \rho(y) \dd y,
-	\end{equation}
-	we get
-	\begin{equation}
-		0 = (V'(z) \otimes V'(x))(A - \alpha - (K - 1)\alpha) - K \sigma \partial^2_{xx}u_0 + \left(K \alpha \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0.
-	\end{equation}
-	Moreover, since $A = K\alpha$ and $\Sigma = K\sigma$, it implies
-	\begin{equation}
-		0 = -\Sigma \partial^2_{xx}u_0 + \left(A \cdot V'(x)\right) \partial_x u_0  + \frac1\delta(z-x) \partial_z u_0,
-	\end{equation}
-	which can be written as
-	\begin{equation}\label{eq:CLT_Poisson_hom}
-		- \mathcal L_0 u_0 = 0,
-	\end{equation}
-	where $\mathcal L_0$ is the generator of the couple $(X^0,Z^0)^\top$. Finally, the unique solution of \eqref{eq:CLT_Poisson_hom} satisfying
-	\begin{equation}
-		\E^{\rho^0}[u_0(X,Z)] = 0,
-	\end{equation}
-	is given by
-	\begin{equation}
-		u_0(x,z) = 0.
-	\end{equation}
-\end{proof}
-
-We can now proceed with the main proof.
-\begin{proof}[Proof of Theorem \ref{thm:CLT}] Let us introduce the notation
-	\begin{equation}\label{eq:CLT_DefMEps}
-	\mathcal M_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ], \quad \mathcal M_0 \defeq \E^{\rho^0} [ V'(Z) \otimes V'(X) ],
-	\end{equation}
-	and the notation
-	\begin{equation}
-	\mathfrak p_\epl \defeq \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ]
-	\end{equation}
-	and let us remark that from the proof of Theorem \ref{thm:mainTheorem} one can deduce the equalities
-	\begin{equation}\label{eq:CTL_A}
-	A = \frac1\delta \mathcal M_0^{-1} \E^{\rho^0}[(X - Z)^2 V''(Z)],
-	\end{equation}
-	and
-	\begin{equation}\label{eq:CTL_alpha}
-	\alpha = \mathcal M_\epl^{-1} \left(\frac1\delta \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)] - \mathfrak p_\epl \right).
-	\end{equation}
-	Let us furthermore remark that the decomposition \eqref{eq:alphaDecomposition} yields
-	\begin{equation}
-	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) = \sqrt{T} \left(\alpha - A + I_1^\epl - I_2^\epl\right).
-	\end{equation}
-	Replacing the expression for $A$ and $\alpha$ given in \eqref{eq:CTL_A} and \eqref{eq:CTL_alpha}, we get
-	\begin{equation}
-	\begin{aligned}
-	\sqrt{T}\left(\widehat A^\epl_k(T) - A\right) &= \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \\
-	&+  \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)] - \mathcal M_0^{-1} \E^{\rho^0}[(X - Z)^2 V''(Z)] \right) \\
-	&- \sqrt{T} I_2^\epl(T).
-	\end{aligned}
-	\end{equation}
-	\corr{Third term is OK:} We rewrite the term involving $I_2^\epl(T)$ as
-	\begin{equation}
-	\sqrt{T} I_2^\epl(T) = \frac{\sqrt{2\sigma}}{\sqrt{T}} \widetilde M^{-1} Q^\epl(T),
-	\end{equation}
-	where, since $Z_t^\epl$ is adapted with respect to the natural filtration $\mathcal F_t$ of the Wiener process $W \defeq \left(W_t, t \geq 0\right)$, the quantity
-	\begin{equation}
-	Q^\epl(T) \defeq \int_0^T V'(Z^\epl_t) \dd W_t,
-	\end{equation}
-	is a martingale whose quadratic variation is given by
-	\begin{equation}
-	\langle Q^\epl \rangle_T = \int_0^T V'(Z^\epl_t) \otimes V'(Z^\epl_t) \dd t. 
-	\end{equation}
-	Since the ergodic theorem guarantees that 
-	\begin{equation}
-	\lim_{T\to\infty}\frac{\langle Q^\epl \rangle_T}{T} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)], \quad \text{in } L^1(\mu^\epl),
-	\end{equation}
-	the martingale central limit theorem gives 
-	\begin{equation}
-	\lim_{T\to\infty}\frac{1}{\sqrt{T}} Q^\epl(T) = \Xi^\epl, \quad \text{in law},
-	\end{equation}
-	where $\Xi^\epl \sim \mathcal N(0, \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)])$.
-	Now, by the ergodic theorem 
-	\begin{equation}
-	\lim_{T \to \infty} \widetilde M^{-1} = \mathcal M_\epl^{-1}, \quad \text{a.s.}
-	\end{equation}
-	Therefore, we have by Slutsky's theorem that
-	\begin{equation}
-	\lim_{T \to \infty} \sqrt{T} I_2^\epl(T) = \Lambda^\epl \sim \mathcal N\left(0, \Gamma^\epl\right), \quad \text{in law}.
-	\end{equation}
-	where the covariance matrix $\Gamma^\epl$ is given by
-	\begin{equation}
-	\Gamma^\epl = 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[V'(Z^\epl) \otimes V'(Z^\epl)]\mathcal M_\epl^{-\top}.
-	\end{equation}
-	Finally, we denote by $\Lambda$ the limit for $\epl \to 0$ of the sequence of Gaussian random variables $\Lambda^\epl$.
-	
-	\corr{Idea for the first term:} Let us introduce the notation
-	\begin{equation}
-	J_1^\epl(T) \defeq \sqrt{T}\left( I_1^\epl(T) - \mathcal M_\epl^{-1} \mathfrak p_\epl\right),
-	\end{equation}
-	and let us remark that we can rewrite
-	\begin{equation} \label{eq:decomposition_first_term}
-	\begin{aligned}
-	J_1^\epl(T) = \sqrt{T} &\left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1}\\
-		&\quad \times \left(\frac1T \int_0^T \left( \frac{1}{\epl} p' \left ( \frac{X^\epl_t}{\epl} \right ) V'(Z^\epl_t)	- V'(Z^\epl_t) \otimes V'(X^\epl_t) \mathcal M_\epl^{-1} \mathfrak p_\epl \right) \dd t	 \right).
-	\end{aligned}
-	\end{equation}
-	Let us denote by $u^\epl$ the solution of \eqref{eq:CLT_Poisson} with right hand side
-	\begin{equation}
-	\chi^\epl(x, z) = \frac 1 \epl p' \left ( \frac x \epl \right ) V'(z) - V'(z) \otimes V'(x) \mathcal M_\epl^{-1} \mathfrak p_\epl,
-	\end{equation}
-	and note that $\E^{\rho^\epl}[\chi^\epl(X^\epl,Z^\epl)] = 0$. Then, by Lemma \ref{lem:CLT}, we have
-	\begin{equation}
-	J_1^\epl(T)= \sqrt{T} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \left( -\frac{R^\epl(T)}{T} + \sqrt{2\sigma}\frac{S^\epl(T)}{T} \right),
-	\end{equation}
-	where $R^\epl(T)$ and $S^\epl(T)$ are defined in \eqref{eq:CLT_PoissonRemainders}. Since \corr{$R^\epl(T)$ is bounded independently of $\epl$ (is it clear?)}, we first get by the ergodic theorem
-	\begin{equation}
-	\lim_{T \to \infty} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{R^\epl(T)}{\sqrt{T}} = 0, \quad \text{a.s.}
-	\end{equation}
-	Repeating the same reasoning as for $Q^\epl(T)$ and employing the ergodic theorem and the Slutsky's theorem, we get 
-	\begin{equation}
-	\lim_{T \to \infty} J_1^\epl(T) = \lim_{T \to \infty} \sqrt{2\sigma} \left(\frac1T \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t\right)^{-1} \frac{S^\epl(T)}{\sqrt{T}} = \Lambda_1^\epl \sim \mathcal N(0, \Gamma_1^\epl),
-	\end{equation}
-	where the covariance is given by due to \eqref{eq:CLT_Equiv}
-	\begin{equation}
-	\begin{aligned}
-	\Gamma_1^\epl &= 2\sigma \mathcal M_\epl^{-1}\E^{\rho^\epl}[\partial_x u^\epl(X^\epl, Z^\epl) \otimes \partial_x u^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top} \\
-	&= \mathcal M_\epl^{-1}\E^{\rho^\epl}[u^\epl(X^\epl, Z^\epl) \otimes \chi^\epl(X^\epl, Z^\epl) + \chi^\epl(X^\epl, Z^\epl) \otimes u^\epl(X^\epl, Z^\epl)]\mathcal M_\epl^{-\top}.
-	\end{aligned}
-	\end{equation}
-	\corr{For the covariance $\Gamma_1^\epl$ we don't know how it behaves in the limit $\epl \to 0$. It would be nice if it was vanishing since it involves the solution $u^\epl$, which goes to zero (in some sense) due to Lemma \ref{lem:CLT_hom}.}
-	
-	\corr{Idea for the second term:} Let us now introduce the notation
-	\begin{equation}
-		J_2^\epl(T) = \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)] - \mathcal M_0^{-1} \E^{\rho^0}[(X - Z)^2 V''(Z)] \right).
-	\end{equation}
-	We have the decomposition
-	\begin{equation}
-	\begin{aligned}
-	J^\epl_{2}(T) &=  \frac{\sqrt{T}}\delta \left( \mathcal M_\epl^{-1}  - \mathcal M_0^{-1} \right)\E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)] \\
-	&\quad + \frac{\sqrt{T}}\delta \mathcal M_0^{-1}\left(\E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)] - \E^{\rho^0}[(X - Z)^2 V''(Z)] \right) \\
-	&\eqdef J_{2,1}^\epl(T) + J_{2,2}^\epl(T).
-	\end{aligned}
-	\end{equation}
-	\corr{In order to send the terms above to zero, we need the convergence rate of $\mu^\epl$ to $\mu^0$ w.r.t. $\epl$ (by fixing $T = \epl^{-\gamma}$ with an appropriate $\gamma$). Some arguments in this sense seem to appear in [\textit{Periodic Homogenization for Hypoelliptic Diffusions} -- M. Hairer and G.A. Pavliotis 2004] but it is not clear to us whether it applies to this case too.}
-\end{proof}
 
 \section{Proof of Theorem \ref{thm:mainTheoremTilde}}\label{ap:EstimatorTilde}
 Let us consider the estimator defined in \eqref{eq:AHatMixedTilde}, that is
 \begin{equation}
 	\widetilde A^\epl_k(T) = -M^{-1}\widetilde h,
 \end{equation}
-where the matrix $M$ is taken from \eqref{eq:MandH} and the vector $\widetilde{h}$ is taken from \eqref{eq:MandHTilde}. We prove here Theorem \ref{thm:mainTheoremTilde}, i.e., the unbiasedness of this estimator, for which it is necessary to prove two technical lemmas. Let us start with an estimate concerning the distance between $X^\epl$ and $Z^\epl$. 
-
-\begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any integer $p \geq 1$
-	\begin{equation}
-	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^{2p} \leq C\left(\epl^{2p} + \delta^p\right),
-	\end{equation}
-	for a constant $C > 0$ independent of $\epl$ and $\delta$.
-\end{lemma}
-\begin{proof} Let us first remark that the filtering kernel satisfies
-	\begin{equation}\label{eq:filterIntegral}
-	\int_0^t k(t-s) \dd s = 1 - e^{-t/\delta},
-	\end{equation}
-	which implies that the measure $\kappa_t(\d s)$ on $(0, t)$ defined as
-	\begin{equation}
-	\kappa_t(\d s) \defeq \frac{k(t-s)}{1 - e^{-t/\delta}} \dd s,
-	\end{equation}
-	is a probability measure. Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ and due \eqref{eq:filterIntegral} we now have
-	\begin{equation}
-	\begin{aligned}
-	X_t^\epl - Z_t^\epl &= X_t^\epl - \int_0^t k(t-s) X_s^\epl \dd s\\
-	&= \int_0^t k(t - s) \left(X_t^\epl - X_s^\epl\right) \dd s + e^{-t/\delta} X^\epl_t\\
-	&= (1 - e^{-t/\delta})\int_0^t \left(X_t^\epl - X_s^\epl\right) \kappa_t(\d s) + e^{-t/\delta} X^\epl_t.
-	\end{aligned}
-	\end{equation}
-	Therefore, Jensen's inequalities yields for a constant $C > 0$ depending only on $p$
-	\begin{equation}
-	\begin{aligned}
-	\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^{2p} &\leq C (1 - e^{-t/\delta})^{2p} \int_0^t \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^{2p} \kappa_t (\d s) + C e^{-2pt/\delta} \E^{\phi^\epl} \abs{X^\epl_t}^{2p}\\
-	&\leq C\int_0^t \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^{2p} k(t-s) \dd s + Ce^{-2pt/\delta} \E^{\phi^\epl} \abs{X^\epl_t}^{2p},
-	\end{aligned}
-	\end{equation}
-	where we replaced the definition of $\kappa(\d s)$ and exploited the fact that $1 - e^{-t/\delta}\leq 1$ for all $t \geq 0$. Due to \cite[Corollary 5.4]{PaS07}, we know that $X^\epl_t$ has bounded moments of all orders with respect to its invariant measure. Moreover, the estimate
-	\begin{equation}
-	\E^{\phi^\epl}\abs{X_t^\epl - X_s^\epl}^{2p} \leq C\left(\epl^{2p} + (t-s)^{2p} + (t-s)^p\right),
-	\end{equation}
-	holds for all $t > s$ due to \cite[Lemma 6.1]{PaS07}. Finally, it is possible to verify by induction on $r$ that for all integers $r$ it holds
-	\begin{equation}\label{eq:FilterTminusS}
-	\int_0^t k(t-s) (t - s)^r \dd s \leq r! \, \delta^r, 
-	\end{equation}
-	which implies that there exists a constant $C > 0$ depending only on $p$ such that
-	\begin{equation}
-	\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^{2p} \leq C\left(\epl^{2p} + \delta^p + e^{-2pt/\delta}\right).
-	\end{equation}
-	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $C$ depending on the initial condition and $p$  
-	\begin{equation}
-	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^{2p} \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^{2p} + Ce^{-\lambda t},
-	\end{equation}
-	which, for $t$ sufficiently big, yields
-	\begin{equation}
-	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^{2p} \leq C\left(\epl^{2p} + \delta^p\right),
-	\end{equation}
-	which is the desired result.
-\end{proof}
-
-Let us consider a couple $(X^\epl, Z^\epl)^\top$. In the following, we will adopt the notation
-\begin{equation}\label{eq:CalM}
-\mathcal M = \E^{\rho^\epl}[V'(X^\epl) \otimes V'(X^\epl)] \quad \text{and} \quad \widetilde{\mathcal M} = \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)],
-\end{equation}
-which due to the ergodic theorem satisfy
-\begin{equation}
-\lim_{T \to \infty} M = \mathcal M, \quad \text{and} \quad \lim_{T \to \infty} \widetilde M = \mathcal{\widetilde M},
-\end{equation}
-almost surely. In the following Lemma, we consider the difference between the two matrices $\mathcal M$ and $\widetilde{\mathcal M}$.
-
-\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Lemma \ref{lem:distanceZandX} hold. Then the matrices $\mathcal M$ and $\widetilde{\mathcal M}$ defined in \eqref{eq:CalM} satisfy
-	\begin{equation}
-	\norm{\mathcal M - \widetilde{\mathcal M}}_2 \leq C\left(\epl + \delta^{1/2}\right),
-	\end{equation}
-	for a constant $C > 0$ independent of $\epl$ and $\delta$.
-\end{lemma}
-\begin{proof} Applying Jensen's and Cauchy--Schwarz inequalities we have
-	\begin{equation}
-	\begin{aligned}
-	\norm{\mathcal M - \widetilde{\mathcal M}}_2 &\leq \E^{\rho^\epl} \norm{\left(V'(Z^\epl) - V'(X^\epl)\right) \otimes V'(X^\epl)}_2 \\
-	&\leq \left(\E^{\rho^\epl}\norm{V'(Z^\epl) - V'(X^\epl)}_2^2\right)^{1/2} \left(\E^{\rho^\epl} \norm{V'(X^\epl)}_2^{2}\right)^{1/2}.
-	\end{aligned}
-	\end{equation}
-	The Lipschitz condition on $V$ together with the boundedness of the moments of $X^\epl$ and Lemma \ref{lem:distanceZandX} yield for a constant $C > 0$
-	\begin{equation}
-	\begin{aligned}
-	\norm{\mathcal M - \widetilde{\mathcal M}}_2 &\leq C\left(\E^{\rho^\epl}\abs{Z^\epl - X^\epl}^{2}\right)^{1/2} \leq C \left(\epl + \delta^{1/2} \right),
-	\end{aligned}
-	\end{equation}
-	which is the desired result.
-\end{proof}
+where the matrix $M$ is taken from \eqref{eq:MandH} and the vector $\widetilde{h}$ is taken from \eqref{eq:MandHTilde}. We prove here Theorem \ref{thm:mainTheoremTilde}, i.e., the unbiasedness of this estimator. Let us consider a couple $(X^\epl, Z^\epl)^\top$. 
 
 We can finally prove the unbiasedness of the estimator $\widetilde A^\epl_k(T)$.
 
 \begin{proof}[Proof of Theorem \ref{thm:mainTheoremTilde}] We first consider the difference between the two estimators $\widetilde A^\epl_k(T)$ and $\widehat A^\epl_k(T)$. In particular, the ergodic theorem and an algebraic equality imply
 	\begin{equation}
 	\begin{aligned}
-	\lim_{T \to \infty} \left(\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)\right) &= \left(\mathcal M^{-1} - \widetilde{\mathcal M}^{-1}\right) \lim_{T \to \infty}\widetilde h \\
-	&= \mathcal M^{-1}\left(\mathcal M - \widetilde{\mathcal M}\right)  \widetilde{\mathcal M}^{-1} \lim_{T \to \infty} \widetilde h\\
-	&= \mathcal M^{-1}\left(\mathcal M - \widetilde{\mathcal M}\right)\lim_{T \to \infty} \widehat A^\epl_k(T),
+	\lim_{T \to \infty} \left(\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)\right) &= \left(\mathcal M_\epl^{-1} - \widetilde{\mathcal M}_\epl^{-1}\right) \lim_{T \to \infty}\widetilde h \\
+	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)  \widetilde{\mathcal M}_\epl^{-1} \lim_{T \to \infty} \widetilde h\\
+	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)\lim_{T \to \infty} \widehat A^\epl_k(T),
 	\end{aligned}
 	\end{equation}
-	almost surely. Therefore, due to Assumption \ref{as:regularity} which allows controlling the norm of $\mathcal M^{-1}$ and due to Lemma \ref{lem:distanceMandTildeM} we have for a constant $C > 0$
+	almost surely. Therefore, due to Assumption \ref{as:regularity} which allows controlling the norm of $\mathcal M_\epl^{-1}$ and due to Lemma \ref{lem:distanceMandTildeM} we have for a constant $C > 0$
 	\begin{equation}\label{eq:DistATildeAHat}
 	\lim_{T \to \infty} \norm{\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)}_2 \leq C \left(\epl + \delta^{1/2} \right).
 	\end{equation}
