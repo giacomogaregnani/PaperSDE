@@ -402,7 +402,7 @@ which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, prov
 \end{proof}
 
 \corr{ CASE $\delta = \epl^\zeta$ (PROOF IN APPENDIX \ref{ap:zeta}).
-\begin{theorem}\label{thm:mainTheorem_zeta} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} and let $\delta = \epl^\zeta$ with $\zeta \in (0,1)$. If $\widetilde M$ is invertible, then
+\begin{theorem}\label{thm:mainTheorem_zeta} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} and let $\delta = \epl^\zeta$ with $\zeta \in (0,2)$. If $\widetilde M$ is invertible, then
 		\begin{equation}
 		\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A_k^\epl(T) = A, \quad \text{in law},
 		\end{equation}
@@ -770,7 +770,7 @@ In this section, we prove a series of results which quantify the distance betwee
 	\begin{equation}
 		k(r) = \frac1\delta e^{-r/\delta}.
 	\end{equation}
-	Then, for any $t > 0$, $p \geq 0$ and any function $g\in \mathcal C^0(0, t)$ it holds 
+	Then, for any $t > 0$, $p \geq 0$ and any function $g\in \mathcal C^0([0, t])$ it holds 
 	\begin{equation}
 		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq (1 - e^{-t/\delta})^{p-1}\int_0^t k(t-s) \abs{g(s)}^p \dd s.
 	\end{equation}
@@ -783,7 +783,7 @@ In this section, we prove a series of results which quantify the distance betwee
 	\begin{equation}
 		\int_0^t k(t-s) \dd s = 1 - e^{-t/\delta}.
 	\end{equation}
-	Therefore, the measure $\kappa_t(\d s)$ on $(0, t)$ defined as
+	Therefore, the measure $\kappa_t(\d s)$ on $[0, t]$ defined as
 	\begin{equation}
 		\kappa_t(\d s) \defeq \frac{k(t-s)}{1 - e^{-t/\delta}} \dd s,
 	\end{equation}
@@ -810,7 +810,6 @@ The following lemma characterizes the action of the filter when it is applied to
 	\end{equation}
 	where $\gamma$ is the lower incomplete Gamma function, which is bounded by the complete Gamma function $\Gamma(p+1)$ independently of the second argument.
 \end{proof}
-We can now prove a rough estimate of the difference between the trajectories $X_t^\epl$ and $Z_t^\epl$ when they are at stationarity.
 
 \begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
 	\begin{equation}
@@ -844,35 +843,7 @@ We can now prove a rough estimate of the difference between the trajectories $X_
 	which, for $t$ sufficiently big, yields the desired result.
 \end{proof}
 
-It is relevant to study the quantities
-\begin{equation}\label{eq:CalM}
-\mathcal M_\epl \defeq \E^{\rho^\epl}[V'(X^\epl) \otimes V'(X^\epl)] \quad \text{and} \quad \widetilde{\mathcal M}_\epl \defeq \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)],
-\end{equation}
-which are by the ergodic theorem the time limit of the matrices appearing in the estimators $\widehat A^\epl(T)$ and $\widehat A^\epl_k(T)$, respectively. In particular, the distance between the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ can be bounded, which is summarized in the following lemma.
-
-\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Lemma \ref{lem:distanceZandX} hold. Then the matrices $\mathcal M$ and $\widetilde{\mathcal M}_\epl$ defined in \eqref{eq:CalM} satisfy
-	\begin{equation}
-	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 \leq C\left(\epl + \delta^{1/2}\right),
-	\end{equation}
-	for a constant $C > 0$ independent of $\epl$ and $\delta$.
-\end{lemma}
-\begin{proof} Applying Jensen's and Cauchy--Schwarz inequalities we have
-	\begin{equation}
-	\begin{aligned}
-	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 &\leq \E^{\rho^\epl} \norm{\left(V'(Z^\epl) - V'(X^\epl)\right) \otimes V'(X^\epl)}_2 \\
-	&\leq \left(\E^{\rho^\epl}\norm{V'(Z^\epl) - V'(X^\epl)}_2^2\right)^{1/2} \left(\E^{\rho^\epl} \norm{V'(X^\epl)}_2^{2}\right)^{1/2}.
-	\end{aligned}
-	\end{equation}
-	The Lipschitz condition on $V'$ together with the boundedness of the moments of $X^\epl$ and Lemma \ref{lem:distanceZandX} yield for a constant $C > 0$
-	\begin{equation}
-	\begin{aligned}
-	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 &\leq C\left(\E^{\rho^\epl}\abs{Z^\epl - X^\epl}^{2}\right)^{1/2} \leq C \left(\epl + \delta^{1/2} \right),
-	\end{aligned}
-	\end{equation}
-	which is the desired result.
-\end{proof}
-
-The final result presented in this section is a sharper quantification of the difference between $X^\epl_t$ and $Z^\epl_t$ than Lemma \ref{lem:distanceZandX}. In particular, denoting $Y_t^\epl \defeq X_t^\epl/\epl$, we will make use of the decomposition
+The following result is a quantification of the difference between $X^\epl_t$ and $Z^\epl_t$. In particular, denoting $Y_t^\epl \defeq X_t^\epl/\epl$, we will make use of the decomposition
 \cite[Formula 5.8]{PaS07}
 \begin{equation}\label{eq:App_DiffXtXs}
 \begin{aligned}
@@ -890,9 +861,13 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}\label{eq:defBeta}
 		\beta_t^\epl \defeq \sqrt{2\sigma} \int_0^t k(t-s)(1 + \Phi'(Y_s^\epl)) \dd W_s,
 	\end{equation}
-	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, the remainder $R(\epl,\delta)$ satisfies for every $p > 0$ the estimate
+	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, $\beta_t^\epl$ and the remainder $R(\epl,\delta)$ satisfy for every $p > 0$ the estimates
+	\begin{equation} \label{eq:beta}
+	\left( \E^{\phi^\epl} \abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1},
+	\end{equation}
+	and
 	\begin{equation} \label{eq:remainder_zeta}
-	\left( \E^{\phi^\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl + \epl \delta^{1/2} \right),
+	\left( \E^{\phi^\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl \right),
 	\end{equation}
 	where $C$ is independent of $\epl$ and $\delta$ and $\phi^\epl$ is the density of the invariant measure of $X^\epl$.
 \end{lemma}
@@ -917,14 +892,14 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}
 	\int_s^t (\alpha \cdot V'(X_r^\epl)) (1 + \Phi'(Y^\epl_r)) \dd r = (t - s)(A \cdot V'(X_t^\epl)) + R_1^\epl(t-s),
 	\end{equation}
-	in law, where the remainder $R_1^\epl$ satisfies 
+	where the remainder $R_1^\epl$ satisfies 
 	\begin{equation}\label{eq:FirstTermPavStu}
 	\left(\E^{\phi^\epl}\abs{R_1^\epl(t-s)}^p\right)^{1/p} \leq C(\epl^2 + \epl(t-s)^{1/2}+(t-s)^{3/2}).
 	\end{equation}
 	Therefore, it holds 
 	\begin{equation}\label{eq:Diff_I1}
 	\begin{aligned}
-	I_1^\epl(t) &= -(A \cdot V'(X_t^\epl)) \int_0^t k(t-s) (t-s)\dd s + \int_0^t k(t-s)R^\epl(t-s) \dd s\\
+	I_1^\epl(t) &= -(A \cdot V'(X_t^\epl)) \int_0^t k(t-s) (t-s)\dd s + \int_0^t k(t-s)R_1^\epl(t-s) \dd s\\
 	&= -\delta (A \cdot  V'(X_t^\epl)) + e^{-t/\delta}(t + \delta)(A \cdot V'(X_t^\epl)) + \widetilde R_1^\epl(t),
 	\end{aligned}
 	\end{equation}
@@ -950,29 +925,34 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\end{equation}
 	We now consider the second term. Let us introduce the notation  
 	\begin{equation}
-		Q_t \defeq \int_0^t \left(1 + \Phi'(Y_r^\epl)\right) \dd W_r,
+		Q_t^\epl \defeq \int_0^t \left(1 + \Phi'(Y_r^\epl)\right) \dd W_r,
 	\end{equation}
 	and therefore rewrite
 	\begin{equation}
-		I_2^\epl(t) = \sqrt{2\sigma} Q_t \int_0^t k(t-s)(Q_t - Q_s) \dd s.
+		I_2^\epl(t) = \sqrt{2\sigma} \int_0^t k(t-s)(Q_t^\epl - Q_s^\epl) \dd s.
 	\end{equation}
-	An application of the Itô formula to $u(s, Q_s)$ where $u(s, x) = k(t-s)x$ yields
+	An application of the Itô formula to $u(s, Q_s^\epl)$ where $u(s, x) = k(t-s)x$ yields
 	\begin{equation}
 	\begin{aligned}
-		I_2^\epl(t) &= \sqrt{2\sigma} \left(Q_t\int_0^t k(t-s) \dd s - Q_t + \delta \int_0^t k(t-s)\left(1 + \Phi'(Y_s^\epl)\right) \dd W_s\right)\\
-		  			&= \delta \beta_t^\epl - \sqrt{2\sigma} e^{-t/\delta} Q_t \eqdef \delta \beta_t^\epl - R_2^\epl(t).
+		I_2^\epl(t) &= \sqrt{2\sigma} \left(Q_t^\epl\int_0^t k(t-s) \dd s - Q_t^\epl + \delta \int_0^t k(t-s)\left(1 + \Phi'(Y_s^\epl)\right) \dd W_s\right)\\
+		  			&= \delta \beta_t^\epl - \sqrt{2\sigma} e^{-t/\delta} Q_t^\epl \eqdef \delta \beta_t^\epl - R_2^\epl(t).
 	\end{aligned}
 	\end{equation}
 	where $\beta_t^\epl$ is defined in \eqref{eq:defBeta}. For the remainder $R_2^\epl(t)$, let us remark that for all $p \geq 1$ it holds
 	\begin{equation}
 	\begin{aligned}
-		\left(\E\abs{Q_t}^p\right)^2 \leq \E\abs{Q_t}^{2p} \leq Ct^{p-1}\int_0^t \E \abs{1 + \Phi'(Y_r^\epl)}^{2p} \dd r \leq C t
+		\left(\E\abs{Q_t^\epl}^p\right)^2 \leq \E\abs{Q_t^\epl}^{2p} \leq Ct^{p-1}\int_0^t \E \abs{1 + \Phi'(Y_r^\epl)}^{2p} \dd r \leq C t^p
 	\end{aligned}
 	\end{equation}
 	where we applied Jensen's inequality, an estimate for the moments of stochastic integrals \cite[Formula (3.25), p. 163]{KaS91} and the boundedness of $\Phi$. Therefore, for $t$ large enough, we have
 	\begin{equation}
-		\E^{\phi^\epl}\abs{R_2^\epl(t)}^p \leq C \sqrt{t}e^{-pt/\delta}.
+		\left( \E^{\phi^\epl}\abs{R_2^\epl(t)}^p \right)^{1/p} \leq C \sqrt{t} e^{-t/\delta}.
 	\end{equation}
+	Moreover, applying the Itô isometry and due to the boundedness of $\Phi'$, we get
+	\begin{equation}
+	\E^{\phi^\epl} \abs{\beta_t^\epl}^2 \le C \int_0^t k^2(t-s) \dd s \leq C \delta^{-1},
+	\end{equation}
+	which proves \eqref{eq:beta}.
 	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
 	\begin{equation}
 	\abs{I_3^\epl(t)} \leq C \epl, 
@@ -984,16 +964,80 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	which concludes the proof.
 \end{proof}
 
-\corr{
-\begin{remark} Let us remark that one can show for all $p \geq 1$ and a constant $C > 0$ independent of $\delta$
+Corollary \ref{cor:distanceZandX} is a direct consequence of Lemma \ref{lem:zeta} and provides a rough estimate of the difference between the trajectories $X_t^\epl$ and $Z_t^\epl$ when they are at stationarity.
+
+\begin{corollary} \label{cor:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
 	\begin{equation}
-		\left(\E\abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1/2}.
+	\left(\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p\right)^{1/p} \leq C\left(\epl + \delta^{1/2}\right),
 	\end{equation}
-	Therefore, the estimate presented in Lemma \ref{lem:zeta} is consistent with the rough estimate of Lemma \ref{lem:distanceZandX}, and the term highlighted in the statement of Lemma \ref{lem:zeta} is indeed the dominating term in terms of powers of $\delta$.
-\end{remark}
-}
+	for a constant $C > 0$ independent of $\epl$ and $\delta$.
+\end{corollary}
+\begin{proof}
+	Let $p \geq 1$, then due to Lemma \ref{lem:zeta} there exists a constant $C > 0$ depending only on $p$ such that
+	\begin{equation}
+	\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2}\right).
+	\end{equation}
+	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $C$ depending on the initial condition and $p$  
+	\begin{equation}
+	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
+	\end{equation}
+	which, for $t$ sufficiently big, yields the desired result.
+\end{proof}
+
+It is relevant to study the quantities
+\begin{equation}\label{eq:CalM}
+\mathcal M_\epl \defeq \E^{\rho^\epl}[V'(X^\epl) \otimes V'(X^\epl)] \quad \text{and} \quad \widetilde{\mathcal M}_\epl \defeq \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)],
+\end{equation}
+which are by the ergodic theorem the time limit of the matrices appearing in the estimators $\widehat A^\epl(T)$ and $\widehat A^\epl_k(T)$, respectively. In particular, the distance between the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ can be bounded, which is summarized in the following lemma.
+
+\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Lemma \ref{lem:distanceZandX} hold. Then the matrices $\mathcal M$ and $\widetilde{\mathcal M}_\epl$ defined in \eqref{eq:CalM} satisfy
+	\begin{equation}
+	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 \leq C\left(\epl + \delta^{1/2}\right),
+	\end{equation}
+	for a constant $C > 0$ independent of $\epl$ and $\delta$.
+\end{lemma}
+\begin{proof} Applying Jensen's and Cauchy--Schwarz inequalities we have
+	\begin{equation}
+	\begin{aligned}
+	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 &\leq \E^{\rho^\epl} \norm{\left(V'(Z^\epl) - V'(X^\epl)\right) \otimes V'(X^\epl)}_2 \\
+	&\leq \left(\E^{\rho^\epl}\norm{V'(Z^\epl) - V'(X^\epl)}_2^2\right)^{1/2} \left(\E^{\rho^\epl} \norm{V'(X^\epl)}_2^{2}\right)^{1/2}.
+	\end{aligned}
+	\end{equation}
+	The Lipschitz condition on $V'$ together with the boundedness of the moments of $X^\epl$ and Corollary \ref{cor:distanceZandX} yield for a constant $C > 0$
+	\begin{equation}
+	\begin{aligned}
+	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 &\leq C\left(\E^{\rho^\epl}\abs{Z^\epl - X^\epl}^{2}\right)^{1/2} \leq C \left(\epl + \delta^{1/2} \right),
+	\end{aligned}
+	\end{equation}
+	which is the desired result.
+\end{proof}
 
 \section{Proof of Theorem \ref{thm:mainTheorem_zeta}} \label{ap:zeta}
+
+\begin{lemma} \label{lem:quartet}
+	Let $\eta^\epl$ be the invariant measure of the quartet $(X^\epl, Y^\epl, Z^\epl, \beta^\epl)$. Then it holds
+	\begin{equation}
+	\delta \E^{\eta^\epl} \left[ (\beta^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
+	\end{equation}
+	where the remainder $\widetilde R(\epl,\delta)$ satisfies
+	\begin{equation} \label{eq:quartet_remainder}
+	\left( \E^{\eta^\epl} \left| \widetilde R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta^{3/2} + \delta \epl \right).
+	\end{equation}
+\end{lemma}
+\begin{proof}
+	
+\end{proof}
+
+\begin{lemma} \label{lem:quartet_convergence}
+	It holds
+	\begin{equation}
+	\lim_{\epl \to 0} \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] = \Sigma \E^{\phi^0} [V''(X)].
+	\end{equation}
+\end{lemma}
+\begin{proof}
+	
+\end{proof}
+
 
 \begin{proof}[Proof of Theorem \ref{thm:mainTheorem_zeta}]
 	Let us introduce the notation
@@ -1004,39 +1048,39 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}
 		\widetilde{\mathcal M}_\epl = \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ].
 	\end{equation}
-	Then following the proof of Theorem \ref{thm:mainTheorem} we only need to show that if $\delta = \epl^\zeta$ with $\zeta \in (0,1)$ we have
+	Then following the proof of Theorem \ref{thm:mainTheorem} we only need to show that if $\delta = \epl^\zeta$ with \corr{$\zeta \in (0,2)$} we have
 	\begin{equation}
 		\lim_{\epl \to 0} \mathcal A^\epl(\delta) = A, \quad \text{in law}.
 	\end{equation}
-	Using Lemma \ref{lem:zeta} and geometric ergodicity (Lemma \ref{lem:ergodicity}), we have the following equality in law
+	Using Lemma \ref{lem:zeta} and geometric ergodicity (Lemma \ref{lem:ergodicity}), we have the following equality
 	\begin{equation}
 	\begin{aligned}
 		\mathcal A^\epl(\delta) &= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E [(X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl)] \\
-		&= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E \left[ \left( \sqrt{2\Sigma}\delta \int_0^t k(t-s) \dd B_s + R(\epl,\delta) \right)^2 V''(Z_t^\epl) \right] \\
+		&= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E \left[ \left( \delta \beta_t^\epl + R(\epl,\delta) \right)^2 V''(Z_t^\epl) \right] \\
 		&\eqdef \widetilde{\mathcal M}_\epl^{-1} \lim_{t \to \infty} \left( J_1^\epl(t) + J_2^\epl(t) + J_3^\epl(t) \right),
 	\end{aligned}
 	\end{equation}
-	where
+	where and $\E$ denotes the expectation with respect to the Wiener measure and
 	\begin{equation}
 	\begin{aligned}
-		J_1^\epl(t) &= 2\Sigma\delta \E \left[ \left( \int_0^t k(t-s) \dd B_s \right)^2 V''(Z_t^\epl) \right], \\
-		J_2^\epl(t) &= 2\sqrt{2\Sigma} \E \left[ \left( \int_0^t k(t-s) \dd B_s \right) R(\epl,\delta) V''(Z_t^\epl) \right], \\
+		J_1^\epl(t) &= \delta \E \left[ (\beta_t^\epl)^2 V''(Z_t^\epl) \right], \\
+		J_2^\epl(t) &= 2 \E \left[ \beta_t^\epl R(\epl,\delta) V''(Z_t^\epl) \right], \\
 		J_3^\epl(t) &= \frac1\delta \E\left[ R(\epl,\delta)^2 V''(Z_t^\epl) \right].
 	\end{aligned}
 	\end{equation}
-	Let us consider the three terms separately. First, since the Brownian motion $B_s$ is independent of the process $Z_t^\epl$, applying Itô isometry we get
+	Let us consider the three terms separately. First, by geometric ergodicity and applying Lemma \ref{lem:quartet}, we get
 	\begin{equation}
-	J_1^\epl(t) = 2\Sigma\delta \left( \int_0^t k(t-s)^2 \dd s \right) \E [V''(Z_t^\epl)] = \Sigma \E [V''(Z_t^\epl)],
+	\lim_{t \to \infty} J_1^\epl(t) = \delta \E^{\eta^\epl} \left[ (\beta^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
 	\end{equation}
-	and, by Lemma \ref{lem:distanceZandX} and weak convergence of the invariant measure, we obtain
+	and, by Lemma \ref{lem:quartet_convergence} and due to \eqref{eq:quartet_remainder}, we obtain
 	\begin{equation}
-	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) = \Sigma \lim_{\epl \to 0} \E^{\rho^\epl} [V''(Z^\epl)] = \Sigma \E^{\rho^0} [V''(X)].
+	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) = \Sigma \E^{\rho^0} [V''(X)].
 	\end{equation}
-	Moreover, due to \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
+	Moreover, due to \eqref{eq:beta} and \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
 	\begin{equation}
 	\begin{aligned}
-		\abs{J_2^\epl(t)} &\le C \left( \delta^{1/2} + \epl^\iota \delta^{-1/2} + \epl \right), \\
-		\abs{J_3^\epl(t)} &\le C \left( \delta + \epl^{2\iota} \delta^{-1} + \epl^2 \right).
+		\abs{J_2^\epl(t)} &\le C \left( \delta^{1/2} + \epl \delta^{-1/2} \right), \\
+		\abs{J_3^\epl(t)} &\le C \left( \delta + \epl^2 \delta^{-1} \right).
 	\end{aligned}
 	\end{equation}
 	Furthermore, by Lemma \ref{lem:distanceMandTildeM} and weak convergence of the invariant measure, we have
@@ -1072,7 +1116,7 @@ We can finally prove the unbiasedness of the estimator $\widetilde A^\epl_k(T)$.
 	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)\lim_{T \to \infty} \widehat A^\epl_k(T),
 	\end{aligned}
 	\end{equation}
-	almost surely. Therefore, due to Assumption \ref{as:regularity} which allows controlling the norm of $\mathcal M_\epl^{-1}$ and due to Lemma \ref{lem:distanceMandTildeM} we have for a constant $C > 0$
+	almost surely, where $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ are defined in \eqref{eq:CalM}. Therefore, due to Assumption \ref{as:regularity} which allows controlling the norm of $\mathcal M_\epl^{-1}$ and due to Lemma \ref{lem:distanceMandTildeM} we have for a constant $C > 0$
 	\begin{equation}\label{eq:DistATildeAHat}
 	\lim_{T \to \infty} \norm{\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)}_2 \leq C \left(\epl + \delta^{1/2} \right).
 	\end{equation}
