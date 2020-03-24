@@ -1034,23 +1034,119 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	\end{equation}
 	where the remainder $\widetilde R(\epl,\delta)$ satisfies
 	\begin{equation} \label{eq:quartet_remainder}
-	\left( \E^{\eta^\epl} \left| \widetilde R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta^{3/2} + \delta \epl \right).
+	\left| \widetilde R(\epl,\delta) \right| \le C \left( \delta^{1/2} + \epl \right).
 	\end{equation}
 \end{lemma}
 \begin{proof}
-	
+	Let us consider the following system of stochastic differential equations for the processes $X_t^\epl, Z_t^\epl, \beta_t^\epl, Y_t^\epl$
+	\begin{equation}
+	\label{eq:systemSDEquartet}
+	\begin{aligned}
+	\d X_t^\epl &= -\alpha \cdot V'(X_t^\epl) \dd t - \frac1\epl p'(Y_t^\epl) \dd t+ \sqrt{2\sigma} \dd W_t, \\
+	\d Z_t^\epl &= \frac1\delta \left ( X^\epl_t - Z^\epl_t \right ) \dd t, \\
+	\d \beta_t^\epl &= - \frac1\delta \beta_t^\epl \dd t + \frac{\sqrt{2\sigma}}{\delta}(1+\Phi'(Y_t^\epl)) \dd W_t, \\
+	\d Y_t^\epl &= -\frac1\epl \alpha \cdot V'(X_t^\epl) \dd t - \frac{1}{\epl^2} p'(Y_t^\epl) \dd t+ \frac{\sqrt{2\sigma}}{\epl} \dd W_t,
+	\end{aligned}
+	\end{equation}
+	whose generator $\widetilde{\mathcal L}^\epl$ is given by
+	\begin{equation}
+	\begin{aligned}
+	\widetilde{\mathcal L}^\epl =& -\left( \alpha \cdot V'(x) + \frac1\epl p'(y) \right) \partial_x + \frac1\delta (x-z) \partial_z - \frac1\delta b \partial_b - \left( \frac1\epl \alpha \cdot V'(x) + \frac{1}{\epl^2} p'(y) \right) \partial_y \\
+	& + \sigma \left( \partial_{xx}^2 + \frac2\epl \partial_{xy}^2 + \frac{1}{\epl^2} \partial_{yy}^2 + \frac{2(1+\Phi'(y))}{\delta} \partial_{xb}^2 + \frac{2(1+\Phi'(y))}{\epl \delta} \partial_{yb}^2 + \frac{(1+\Phi'(y))^2}{\delta^2} \partial_{bb}^2 \right).
+	\end{aligned}
+	\end{equation}
+	Let us denote by $\eta^\epl \colon \R^3 \times [0,L] \to \R$, $\eta^\epl = \eta^\epl(x,z,b,y)$, the invariant measure of the quartet $(X_t^\epl, Z_t^\epl, \beta_t^\epl, Y_t^\epl)$. Then $\eta^\epl$ solves the stationary Fokker-Planck equation
+	\begin{equation} \label{eq:FPSDEquartet}
+	\begin{aligned}
+	\partial_x \left( \left( \alpha \cdot V'(x) + \frac1\epl p'(y) \right) \eta^\epl \right) - \partial_z \left( \frac1\delta (x-z) \eta^\epl \right) & \\
+	+ \partial_b \left( \frac1\delta b \eta^\epl \right) + \partial_y \left( \left( \frac1\epl \alpha \cdot V'(x) + \frac{1}{\epl^2} p'(y) \right) \eta^\epl \right) & \\
+	+ \sigma \left( \partial_{xx}^2 \eta^\epl + \partial_{xy}^2 \left( \frac2\epl \eta^\epl \right) + \partial_{yy}^2 \left( \frac{1}{\epl^2} \eta^\epl \right) \right) & \\
+	+ \sigma \left( \partial_{xb}^2 \left( \frac{2(1+\Phi'(y))}{\delta} \eta^\epl \right) + \partial_{yb}^2 \left( \frac{2(1+\Phi'(y))}{\epl \delta} \eta^\epl \right) + \partial_{bb}^2 \left( \frac{(1+\Phi'(y))^2}{\delta^2} \eta^\epl \right) \right) & = 0.
+	\end{aligned}
+	\end{equation}
+	We now multiply the equation above by a continuous differentiable function $f \colon \R^2 \to \R^N$, $f = f(z,b)$, and integrate with respect to $x$, $z$, $b$ and $y$. Then integration by parts yields
+	\begin{equation}
+	\frac1\delta \int_{\R^3 \times [0,L]} \partial_z f(z,b) (x-z) \eta^\epl - \frac1\delta \int_{\R^3 \times [0,L]} \partial_b f(z,b) b \eta^\epl + \frac{\sigma}{\delta^2} \int_{\R^3 \times [0,L]} \partial_{bb}^2 f(z,b) (1+\Phi'(y))^2 \eta^\epl,
+	\end{equation}
+	which implies the following identity in $\R^N$
+	\begin{equation}
+	\delta \E^{\eta^\epl}\left[ \partial_b f(Z^\epl, \beta^\epl) \beta^\epl \right] = \sigma \E^{\eta^\epl} \left[ \partial_{bb}^2 f(Z^\epl, \beta^\epl) (1+\Phi'(Y^\epl)) \right] + \delta \E^{\eta^\epl} \left[ \partial_z f(Z^\epl, \beta^\epl) (X^\epl-Z^\epl) \right].
+	\end{equation}
+	Choosing
+	\begin{equation}
+	f(z,b) = \frac12 b^2 V''(z)
+	\end{equation}
+	we obtain
+	\begin{equation}
+	\begin{aligned}
+	\delta \E^{\eta^\epl}\left[ (\beta^\epl)^2 V''(Z^\epl) \right] &= \sigma \E^{\eta^\epl} \left[ V''(Z^\epl) (1+\Phi'(Y^\epl)) \right] + \frac\delta2 \E^{\eta^\epl} \left[ (\beta^\epl)^2 V'''(Z^\epl) (X^\epl-Z^\epl) \right] \\
+	&\eqdef \sigma \E^{\eta^\epl} \left[ V''(Z^\epl) (1+\Phi'(Y^\epl)) \right] + \widetilde R(\epl,\delta).
+	\end{aligned}
+	\end{equation}
+	We now consider the remainder and, applying Hölder's inequality, Lemma \ref{lem:distanceZandX}, Lemma \corr{boundedness of moments of $Z^\epl$} and \eqref{eq:estimate_beta}, we get for $p,q,r$ such that $1/p+1/q+1/r=1$
+	\begin{equation}
+	\left| \widetilde R(\epl,\delta) \right| \le C \delta \left( \E^{\eta^\epl} |\beta^\epl|^{2p} \right)^{1/p} \left( \E^{\eta^\epl} |V''(Z^\epl)|^q \right)^{1/q} \left( \E^{\eta^\epl} |X^\epl - Z^\epl|^r \right)^{1/r} \le C (\delta^{1/2} + \epl),
+	\end{equation}
+	which completes the proof.
 \end{proof}
 
 \begin{lemma} \label{lem:quartet_convergence}
-	It holds
+	Let $\delta = \epl^\zeta$ with \corr{$\zeta \in (0,2)$}, then it holds
 	\begin{equation}
 	\lim_{\epl \to 0} \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] = \Sigma \E^{\phi^0} [V''(X)].
 	\end{equation}
 \end{lemma}
 \begin{proof}
-	
+	Let us introduce the notation 
+	\begin{equation}
+	\Delta(\epl) = \left| \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] - \Sigma \E^{\phi^0} [V''(X)] \right|,
+	\end{equation}
+	and note that the aim is to show that $\lim_{\epl \to 0} \Delta(\epl) = 0$. By the triangle inequality we get
+	\begin{equation}
+	\begin{aligned}
+	\Delta(\epl) \le& \left| \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] - \sigma \E^{\eta^\epl} [V''(X^\epl) (1 + \Phi'(Y^\epl))^2] \right| \\
+	&+ \left| \sigma \E^{\eta^\epl} [V''(X^\epl) (1 + \Phi'(Y^\epl))^2] - \Sigma \E^{\phi^0} [V''(X)] \right| \\
+	\eqdef& \Delta_1(\epl) + \Delta_2(\epl).
+	\end{aligned}
+	\end{equation}
+	We first study $\Delta_1(\epl)$ and due to the boundedness of $\Phi'$, Assumption \ref{as:regularity} and Lemma \ref{lem:distanceZandX} we have
+	\begin{equation}
+	\Delta_1(\epl) \le C \E^{\eta^\epl} \abs{X^\epl - Z^\epl} \le C (\delta^{1/2} + \epl) = C (\epl^\zeta + \epl),
+	\end{equation}
+	which implies
+	\begin{equation}
+	\lim_{\epl \to 0} \Delta_1(\epl) = 0.
+	\end{equation}
+	We now consider $\Delta_2(\epl)$. Integrating equation \ref{eq:FPSDEquartet} with respect to $z$ and $b$ we obtain the Fokker-Planck equation for the stationary marginal distribution $\lambda \colon \R \times [0,L]$, $\lambda = \lambda(x,y)$, of the couple $(X^\epl,Y^\epl)$
+	\begin{equation}
+	\begin{aligned}
+	\partial_x \left( \left( \alpha \cdot V'(x) + \frac1\epl p'(y) \right) \lambda \right) + \partial_y \left( \left( \frac1\epl \alpha \cdot V'(x) + \frac{1}{\epl^2} p'(y) \right) \lambda \right) & \\
+	+ \sigma \left( \partial_{xx}^2 \lambda + \partial_{xy}^2 \left( \frac2\epl \lambda \right) + \partial_{yy}^2 \left( \frac{1}{\epl^2} \lambda \right) \right) &= 0,
+	\end{aligned}
+	\end{equation}
+	whose solution is given by
+	\begin{equation}
+	\lambda(x,y) = \frac{1}{C_\lambda} \exp \left\{ - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right\},
+	\end{equation}
+	where
+	\begin{equation}
+	\begin{aligned}
+	C_{\lambda} &= \int_\R \int_0^L \exp \left\{ - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right\} \dd x \dd y \\
+	&= \left( \int_\R \exp \left\{ - \frac\alpha\sigma V(x) \right\} \dd x \right) \left( \int_0^L \exp \left\{ - \frac1\sigma p(y) \right\} \dd y \right) \\
+	&\eqdef C_{\lambda_x} C_{\lambda_y}.
+	\end{aligned}
+	\end{equation}
+	Therefore, by equations \eqref{eq:SDE_HOM}, \eqref{eq:K_HOM} and \eqref{eq:phi0} we have
+	\begin{equation}
+	\begin{aligned}
+	\sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] &= \sigma \int_\R \int_0^L V''(x) (1 + \Phi'(y))^2 \frac{1}{C_\lambda} \exp \left\{ - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right\} \dd x \dd y \\
+	&= \sigma \left( \int_\R V''(x) \frac{1}{C_{\lambda_x}} \exp \left\{ - \frac\alpha\sigma V(x) \right\} \dd x \right) \\
+	&\qquad \qquad \times \left( \int_0^L (1+\Phi'(y))^2 \frac{1}{C_{\lambda_y}} \exp \left\{ - \frac1\sigma p(y) \right\} \dd y \right) \\
+	&= \sigma K \E^{\phi^0}[V''(X)] = \Sigma \E^{\phi^0}[V''(X)],
+	\end{aligned}
+	\end{equation}
+	which shows that $\Delta_2(\epl) = 0$ and completes the proof.
 \end{proof}
-
 
 \begin{proof}[Proof of Theorem \ref{thm:mainTheorem_zeta}]
 	Let us introduce the notation
