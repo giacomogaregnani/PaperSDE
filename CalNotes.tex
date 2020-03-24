@@ -770,14 +770,17 @@ In this section, we prove a series of results which quantify the distance betwee
 	\begin{equation}
 		k(r) = \frac1\delta e^{-r/\delta}.
 	\end{equation}
-	Then, for any $t > 0$, $p \geq 0$ and any function $g\in \mathcal C^0([0, t])$ it holds 
-	\begin{equation}
-		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq (1 - e^{-t/\delta})^{p-1}\int_0^t k(t-s) \abs{g(s)}^p \dd s.
-	\end{equation}
-	Moreover, if $p \geq 1$ and since $0 < (1-e^{-t/\delta}) < 1$ for all $t > 0$, it holds
-	\begin{equation}
-		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq \int_0^t k(t-s) \abs{g(s)}^p \dd s.
-	\end{equation}
+	Then, for any $t > 0$, $p \geq 1$ and any function $g\in \mathcal C^0([0, t])$ it holds 
+		\begin{equation}
+			\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq \int_0^t k(t-s) \abs{g(s)}^p \dd s.
+		\end{equation}
+%	\begin{equation}
+%		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq (1 - e^{-t/\delta})^{p-1}\int_0^t k(t-s) \abs{g(s)}^p \dd s.
+%	\end{equation}
+%	Moreover, if $p \geq 1$ and since $0 < (1-e^{-t/\delta}) < 1$ for all $t > 0$, it holds
+%	\begin{equation}
+%		\abs{\int_0^t k(t-s) g(s) \dd s}^p \leq \int_0^t k(t-s) \abs{g(s)}^p \dd s.
+%	\end{equation}
 \end{lemma}
 \begin{proof} Let us first note that
 	\begin{equation}
@@ -791,10 +794,10 @@ In this section, we prove a series of results which quantify the distance betwee
 	\begin{equation}
 	\begin{aligned}
 		\abs{\int_0^t k(t-s) g(s) \dd s}^p &\leq (1 - e^{-t/\delta})^p \int_0^t \abs{g(s)}^p \kappa_t(\d s) \\
-		&= (1 - e^{-t/\delta})^{p-1} \int_0^t k(t-s) \abs{g(s)}^p \dd s,
+		&= (1 - e^{-t/\delta})^{p-1} \int_0^t k(t-s) \abs{g(s)}^p \dd s.
 	\end{aligned}
 	\end{equation}
-	which is the desired result.
+	Finally since $0 < (1 - e^{-t/\delta})< 1$ and $p \geq 1$, this yields the desired result.
 \end{proof}
 
 The following lemma characterizes the action of the filter when it is applied to polynomials.
@@ -811,37 +814,37 @@ The following lemma characterizes the action of the filter when it is applied to
 	where $\gamma$ is the lower incomplete Gamma function, which is bounded by the complete Gamma function $\Gamma(p+1)$ independently of the second argument.
 \end{proof}
 
-\begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
-	\begin{equation}
-		\left(\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p\right)^{1/p} \leq C\left(\epl + \delta^{1/2}\right),
-	\end{equation}
-	for a constant $C > 0$ independent of $\epl$ and $\delta$.
-\end{lemma}
-\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ we have
-	\begin{equation}
-	\begin{aligned}
-		X_t^\epl - Z_t^\epl &= X_t^\epl - \int_0^t k(t-s) X_s^\epl \dd s\\
-		&= \int_0^t k(t - s) \left(X_t^\epl - X_s^\epl\right) \dd s + e^{-t/\delta} X^\epl_t.
-	\end{aligned}
-	\end{equation}
-	Therefore, Lemma \ref{lem:FilterJensen} yields for a constant $C > 0$ depending only on $p$
-	\begin{equation}
-		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\int_0^t \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^p k(t-s) \dd s + Ce^{-pt/\delta} \E^{\phi^\epl} \abs{X^\epl_t}^p.
-	\end{equation}
-	Moreover, the estimate
-	\begin{equation}
-		\E^{\phi^\epl}\abs{X_t^\epl - X_s^\epl}^p \leq C\left(\epl^p + (t-s)^p + (t-s)^{p/2}\right),
-	\end{equation}
-	holds for all $t > s$ due to \cite[Lemma 6.1]{PaS07}. Finally, since the moments of $X_t^\epl$ are bounded \cite[Corollary 5.4]{PaS07} and due to Lemma \ref{lem:FilterPoly} there exists a constant $C > 0$ depending only on $p$ such that
-	\begin{equation}
-		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2} + e^{-pt/\delta}\right).
-	\end{equation}
-	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $C$ depending on the initial condition and $p$  
-	\begin{equation}
-	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
-	\end{equation}
-	which, for $t$ sufficiently big, yields the desired result.
-\end{proof}
+%\begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
+%	\begin{equation}
+%		\left(\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p\right)^{1/p} \leq C\left(\epl + \delta^{1/2}\right),
+%	\end{equation}
+%	for a constant $C > 0$ independent of $\epl$ and $\delta$.
+%\end{lemma}
+%\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ we have
+%	\begin{equation}
+%	\begin{aligned}
+%		X_t^\epl - Z_t^\epl &= X_t^\epl - \int_0^t k(t-s) X_s^\epl \dd s\\
+%		&= \int_0^t k(t - s) \left(X_t^\epl - X_s^\epl\right) \dd s + e^{-t/\delta} X^\epl_t.
+%	\end{aligned}
+%	\end{equation}
+%	Therefore, Lemma \ref{lem:FilterJensen} yields for a constant $C > 0$ depending only on $p$
+%	\begin{equation}
+%		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\int_0^t \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^p k(t-s) \dd s + Ce^{-pt/\delta} \E^{\phi^\epl} \abs{X^\epl_t}^p.
+%	\end{equation}
+%	Moreover, the estimate
+%	\begin{equation}
+%		\E^{\phi^\epl}\abs{X_t^\epl - X_s^\epl}^p \leq C\left(\epl^p + (t-s)^p + (t-s)^{p/2}\right),
+%	\end{equation}
+%	holds for all $t > s$ due to \cite[Lemma 6.1]{PaS07}. Finally, since the moments of $X_t^\epl$ are bounded \cite[Corollary 5.4]{PaS07} and due to Lemma \ref{lem:FilterPoly} there exists a constant $C > 0$ depending only on $p$ such that
+%	\begin{equation}
+%		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2} + e^{-pt/\delta}\right).
+%	\end{equation}
+%	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $C$ depending on the initial condition and $p$  
+%	\begin{equation}
+%	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
+%	\end{equation}
+%	which, for $t$ sufficiently big, yields the desired result.
+%\end{proof}
 
 The following result is a quantification of the difference between $X^\epl_t$ and $Z^\epl_t$. In particular, denoting $Y_t^\epl \defeq X_t^\epl/\epl$, we will make use of the decomposition
 \cite[Formula 5.8]{PaS07}
@@ -861,9 +864,9 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}\label{eq:defBeta}
 		\beta_t^\epl \defeq \sqrt{2\sigma} \int_0^t k(t-s)(1 + \Phi'(Y_s^\epl)) \dd W_s,
 	\end{equation}
-	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, $\beta_t^\epl$ and the remainder $R(\epl,\delta)$ satisfy for every $p > 0$ the estimates
+	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, $\beta_t^\epl$ and the remainder $R(\epl,\delta)$ satisfy for every $p \geq 1$ the estimates
 	\begin{equation} \label{eq:beta}
-	\left( \E^{\phi^\epl} \abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1},
+	\left( \E^{\phi^\epl} \abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1/2},
 	\end{equation}
 	and
 	\begin{equation} \label{eq:remainder_zeta}
@@ -932,28 +935,38 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 		I_2^\epl(t) = \sqrt{2\sigma} \int_0^t k(t-s)(Q_t^\epl - Q_s^\epl) \dd s.
 	\end{equation}
 	An application of the Itô formula to $u(s, Q_s^\epl)$ where $u(s, x) = k(t-s)x$ yields
-	\begin{equation}
+	\begin{equation}\label{eq:rewriteI2}
 	\begin{aligned}
 		I_2^\epl(t) &= \sqrt{2\sigma} \left(Q_t^\epl\int_0^t k(t-s) \dd s - Q_t^\epl + \delta \int_0^t k(t-s)\left(1 + \Phi'(Y_s^\epl)\right) \dd W_s\right)\\
 		  			&= \delta \beta_t^\epl - \sqrt{2\sigma} e^{-t/\delta} Q_t^\epl \eqdef \delta \beta_t^\epl - R_2^\epl(t).
 	\end{aligned}
 	\end{equation}
 	where $\beta_t^\epl$ is defined in \eqref{eq:defBeta}. For the remainder $R_2^\epl(t)$, let us remark that for all $p \geq 1$ it holds
-	\begin{equation}
+	\begin{equation}\label{eq:BoundQ}
 	\begin{aligned}
 		\left(\E\abs{Q_t^\epl}^p\right)^2 \leq \E\abs{Q_t^\epl}^{2p} \leq Ct^{p-1}\int_0^t \E \abs{1 + \Phi'(Y_r^\epl)}^{2p} \dd r \leq C t^p
 	\end{aligned}
 	\end{equation}
-	where we applied Jensen's inequality, an estimate for the moments of stochastic integrals \cite[Formula (3.25), p. 163]{KaS91} and the boundedness of $\Phi$. Therefore, for $t$ large enough, we have
-	\begin{equation}
+	where we applied Jensen's inequality, an estimate for the moments of stochastic integrals \cite[Formula (3.25), p. 163]{KaS91} and the boundedness of $\Phi$. Therefore we have
+	\begin{equation}\label{eq:boundR2}
 		\left( \E^{\phi^\epl}\abs{R_2^\epl(t)}^p \right)^{1/p} \leq C \sqrt{t} e^{-t/\delta}.
 	\end{equation}
-	Moreover, applying the Itô isometry and due to the boundedness of $\Phi'$, we get
+	In order to obtain the bound \eqref{eq:beta} on $\beta_t^\epl$, let us remark that from \eqref{eq:rewriteI2} it holds for a constant $C > 0$ depending only on $p$ 
 	\begin{equation}
-	\E^{\phi^\epl} \abs{\beta_t^\epl}^2 \le C \int_0^t k^2(t-s) \dd s \leq C \delta^{-1},
+		\left(\E\abs{\beta_t^\epl}^p\right)^{1/p}\leq C \delta^{-1}\left(\E\abs{I_2^\epl(t)}^p\right)^{1/p} + C \delta^{-1} \left(\E\abs{R_2^\epl(t)}^p\right)^{1/p}.
 	\end{equation}
-	which proves \eqref{eq:beta}.
-	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
+	The second term is bounded exponentially fast with respect to $t$ and $\delta$ due to \eqref{eq:boundR2}. For the first term, applying Lemma \ref{lem:FilterJensen}, the inequality \cite[Formula (3.25), p. 163]{KaS91} and Lemma \ref{lem:FilterPoly} we obtain for a constant $C > 0$ independent of $\delta$ and $t$
+	\begin{equation}
+	\begin{aligned}
+		\E\abs{I_2^\epl(t)}^p &\leq C \int_0^t k(t-s) \E\abs{Q_t - Q_s}^p \dd s \\
+		&\leq C\int_0^t k(t-s)(t-s)^{p/2} \dd s \leq C\delta^{p/2}.
+	\end{aligned}
+	\end{equation} 
+	Therefore, it holds
+	\begin{equation}
+		\left(\E\abs{\beta_t^\epl}^p\right)^{1/p}\leq C \delta^{-1/2},
+	\end{equation}
+	which proves the bound \eqref{eq:beta}.	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
 	\begin{equation}
 	\abs{I_3^\epl(t)} \leq C \epl, 
 	\end{equation}
@@ -990,7 +1003,7 @@ It is relevant to study the quantities
 \end{equation}
 which are by the ergodic theorem the time limit of the matrices appearing in the estimators $\widehat A^\epl(T)$ and $\widehat A^\epl_k(T)$, respectively. In particular, the distance between the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ can be bounded, which is summarized in the following lemma.
 
-\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Lemma \ref{lem:distanceZandX} hold. Then the matrices $\mathcal M$ and $\widetilde{\mathcal M}_\epl$ defined in \eqref{eq:CalM} satisfy
+\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Corollary \ref{cor:distanceZandX} hold. Then the matrices $\mathcal M$ and $\widetilde{\mathcal M}_\epl$ defined in \eqref{eq:CalM} satisfy
 	\begin{equation}
 	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 \leq C\left(\epl + \delta^{1/2}\right),
 	\end{equation}
