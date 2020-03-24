@@ -276,7 +276,7 @@ We conclude this section presenting an analogous result to Lemma \ref{lem:FPMarg
 		\phi^0(x) = \int_{\R} \rho^0(x,z) \dd z, \quad \psi^0(z) = \int_{\R} \rho^0(x,z) \dd x.
 	\end{equation}
 	Then, if $A$ and $\Sigma$ are the coefficients of the homogenized equation \eqref{eq:SDE_HOM}, it holds
-	\begin{equation}
+	\begin{equation} \label{eq:phi0}
 		\phi^0(x) = \frac{1}{C_{\phi^0}} \exp\left(- \frac1{\Sigma} A\cdot V(x)\right), \quad \text{where } \quad C_{\phi^0} = \int_{\R} \exp\left(- \frac1{\Sigma} A\cdot V(x) \right) \dd x.
 	\end{equation}
 	Moreover, it holds
@@ -814,6 +814,31 @@ The following lemma characterizes the action of the filter when it is applied to
 	where $\gamma$ is the lower incomplete Gamma function, which is bounded by the complete Gamma function $\Gamma(p+1)$ independently of the second argument.
 \end{proof}
 
+The following lemma shows that $Z^\epl$ has bounded moments of all orders.
+\begin{lemma} \label{lem:bounded_momentZ}
+	Under Assumption \ref{as:regularity}, let $Z^\epl$ be distributed as the invariant measure $\mu^\epl$ of the couple $(X^\epl, Z^\epl)^\top$. Then for any $p \geq 1$ there exists a constant $C > 0$ uniform in $\epl$ such that 
+	\begin{equation}
+	\E^{\rho^\epl}|Z^\epl|^p \le C.
+	\end{equation}
+\end{lemma}
+\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ and applying Lemma \ref{lem:FilterJensen} we have
+\begin{equation}
+\begin{aligned}
+	\E^{\phi^\epl} |Z_t^\epl|^p &= \E^{\phi^\epl} \left| \int_0^t k(t-s) X_s^\epl \dd s \right|^p \\
+	&\leq \int_0^t k(t - s) \E^{\phi^\epl} |X_s^\epl|^p \dd s,
+\end{aligned}
+\end{equation}
+which, together with the definition of $k$ and the fact that $X_s^\epl$ has bounded moments of all orders \cite[Corollary 5.4]{PaS07}, implies
+\begin{equation}
+\E^{\phi^\epl}|Z_t^\epl|^p \le C.
+\end{equation}
+In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
+\begin{equation}
+\E^{\rho^\epl} \abs{Z^\epl}^p \leq \E^{\phi^\epl}\abs{Z_t^\epl}^p + \widetilde C e^{-\lambda t},
+\end{equation}
+which, for $t$ sufficiently big, yields the desired result.
+\end{proof}
+
 %\begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
 %	\begin{equation}
 %		\left(\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p\right)^{1/p} \leq C\left(\epl + \delta^{1/2}\right),
@@ -865,7 +890,7 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 		\beta_t^\epl \defeq \sqrt{2\sigma} \int_0^t k(t-s)(1 + \Phi'(Y_s^\epl)) \dd W_s,
 	\end{equation}
 	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, $\beta_t^\epl$ and the remainder $R(\epl,\delta)$ satisfy for every $p \geq 1$ the estimates
-	\begin{equation} \label{eq:beta}
+	\begin{equation} \label{eq:estimate_beta}
 	\left( \E^{\phi^\epl} \abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1/2},
 	\end{equation}
 	and
@@ -951,7 +976,7 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}\label{eq:boundR2}
 		\left( \E^{\phi^\epl}\abs{R_2^\epl(t)}^p \right)^{1/p} \leq C \sqrt{t} e^{-t/\delta}.
 	\end{equation}
-	In order to obtain the bound \eqref{eq:beta} on $\beta_t^\epl$, let us remark that from \eqref{eq:rewriteI2} it holds for a constant $C > 0$ depending only on $p$ 
+	In order to obtain the bound \eqref{eq:estimate_beta} on $\beta_t^\epl$, let us remark that from \eqref{eq:rewriteI2} it holds for a constant $C > 0$ depending only on $p$ 
 	\begin{equation}
 		\left(\E\abs{\beta_t^\epl}^p\right)^{1/p}\leq C \delta^{-1}\left(\E\abs{I_2^\epl(t)}^p\right)^{1/p} + C \delta^{-1} \left(\E\abs{R_2^\epl(t)}^p\right)^{1/p}.
 	\end{equation}
@@ -966,7 +991,7 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}
 		\left(\E\abs{\beta_t^\epl}^p\right)^{1/p}\leq C \delta^{-1/2},
 	\end{equation}
-	which proves the bound \eqref{eq:beta}.	Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
+	which proves the bound \eqref{eq:estimate_beta}. Let us now consider $I_3^\epl(t)$. Since $\Phi$ is bounded, we simply have
 	\begin{equation}
 	\abs{I_3^\epl(t)} \leq C \epl, 
 	\end{equation}
@@ -1083,15 +1108,15 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	&\eqdef \sigma \E^{\eta^\epl} \left[ V''(Z^\epl) (1+\Phi'(Y^\epl)) \right] + \widetilde R(\epl,\delta).
 	\end{aligned}
 	\end{equation}
-	We now consider the remainder and, applying Hölder's inequality, Lemma \ref{lem:distanceZandX}, Lemma \corr{boundedness of moments of $Z^\epl$} and \eqref{eq:estimate_beta}, we get for $p,q,r$ such that $1/p+1/q+1/r=1$
+	We now consider the remainder and, applying Hölder's inequality, Lemma \ref{cor:distanceZandX}, Lemma \ref{lem:bounded_momentZ} and \eqref{eq:estimate_beta}, we get for $p,q,r$ such that $1/p+1/q+1/r=1$
 	\begin{equation}
-	\left| \widetilde R(\epl,\delta) \right| \le C \delta \left( \E^{\eta^\epl} |\beta^\epl|^{2p} \right)^{1/p} \left( \E^{\eta^\epl} |V''(Z^\epl)|^q \right)^{1/q} \left( \E^{\eta^\epl} |X^\epl - Z^\epl|^r \right)^{1/r} \le C (\delta^{1/2} + \epl),
+	\left| \widetilde R(\epl,\delta) \right| \le C \delta \left( \E^{\eta^\epl} |\beta^\epl|^{2p} \right)^{1/p} \left( \E^{\eta^\epl} |V'''(Z^\epl)|^q \right)^{1/q} \left( \E^{\eta^\epl} |X^\epl - Z^\epl|^r \right)^{1/r} \le C (\delta^{1/2} + \epl),
 	\end{equation}
 	which completes the proof.
 \end{proof}
 
 \begin{lemma} \label{lem:quartet_convergence}
-	Let $\delta = \epl^\zeta$ with \corr{$\zeta \in (0,2)$}, then it holds
+	Let $\delta = \epl^\zeta$ with $\zeta > 0$, then it holds
 	\begin{equation}
 	\lim_{\epl \to 0} \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] = \Sigma \E^{\phi^0} [V''(X)].
 	\end{equation}
@@ -1109,15 +1134,15 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	\eqdef& \Delta_1(\epl) + \Delta_2(\epl).
 	\end{aligned}
 	\end{equation}
-	We first study $\Delta_1(\epl)$ and due to the boundedness of $\Phi'$, Assumption \ref{as:regularity} and Lemma \ref{lem:distanceZandX} we have
+	We first study $\Delta_1(\epl)$ and due to the boundedness of $\Phi'$, Assumption \ref{as:regularity} and Lemma \ref{cor:distanceZandX} we have
 	\begin{equation}
-	\Delta_1(\epl) \le C \E^{\eta^\epl} \abs{X^\epl - Z^\epl} \le C (\delta^{1/2} + \epl) = C (\epl^\zeta + \epl),
+	\Delta_1(\epl) \le C \E^{\eta^\epl} \abs{X^\epl - Z^\epl} \le C (\delta^{1/2} + \epl) = C (\epl^{\zeta/2} + \epl),
 	\end{equation}
 	which implies
 	\begin{equation}
 	\lim_{\epl \to 0} \Delta_1(\epl) = 0.
 	\end{equation}
-	We now consider $\Delta_2(\epl)$. Integrating equation \ref{eq:FPSDEquartet} with respect to $z$ and $b$ we obtain the Fokker-Planck equation for the stationary marginal distribution $\lambda \colon \R \times [0,L]$, $\lambda = \lambda(x,y)$, of the couple $(X^\epl,Y^\epl)$
+	We now consider $\Delta_2(\epl)$. Integrating equation \eqref{eq:FPSDEquartet} with respect to $z$ and $b$ we obtain the Fokker-Planck equation for the stationary marginal distribution $\lambda \colon \R \times [0,L]$, $\lambda = \lambda(x,y)$, of the couple $(X^\epl,Y^\epl)$
 	\begin{equation}
 	\begin{aligned}
 	\partial_x \left( \left( \alpha \cdot V'(x) + \frac1\epl p'(y) \right) \lambda \right) + \partial_y \left( \left( \frac1\epl \alpha \cdot V'(x) + \frac{1}{\epl^2} p'(y) \right) \lambda \right) & \\
@@ -1185,7 +1210,7 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	\begin{equation}
 	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) = \Sigma \E^{\rho^0} [V''(X)].
 	\end{equation}
-	Moreover, due to \eqref{eq:beta} and \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
+	Moreover, due to \eqref{eq:estimate_beta} and \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
 	\begin{equation}
 	\begin{aligned}
 		\abs{J_2^\epl(t)} &\le C \left( \delta^{1/2} + \epl \delta^{-1/2} \right), \\
