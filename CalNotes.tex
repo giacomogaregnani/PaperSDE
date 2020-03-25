@@ -164,9 +164,34 @@ The process $Z^\epl$ can be interpreted as a smoothed version of the original tr
 \begin{remark} Given a trajectory $X^\epl$, it is relatively inexpensive to compute $Z^\epl$ from a computational standpoint. In particular, the process $Z^\epl$ is the truncated convolution of the kernel with the process $X^\epl$. Hence, computational tools based on the Fast Fourier Transform (FFT) exist and allow to compute $Z^\epl$ fast component-wise. Moreover, the process $Z^\epl$ can be computed, in case $\beta = 1$, in a recursive manner and therefore ``online''.
 \end{remark}
 
-In the rest of this section we will focus on the properties of the process $Z^\epl$ when it is considered together with the original process $X^\epl$. In particular, we focus on ergodic properties and multiscale convergence. Finally, we present and analyse unbiased estimators obtained with the filtering process.
+\begin{figure}[t]
+	\centering
+	\begin{tabular}{c}
+		\includegraphics[]{Figures/TrajD1} \\
+		\includegraphics[]{Figures/TrajD5} \\
+		\includegraphics[]{Figures/TrajD10}
+	\end{tabular}
+	\caption{\corr{Filtering a trajectory $X^\epl$ obtained with $V(x) = x^2 / 2$, $p(y) = \cos(y)$, $\alpha = 1$, $\sigma = 0.5$ and $\epl = 0.1$. The filtering width is $\delta = \{1, \sqrt{\epl}, \epl\}$ from top to bottom, respectively.}}
+	\label{fig:filter}
+\end{figure}
 
-\subsection{Ergodic properties of the filter}\label{sec:ergodic}
+\corr{Given a trajectory $X^\epl$ and the filtered data $Z^\epl$, the estimator of the drift coefficient we propose is given by
+\begin{equation}\label{eq:AHatMixed}
+	\widehat A^\epl_k(T) = - \widetilde M^{-1} \widetilde h,
+\end{equation}
+where we employ the subscript $k$ for reference to the filter's kernel in \eqref{eq:filter}, and where
+\begin{equation}\label{eq:MandHTilde}
+\widetilde M = \frac{1}{T} \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t, \qquad \text{and} \qquad \widetilde h = \frac{1}{T} \int_0^T V'(Z^\epl_t) \dd X^\epl_t.
+\end{equation}
+Let us remark that the formula above is obtained from \eqref{eq:MLE} by replacing only one instance of $X_t^\epl$ with $Z_t^\epl$ in both $M$ and $h$. In particular, it is fundamental for proving unbiasedness to keep in the definition of $h$ the differential of the original process $\d X^\epl_t$. Let us furthermore remark that $\widehat A^\epl_k(T)$ need not be the minimizer of some filtering-based likelihood function. In fact, if one were to replace $Z_t^\epl$ directly in \eqref{eq:Likelihood}, the symmetric part of the matrix $\widetilde M$ would appear and $\widehat A^\epl_k(T)$ would not be the minimizer. Therefore, the estimator $\widehat A^\epl_k(T)$ has to be thought of as a perturbation of $\widehat A^\epl(T)$, directly at the level of estimators and after the maximization procedure. The only theoretical guarantee which is still needed for the well-posedness of $\widehat A^\epl_k(T)$ is for $\widetilde M$ to be invertible, which we assume to be true and which we observed to hold in practice.
+
+Let us from now on consider $\beta = 1$. For this value of $\beta$, the parameter $\delta$ appearing in \eqref{eq:filter} regulates the width of the filtering window. In practice, larger values of $\delta$ will lead to trajectories which are smoother and for which fast-scale oscillations are practically canceled. Let us remark that the filtering width resembles the subsampling step employed for the estimator $\widehat A^\epl_\delta$ introduced and analyzed in \cite{PaS07}. For subsampling, the choice guaranteeing asymptotically unbiased results is $\delta = \epl^\zeta$ with $\zeta \in (0, 1)$, and a similar analysis is due for our filtering technique. For visualization purposes, we depict in Figure \ref{fig:filter} the filtered trajectory $Z^\epl$ for three different values of $\delta$, namely $\delta = \{1, \sqrt{\epl}, \epl\}$. With $\delta = 1$, all oscillations at the fast scale are canceled and the filtered trajectory $Z^\epl$ presents only slow-scale variations are present in $Z^\epl$. Reducing the value of $\delta$, fast-scale oscillations are progressively taken into account. 
+
+In the following, we first focus on the ergodic properties of the process $Z^\epl$ when it is coupled with the process $X^\epl$. This analysis is practically independent of the choice of $\delta$, and is therefore presented on its own. Then, we focus on two different cases which depend on the choice of the width $\delta$ of the filter. First, we consider $\delta$ to be of the magnitude of the slow-scale variations, i.e., $\delta \propto \epl^0$. In this case, an analysis based on multiscale convergence is presented. We then move on to the case $\delta \propto \epl^\zeta$, and show how to choose the exponent $\zeta$ in order to obtain unbiased estimators. For this second case, we widely employ techniques and estimates which come from \cite{PaS07}.
+}
+
+
+\subsection{Ergodic properties}\label{sec:ergodic}
 
 Let us consider the filtering kernel \eqref{eq:filter} with $\beta = 1$, i.e.,
 \begin{equation}\label{eq:filter_beta1}
@@ -184,13 +209,13 @@ which can be interpreted as an ordinary differential equation for $Z_t^\epl$ dri
 \d Z^\epl_t &= \frac{1}{\delta} \left ( X^\epl_t - Z^\epl_t \right ) \dd t.
 \end{aligned}
 \end{equation}
-The first ingredient for verifying the ergodic properties of the two-dimensional process $(X^\epl, Z^\epl)^\top \defeq ((X^\epl_t, Z^\epl_t)^\top, 0 \leq t \leq T)$ is verifying that the measure induced by the stochastic process admits a smooth density with respect to the Lebesgue measure. Since noise is present only on the first component, this is a consequence of the theory of hypo-ellipticity, as summarized in the following Lemma, \corr{whose proof is given in Appendix \ref{ap:Proofs}.}
+The first ingredient for verifying the ergodic properties of the two-dimensional process $(X^\epl, Z^\epl)^\top \defeq ((X^\epl_t, Z^\epl_t)^\top, 0 \leq t \leq T)$ is verifying that the measure induced by the stochastic process admits a smooth density with respect to the Lebesgue measure. Since noise is present only on the first component, this is a consequence of the theory of hypo-ellipticity, as summarized in the following Lemma, whose proof is given in Appendix \ref{ap:Proofs}.
 
 \begin{lemma}\label{lem:density} Let $(X^\epl, Z^\epl)^\top$ be the solution of \eqref{eq:systemSDE} and let $\mu^\epl_t$ be the measure induced by the couple at time $t$. Then, the measure $\mu^\epl_t$ admits a smooth density $\rho^\epl_t$ with respect to the Lebesgue measure.
 \end{lemma}
 
 
-Once it is established that the law of the process admits a smooth density for all times $t>0$, which satisfies a time-dependent Fokker--Planck equation, we are interested in the limiting properties of this law. In particular, we know that the process $X^\epl$ alone is geometrically ergodic \cite[Theorem 4.4]{MSH02}, and we wish the couple $(X^\epl, Z^\epl)^\top$ to be endowed with the same property. The following Lemma guarantees that the couple is indeed geometrically ergodic, \corr{and its proof is given in Appendix \ref{ap:Proofs}.}
+Once it is established that the law of the process admits a smooth density for all times $t>0$, which satisfies a time-dependent Fokker--Planck equation, we are interested in the limiting properties of this law. In particular, we know that the process $X^\epl$ alone is geometrically ergodic \cite[Theorem 4.4]{MSH02}, and we wish the couple $(X^\epl, Z^\epl)^\top$ to be endowed with the same property. The following Lemma guarantees that the couple is indeed geometrically ergodic, and its proof is given in Appendix \ref{ap:Proofs}.
 
 \begin{lemma}\label{lem:ergodicity} Let Assumption \ref{as:regularity} hold and let $b > 0$ be given in Assumption \ref{as:regularity}\ref{as:regularity_diss}. Then, if $\delta > 1/(4b)$, the process $(X^\epl, Z^\epl)^\top$ solution of \eqref{eq:systemSDE} is geometrically ergodic, i.e., there exists $C, \lambda > 0$ such that for all measurable $f\colon \R^2\to \R$ such that for some integer $q > 0$ 
 	\begin{equation}
@@ -229,7 +254,7 @@ Let us remark that this distribution can be obtained from direct computations in
 The basic properties of Gaussian processes imply that $Z$ is a Gaussian process, and that the couple $(X, Z)^\top$ is a Gaussian process, too, whose mean and covariance are computable explicitly.
 \end{example}
 
-In a general case, it is not possible to find an explicit solution to \eqref{eq:FPsystem}. Nevertheless, it is possible to show some relevant properties of the solution itself, which are summarized in the following Lemma, \corr{whose proof is given in Appendix \ref{ap:Proofs}.}
+In a general case, it is not possible to find an explicit solution to \eqref{eq:FPsystem}. Nevertheless, it is possible to show some relevant properties of the solution itself, which are summarized in the following Lemma, whose proof is given in Appendix \ref{ap:Proofs}.
 
 \begin{lemma}\label{lem:FPMarginal} Under the assumptions of Lemma \ref{lem:ergodicity}, let $\rho^\epl$ be the solution of \eqref{eq:FPsystem} and let us write 
 \begin{equation}\label{eq:densityDecomposition}
@@ -253,16 +278,27 @@ Moreover, it holds
 \end{equation}
 \end{lemma}
 
-\subsection{Multiscale convergence}\label{sec:convMS}
+\subsection{Filtering at the slow scale}\label{sec:Slow}
 
-We now investigate the convergence of the couple $(X^\epl, Z^\epl)^\top$ with respect to the multiscale parameter $\epl \to 0$. In particular, it is known that the invariant measure of $X^\epl$ converges weakly to the invariant measure of $X$ solution of the homogenized equation \eqref{eq:SDE_HOM}. The following result, \corr{whose proof is given in Appendix \ref{ap:Proofs},} guarantees the same kind of convergence for the couple $(X^\epl, Z^\epl)^\top$.
+\corr{In this section, we analyze the behavior of the filtering-based estimator $\widehat A^\epl_k(T)$ given in \eqref{eq:AHatMixed} when the filtering width $\delta$ is independent of $\epl$. In particular, we suppose there exist positive constants $C_1$ and $C_2$ independent of $\epl$ and $\delta$ such that $C_1 \epl^0 \leq \delta \leq C_2 \epl^0$. In the following, we will write more compactly that $\delta = \mathcal O(\epl^0)$. The analysis in this case is based on the convergence of the couple $(X^\epl, Z^\epl)^\top$ with respect to the multiscale parameter $\epl \to 0$.} In particular, it is known that the invariant measure of $X^\epl$ converges weakly to the invariant measure of $X$ solution of the homogenized equation \eqref{eq:SDE_HOM}. The following result, whose proof is given in Appendix \ref{ap:Proofs}, guarantees the same kind of convergence for the couple $(X^\epl, Z^\epl)^\top$.
 
-\begin{lemma}\label{lem:convMeasure} Under Assumption \ref{as:regularity}, let $\mu^\epl$ be the invariant measure of the couple $(X^\epl, Z^\epl)^\top$ and let $(X_0^\epl, Z_0^\epl)^\top \sim \mu^\epl$. Then, the measure $\mu^\epl$ converges weakly to the measure $\mu^0(\d x, \d z) = \rho^0(x, z) \dd x \dd z$, whose density $\rho^0$ is the unique solution of the Fokker--Planck equation
+\begin{lemma}\label{lem:convMeasure} Under Assumption \ref{as:regularity}, let $\mu^\epl$ be the invariant measure of the couple $(X^\epl, Z^\epl)^\top$ and let $(X_0^\epl, Z_0^\epl)^\top \sim \mu^\epl$. \corr{If $\delta = \mathcal O(\epl^0)$,} then the measure $\mu^\epl$ converges weakly to the measure $\mu^0(\d x, \d z) = \rho^0(x, z) \dd x \dd z$, whose density $\rho^0$ is the unique solution of the Fokker--Planck equation
 \begin{equation} \label{eq:FPsystem_homogenized}
 	\Sigma \partial^2_{xx} \rho^0(x,z) + \partial_x\left( A \cdot V'(x) \rho^0(x,z) \right) + \frac{1}{\delta}\partial_z\left((z - x) \rho^0(x,z) \right) = 0,
 \end{equation}
 where $A$ and $\Sigma$ are the coefficients of the homogenized equation \eqref{eq:SDE_HOM}.
 \end{lemma}
+
+\begin{proof} Let $(X, Z)^\top \defeq \left((X_t, Z_t)^\top, 0\leq t \leq T\right)$ be the solution of
+	\begin{equation}
+	\label{eq:systemSDEHom}
+	\begin{aligned}
+	\d X_t &= -A \cdot V'(X_t) \dd t + \sqrt{2\Sigma} \dd W_t, \\
+	\d Z_t &= \frac{1}{\delta} \left ( X_t - Z_t \right ) \dd t,
+	\end{aligned}
+	\end{equation} 
+	with $(X_0, Z_0)^\top \sim \mu^0$. The arguments of Section \ref{sec:ergodic} can be repeated to conclude that the invariant measure of $(X, Z)^\top$ admits a smooth density $\rho^0$ which satisfies \eqref{eq:FPsystem_homogenized}. Moreover, standard homogenization theory (see e.g. \cite[Chapter 3]{BLP78}) guarantees that $(X^\epl,Z^\epl)^\top \to (X,Z)^\top$ for $\epl \to 0$ in law as random variables with values in $\mathcal C^0([0, T]; \R^2)$. The Portmanteau theorem can be employed to conclude that the measure $\mu^\epl$ converges weakly to $\mu^0$ for $\epl \to 0$.
+\end{proof}
 
 
 We conclude this section presenting an analogous result to Lemma \ref{lem:FPMarginal} for the limit distribution.
@@ -287,26 +323,9 @@ We conclude this section presenting an analogous result to Lemma \ref{lem:FPMarg
 \begin{proof} The proof is directly obtained from Lemma \ref{lem:FPMarginal} replacing $p(y)=0$ and $\alpha, \sigma$ by $A, \Sigma$ respectively. 
 \end{proof}
 
-\subsection{The filtering-based estimator}\label{sec:FilterMLE}
+\corr{We can now prove the main result, namely the convergence of the filtering-based estimator to the drift coefficient of the homogenized equation.}
 
-We now consider the inference problem and propose our filtering-based estimator of the drift, which is formally given by the formula
-\begin{equation}\label{eq:AHatMixed}
-	\widehat A^\epl_k(T) = - \widetilde M^{-1} \widetilde h,
-\end{equation}
-where we employ the subscript $k$ for reference to the filter's kernel in \eqref{eq:filter}, and where
-\begin{equation}\label{eq:MandHTilde}
-	\widetilde M = \frac{1}{T} \int_0^T V'(Z^\epl_t) \otimes V'(X^\epl_t) \dd t, \qquad \text{and} \qquad \widetilde h = \frac{1}{T} \int_0^T V'(Z^\epl_t) \dd X^\epl_t.
-\end{equation}
-Let us remark that the formula above is obtained from \eqref{eq:MLE} by replacing only one instance of $X_t^\epl$ with $Z_t^\epl$ in both $M$ and $h$. In particular, it is fundamental for proving unbiasedness to keep in the definition of $h$ the differential of the original process $\d X^\epl_t$. Let us furthermore remark that $\widehat A^\epl_k(T)$ need not be the minimizer of some filtering-based likelihood function. In fact, if one were to replace $Z_t^\epl$ directly in \eqref{eq:Likelihood}, the symmetric part of the matrix $\widetilde M$ would appear and $\widehat A^\epl_k(T)$ would not be the minimizer. Therefore, the estimator $\widehat A^\epl_k(T)$ has to be thought of as a perturbation of $\widehat A^\epl(T)$, directly at the level of estimators and after the maximization procedure. The only theoretical guarantee which is still needed for the well-posedness of $\widehat A^\epl_k(T)$ is for $\widetilde M$ to be invertible, which we assume to be true and which we observed to hold in practice.
-
-%\begin{lemma}\label{lem:AHatWellPosed} Under Assumption \ref{as:regularity}, the matrix $\widetilde M$ defined in \eqref{eq:MandHTilde} is invertible a.s. 
-%\end{lemma}
-%\begin{proof} 
-%\todo: \corr{Idea. We don't need $\widetilde M$ to be symmetric positive definite (it is not) due to the comment just above the lemma. Nevertheless, if the functions $V_i'(x)$ are not such that the rows of $\widetilde M$ are identical for any $(X_t, Z_t)$, then the randomness in the entries should guarantee that $\det \widetilde M \neq 0$ with probability one. Still missing the (probably trivial) argument why this is true.}
-%\end{proof}
-
-We are now able to present the main result of unbiasedness of the filtering-based estimator.
-\begin{theorem}\label{thm:mainTheorem} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, and let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed}. If $\widetilde M$ is invertible, then
+\begin{theorem}\label{thm:mainTheorem} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, and let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} \corr{with $\delta = \mathcal O(\epl^0)$}. If $\widetilde M$ is invertible, then
 	\begin{equation}
 	\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A_k^\epl(T) = A, \quad \text{a.s.},
 	\end{equation}
@@ -326,7 +345,11 @@ Therefore, we have
 \end{equation}
 We study the terms $I_1^\epl(T)$ and $I_2^\epl(T)$ separately. The ergodic theorem applied to $I_1^\epl(T)$ yields
 \begin{equation}\label{limit_estimator}
-\lim_{T \to \infty} I_1^\epl(T) = \E^{\rho^\epl} [V'(Z^\epl) \otimes V'(X^\epl)]^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ], \quad \text{a.s.}
+\lim_{T \to \infty} I_1^\epl(T) = \widetilde {\mathcal M}_\epl^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ], \quad \text{a.s.},
+\end{equation}
+where 
+\begin{equation}
+\widetilde {\mathcal M}_\epl \defeq \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ].
 \end{equation}
 Due to Lemma \ref{lem:FPMarginal} and integrating by parts, we have
 \begin{equation}
@@ -344,21 +367,25 @@ which implies
 		&+\sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z 
 	\end{aligned}
 	\\
-	&= -  \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]\alpha + \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z.
+	&= - \widetilde {\mathcal M}_\epl\alpha + \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z.
 \end{align}
 Replacing the equality above into \eqref{limit_estimator}, we obtain
 \begin{equation}
-\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z, \quad \text{a.s.}
+\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \widetilde {\mathcal M}_\epl^{-1} \sigma \int_{\R} \int_{\R} V'(z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z, \quad \text{a.s.}
 \end{equation}
 Due to Lemma \ref{lem:FPMarginal}, we therefore have
 \begin{equation} \label{eq:for_zeta}
-	\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac1\delta \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ]^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)], \quad \text{a.s.}	
+	\lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac1\delta \widetilde {\mathcal M}_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)], \quad \text{a.s.}	
 \end{equation}
-We now pass to the limit as $\epl$ goes to zero and
-\begin{equation} \label{limit_estimator_2}
-	\lim_{\epl \to 0} \lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac1\delta \E^{\rho^0} [ V'(Z) \otimes V'(X) ]^{-1} \E^{\rho^0}[(X - Z)^2 V''(Z)], \quad \text{a.s.},
+\corr{Since $\delta = \mathcal O(\epl^0)$ we can now safely} pass to the limit as $\epl$ goes to zero and
+\begin{equation} \label{eq:limit_estimator_2}
+	\lim_{\epl \to 0} \lim_{T \to \infty} I_1^\epl(T) = -\alpha + \frac1\delta \widetilde {\mathcal M}_0^{-1} \E^{\rho^0}[(X - Z)^2 V''(Z)], \quad \text{a.s.},
 \end{equation}
-where the function $\rho^0$ is the density of the limit invariant distribution for $\epl \to 0$, as in Lemma \ref{lem:convMeasure}. Due to Corollary \ref{lem:FPMarginal_Hom}, we have
+where the function $\rho^0$ is the density of the limit invariant distribution for $\epl \to 0$, as in Lemma \ref{lem:convMeasure}, and where
+\begin{equation}
+	\widetilde {\mathcal M}_0 \defeq \E^{\rho^0} [ V'(Z) \otimes V'(X) ].
+\end{equation}
+Due to Corollary \ref{lem:FPMarginal_Hom}, we have
 \begin{equation}\label{eq:final_result}
 	\frac{1}{\delta} \E^{\rho^0}[(X - Z)^2 V''(Z)] = \Sigma \int_{\R} \int_{\R} V'(z) \phi^0(x) \psi^0(z) \partial_x R^0(x,z) \dd x \dd z,
 \end{equation}
@@ -368,7 +395,7 @@ and moreover, an integration by parts yields
 	\frac{1}{\delta} \E^{\rho^0}[(X - Z)^2 V''(Z)] &= -\Sigma \int_{\R} \int_{\R} V'(z) (\phi^0)'(x) \psi^0(z) R^0(x,z) \dd x \dd z\\
 	&= -\Sigma \int_{\R} \int_{\R} V'(z) \frac{\d}{\d x} \left ( \frac{1}{C_{\phi^0}} e^{-\frac{1}{\Sigma} A\cdot V(x)} \right ) \psi^0(z) R^0(x,z) \dd x \dd z \\
 	&= \left(\int_{\R} \int_{\R} V'(z) \otimes V'(x) \rho^0(x,z) \dd x \dd z\right)A\\
-	&=  \E^{\rho^0} [ V'(Z) \otimes V'(X) ]A.
+	&=  \widetilde {\mathcal M}_0 A.
 \end{aligned}
 \end{equation}
 We can therefore conclude that
@@ -388,7 +415,7 @@ where
 \end{equation}
 The ergodic theorem yields
 \begin{equation}
-	\lim_{T \to \infty} I_{2,1}^\epl(T) = \E^{\rho^\epl}\left[V'(Z^\epl) \otimes V'(X^\epl)\right]^{-1}\E^{\rho^\epl}\left[V'(Z^\epl) \otimes V'(Z^\epl)\right] \eqdef R^\epl,
+	\lim_{T \to \infty} I_{2,1}^\epl(T) = \widetilde {\mathcal M}_\epl^{-1}\E^{\rho^\epl}\left[V'(Z^\epl) \otimes V'(Z^\epl)\right] \eqdef R^\epl,
 \end{equation}
 where $R^\epl$ is bounded uniformly in $\epl$. Moreover, the strong law of large numbers for martingales implies
 \begin{equation}
@@ -400,14 +427,124 @@ independently of $\epl$. Therefore
 \end{equation}
 which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, proves the desired result.
 \end{proof}
+\corr{
+\begin{remark}\label{rem:deltaPower} Let us remark that the condition $\delta = \mathcal O(\epl^0)$ is necessary to pass from \eqref{eq:for_zeta} to \eqref{eq:limit_estimator_2} but is not needed before \eqref{eq:for_zeta}. Moreover, the term $I_2^\epl(t)$ in the proof vanishes a.s. independently of $\epl$. Therefore, in the analysis of the case $\delta = \mathcal O(\epl^\zeta)$ it will be sufficient for unbiasedness to show that
+	\begin{equation}
+		\lim_{\epl\to 0}\frac1\delta \widetilde {\mathcal M}_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)] = A,
+	\end{equation}
+	which is a non-trivial limit since $\delta \to 0$ for $\epl \to 0$.
+\end{remark}
+}
 
-\corr{ CASE $\delta = \epl^\zeta$ (PROOF IN APPENDIX \ref{ap:zeta}).
+\subsection{Filtering at faster scales}\label{sec:Fast}
+
+\corr{Remark for Assyr, Greg, Andrew: This section is all new, therefore it's ``red''. For easing the reading process, we write it here in black.}
+
+We now consider the case of the filtering width $\delta = \mathcal O(\epl^\zeta)$, where $\zeta > 0$ will be specified in the following. In this case, the filtered process resembles more the original process $X^\epl$, as can be noted in Figure \ref{fig:filter}. Moreover, the techniques employed for proving Theorem \ref{thm:mainTheorem} can only be partly exploited, as highlighted by Remark \ref{rem:deltaPower}. In fact, in order to prove unbiasedness it is necessary to characterize precisely the difference between the processes $Z^\epl$ and $X^\epl$. A first characterization is given by the following Proposition, whose proof ought to be found in Appendix \ref{ap:ProofDistance}.
+
+\begin{proposition} \label{prop:zeta} Let Assumption \ref{as:regularity} hold and $\epl,\delta>0$ be sufficiently small. Then, it holds for every $t > 0$ sufficiently big 
+	\begin{equation}
+	X_t^\epl - Z_t^\epl = \delta \beta^\epl_t + R(\epl,\delta),
+	\end{equation}
+	where the stochastic process $\beta_t^\epl$ is defined as
+	\begin{equation}\label{eq:defBeta}
+	\beta_t^\epl \defeq \sqrt{2\sigma} \int_0^t k(t-s)(1 + \Phi'(Y_s^\epl)) \dd W_s,
+	\end{equation}
+	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, $\beta_t^\epl$ and the remainder $R(\epl,\delta)$ satisfy for every $p \geq 1$ the estimates
+	\begin{equation} \label{eq:estimate_beta}
+	\left( \E^{\phi^\epl} \abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1/2},
+	\end{equation}
+	and
+	\begin{equation} \label{eq:remainder_zeta}
+	\left( \E^{\phi^\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl \right),
+	\end{equation}
+	where $C$ is independent of $\epl$ and $\delta$ and $\phi^\epl$ is the density of the invariant measure of $X^\epl$.
+\end{proposition}
+
+It is clear from the Proposition above that understanding the properties of the process $\beta_t^\epl$ is key to understanding the behavior of the difference between $X^\epl$ and $Z^\epl$. In particular, it is relevant to study the asymptotic properties of $\beta_t^\epl$ for long times
+
+\begin{lemma} \label{lem:quartet}
+	Let $\eta^\epl$ be the invariant measure of the quartet $(X^\epl, Y^\epl, Z^\epl, \beta^\epl)$. Then it holds
+	\begin{equation}
+	\delta \E^{\eta^\epl} \left[ (\beta^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
+	\end{equation}
+	where the remainder $\widetilde R(\epl,\delta)$ satisfies
+	\begin{equation} \label{eq:quartet_remainder}
+	\left| \widetilde R(\epl,\delta) \right| \le C \left( \delta^{1/2} + \epl \right).
+	\end{equation}
+\end{lemma}
+
+\begin{lemma} \label{lem:quartet_convergence}
+	Let $\delta = \epl^\zeta$ with $\zeta > 0$, then it holds
+	\begin{equation}
+	\lim_{\epl \to 0} \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] = \Sigma \E^{\phi^0} [V''(X)].
+	\end{equation}
+\end{lemma}
+
 \begin{theorem}\label{thm:mainTheorem_zeta} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} and let $\delta = \epl^\zeta$ with $\zeta \in (0,2)$. If $\widetilde M$ is invertible, then
 		\begin{equation}
 		\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A_k^\epl(T) = A, \quad \text{in law},
 		\end{equation}
 		where $A$ is the drift coefficient of the homogenized equation \eqref{eq:SDE_MS}.
-\end{theorem}}
+\end{theorem}
+\begin{proof}
+	Let us introduce the notation
+	\begin{equation}
+	\mathcal A^\epl(\delta) = \frac1\delta \widetilde{\mathcal M}_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)],
+	\end{equation}
+	where
+	\begin{equation}
+	\widetilde{\mathcal M}_\epl = \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ].
+	\end{equation}
+	Then following the proof of Theorem \ref{thm:mainTheorem} we only need to show that if $\delta = \epl^\zeta$ with \corr{$\zeta \in (0,2)$} we have
+	\begin{equation}
+	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = A, \quad \text{in law}.
+	\end{equation}
+	Using Lemma \ref{prop:zeta} and geometric ergodicity (Lemma \ref{lem:ergodicity}), we have the following equality
+	\begin{equation}
+	\begin{aligned}
+	\mathcal A^\epl(\delta) &= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E [(X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl)] \\
+	&= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E \left[ \left( \delta \beta_t^\epl + R(\epl,\delta) \right)^2 V''(Z_t^\epl) \right] \\
+	&\eqdef \widetilde{\mathcal M}_\epl^{-1} \lim_{t \to \infty} \left( J_1^\epl(t) + J_2^\epl(t) + J_3^\epl(t) \right),
+	\end{aligned}
+	\end{equation}
+	where and $\E$ denotes the expectation with respect to the Wiener measure and
+	\begin{equation}
+	\begin{aligned}
+	J_1^\epl(t) &= \delta \E \left[ (\beta_t^\epl)^2 V''(Z_t^\epl) \right], \\
+	J_2^\epl(t) &= 2 \E \left[ \beta_t^\epl R(\epl,\delta) V''(Z_t^\epl) \right], \\
+	J_3^\epl(t) &= \frac1\delta \E\left[ R(\epl,\delta)^2 V''(Z_t^\epl) \right].
+	\end{aligned}
+	\end{equation}
+	Let us consider the three terms separately. First, by geometric ergodicity and applying Lemma \ref{lem:quartet}, we get
+	\begin{equation}
+	\lim_{t \to \infty} J_1^\epl(t) = \delta \E^{\eta^\epl} \left[ (\beta^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
+	\end{equation}
+	and, by Lemma \ref{lem:quartet_convergence} and due to \eqref{eq:quartet_remainder}, we obtain
+	\begin{equation}
+	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) = \Sigma \E^{\rho^0} [V''(X)].
+	\end{equation}
+	Moreover, due to \eqref{eq:estimate_beta} and \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
+	\begin{equation}
+	\begin{aligned}
+	\abs{J_2^\epl(t)} &\le C \left( \delta^{1/2} + \epl \delta^{-1/2} \right), \\
+	\abs{J_3^\epl(t)} &\le C \left( \delta + \epl^2 \delta^{-1} \right).
+	\end{aligned}
+	\end{equation}
+	Furthermore, by Lemma \ref{lem:distanceMandTildeM} and weak convergence of the invariant measure, we have
+	\begin{equation}
+	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl^{-1} = \E^{\rho^0} [V'(X) \otimes V'(X) ] \eqdef \mathcal M_0.
+	\end{equation}
+	Therefore
+	\begin{equation}
+	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = \Sigma \E^{\rho^0} [V'(X) \otimes V'(X) ]^{-1} \E^{\rho^0} [V''(X)],
+	\end{equation}
+	and, finally, an integration by parts yields
+	\begin{equation}
+	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = \Sigma \E^{\rho^0} [V'(X) \otimes V'(X) ]^{-1} \frac1\Sigma \E^{\rho^0} [V'(X) \otimes V'(X) ] A = A,
+	\end{equation}
+	which implies the desired result.
+\end{proof}
 
 
 \section{The Bayesian setting}\label{sec:Bayesian}
@@ -430,16 +567,31 @@ C_{T,\epl}^{-1} &= C_0^{-1} + \frac{T}{2\Sigma} M, \\
 C_{T,\epl}^{-1}m_{T,\epl} &= C_0^{-1}A_0 - \frac{T}{2\Sigma} h. 
 \end{aligned}
 \end{equation}
-Under Assumption \ref{as:regularity}, one can show that the posterior at time $T > 0$ is indeed given by $\mu_{T,\epl} = \mathcal N(m_{T,\epl}, C_{T,\epl})$. We are now interested in the asymptotic limit of the posterior distribution for $T \to \infty$ and for $\epl \to 0$.
+Under Assumption \ref{as:regularity}, one can show that the posterior at time $T > 0$ is indeed given by $\mu_{T,\epl}(\cdotp\mid X^\epl) = \mathcal N(m_{T,\epl}, C_{T,\epl})$. \corr{In the following theorem, we show that the posterior distribution obtained with no pre-processing of the data contracts asymptotically to the drift coefficient of the unhomogenized equation. We characterize the contraction by verifying that the posterior measure concentrates in arbitrarily small balls. Let us finally remark that the measure $\mu_{T, \epl}$ is a random measure, and therefore contraction has to be considered averaged with respect to the Wiener measure. The choice of the contraction measure and some parts of the proof are taken from \cite[Theorem 5.2]{PSZ13}.
 
-We can now state the main result for asymptotic convergence of the posterior distribution.
-\begin{theorem}\label{thm:BayesianBias} Under Assumption \ref{as:regularity}, the posterior measure $\mu_{T,\epl} = \mathcal N(m_{T,\epl}, C_{T,\epl})$ satisfies
+\begin{theorem}\label{thm:BayesianBias} Under Assumption \ref{as:regularity}, the posterior measure $\mu_{T,\epl}(\cdotp\mid X^\epl) = \mathcal N(m_{T,\epl}, C_{T,\epl})$ satisfies for all $c > 0$
 	\begin{equation}
-		\lim_{\epl \to 0}\lim_{T \to \infty} \mu_{T,\epl}(\cdot) = \delta(\cdot - \alpha), \quad \text{a.s.},
+		\lim_{\epl \to 0}\lim_{T \to \infty} \E \left[\mu_{T,\epl}\left(\{a\colon \norm{a-\alpha}_2\geq c\}\mid X^\epl\right)\right] = 0,
 	\end{equation}
-	weakly in the space of probability measures on $\R^N$, where $\delta$ is the Dirac measure on $\R^N$.
+	where $\E$ denotes expectation with respect to the Wiener measure and $\alpha$ is the drift coefficient of the unhomogenized equation \eqref{eq:SDE_MS}.
 \end{theorem}
-\begin{proof} Let us first consider the covariance matrix. Hua's identity yields
+}
+\begin{proof} \corr{The proof of \cite[Theorem 5.2]{PSZ13} guarantees that if the trace of $C_{T,\epl}$ tends to zero and if the mean $m_{T,\epl}$ tends to $\alpha$, then the desired result holds. Indeed, the triangle inequality yields
+	\begin{equation}
+	\begin{aligned}
+		\E \left[\mu_{T,\epl}\left(\{a\colon \norm{a-\alpha}_2\geq c\}\mid X^\epl\right)\right] &\leq \E \left[\mu_{T,\epl}\left(\left\{a\colon \norm{a-m_{T,\epl}}_2\geq \frac{c}{2}\right\}\mid X^\epl\right)\right]\\
+		&\quad + \mathbb P\left(\norm{m_{T,\epl} - \alpha}_2 \geq \frac{c}{2}\right).
+	\end{aligned}
+	\end{equation}
+	If the mean converges in probability, then the second term vanishes. For the first term, Markov's inequality yields
+	\begin{equation}
+		\mu_{T,\epl}\left(\left\{a\colon \norm{a-m_{T,\epl}}_2\geq \frac{c}{2}\right\}\mid X^\epl\right) \leq \frac{4}{c^2}\int_{\R^N} \norm{a-m_{T,\epl}}_2^2 \, \mu_{T,\epl}(\d a\mid X^\epl),
+	\end{equation}
+	and a change of variable simply gives
+	\begin{equation}
+		\int_{\R^N} \norm{a-m_{T,\epl}}_2^2 \, \mu_{T,\epl}(\d a\mid X^\epl) = \trace(C_{T\epl}).
+	\end{equation}
+	This proves that we just to have to verify that the covariance matrix vanishes and that the mean tends to the coefficient $\alpha$.} Let us first consider the covariance matrix. An algebraic identity yields
 	\begin{equation}
 	C_{T,\epl} = \frac{2\Sigma}{T} \left(M^{-1} - Q^{-1}\right),
 	\end{equation}
@@ -676,7 +828,7 @@ In this work we considered a novel methodology based on filtering for the estima
 
 \begin{appendices}
 	
-\section{Proof of Lemmas}\label{ap:Proofs}
+\section{Proofs of Sections \ref{sec:ergodic}}\label{ap:Proofs}
 
 \begin{proof}[Proof of Lemma \ref{lem:density}] We have to show that the joint process solution to \eqref{eq:systemSDE} is hypo-elliptic. Denoting as $f\colon \R \to \R$ the function 
 	\begin{equation}
@@ -732,11 +884,11 @@ In this work we considered a novel methodology based on filtering for the estima
 	\begin{equation}
 	\phi^\epl(x) = \frac{1}{C_{\phi^\epl}} \exp\left(- \frac{1}{\sigma} \alpha \cdot V(x) - \frac{1}{\sigma} p \left ( \frac{x}\epl \right )\right),
 	\end{equation}
-	and which proves \eqref{eq:marginalX}. \corr{In view of \eqref{eq:densityDecomposition} and \eqref{FPx}, equation \eqref{eq:FPsystem} can be rewritten as
+	and which proves \eqref{eq:marginalX}. In view of \eqref{eq:densityDecomposition} and \eqref{FPx}, equation \eqref{eq:FPsystem} can be rewritten as
 	\begin{equation}\label{eq:psiEqualityPDE}
 	\partial_x \left( \sigma \phi^\epl \psi^\epl \partial_x R^\epl \right) + \partial_z \left( \frac1\delta(z-x) \phi^\epl \psi^\epl R^\epl \right) = 0.
 	\end{equation}
-	We now multiply the equation above by a continuous differentiable function $f \colon \R^2 \to \R^N$, $f = f(x,z)$, and integrate with respect to $x$ and $z$. Then integration by parts yields
+	We now multiply the equation above by a continuous differentiable function $f \colon \R^2 \to \R^N$, $f = f(x,z)$, and integrate with respect to $x$ and $z$. Then an integration by parts yields
 	\begin{equation}
 	\sigma \int_\R \int_\R \partial_x f(x,z) \phi^\epl(x) \psi^\epl(z) \partial_x R^\epl(x,z) \dd x \dd z = \frac1\delta \int_\R \int_\R \partial_z f(x,z) (x-z) \phi^\epl(x) \psi^\epl(z) R^\epl(x,z) \dd x \dd z,
 	\end{equation}
@@ -748,23 +900,13 @@ In this work we considered a novel methodology based on filtering for the estima
 	\begin{equation}
 	f(x,z) = (x - z) V'(z) + V(z),
 	\end{equation}
-	we obtain the desired result.}
+	we obtain the desired result.
 \end{proof}
 
-\begin{proof}[Proof of Lemma \ref{lem:convMeasure}] Let $(X, Z)^\top \defeq \left((X_t, Z_t)^\top, 0\leq t \leq T\right)$ be the solution of
-	\begin{equation}
-	\label{eq:systemSDEHom}
-	\begin{aligned}
-	\d X_t &= -A \cdot V'(X_t) \dd t + \sqrt{2\Sigma} \dd W_t, \\
-	\d Z_t &= \frac{1}{\delta} \left ( X_t - Z_t \right ) \dd t,
-	\end{aligned}
-	\end{equation} 
-	with $(X_0, Z_0)^\top \sim \mu^0$. The arguments of Section \ref{sec:ergodic} can be repeated to conclude that the invariant measure of $(X, Z)^\top$ admits a smooth density $\rho^0$ which satisfies \eqref{eq:FPsystem_homogenized}. Moreover, standard homogenization theory (see e.g. \cite[Chapter 3]{BLP78}) guarantees that $(X^\epl,Z^\epl)^\top \to (X,Z)^\top$ for $\epl \to 0$ in law as random variables with values in $\mathcal C^0([0, T]; \R^2)$. The Portmanteau theorem can be employed to conclude that the measure $\mu^\epl$ converges weakly to $\mu^0$ for $\epl \to 0$.
-\end{proof}
+\section{Proof of Proposition \ref{prop:zeta}}\label{ap:ProofDistance}
 
-\section{Estimates on the filtered solution}
-
-In this section, we prove a series of results which quantify the distance between the multiscale solution $X_t^\epl$ and the filtered trajectory $Z_t^\epl$. First, we prove a Jensen-like inequality for the kernel of the filter.
+\subsection{Preliminary estimates}
+In order to prove the characterization provided by Proposition \ref{prop:zeta}, we need to prove two additional results on the filter. First, we prove a Jensen-like inequality for the kernel of the filter.
 
 \begin{lemma}\label{lem:FilterJensen} Let $\delta > 0$ and $k(r)$ be defined as
 	\begin{equation}
@@ -814,64 +956,8 @@ The following lemma characterizes the action of the filter when it is applied to
 	where $\gamma$ is the lower incomplete Gamma function, which is bounded by the complete Gamma function $\Gamma(p+1)$ independently of the second argument.
 \end{proof}
 
-The following lemma shows that $Z^\epl$ has bounded moments of all orders.
-\begin{lemma} \label{lem:bounded_momentZ}
-	Under Assumption \ref{as:regularity}, let $Z^\epl$ be distributed as the invariant measure $\mu^\epl$ of the couple $(X^\epl, Z^\epl)^\top$. Then for any $p \geq 1$ there exists a constant $C > 0$ uniform in $\epl$ such that 
-	\begin{equation}
-	\E^{\rho^\epl}|Z^\epl|^p \le C.
-	\end{equation}
-\end{lemma}
-\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ and applying Lemma \ref{lem:FilterJensen} we have
-\begin{equation}
-\begin{aligned}
-	\E^{\phi^\epl} |Z_t^\epl|^p &= \E^{\phi^\epl} \left| \int_0^t k(t-s) X_s^\epl \dd s \right|^p \\
-	&\leq \int_0^t k(t - s) \E^{\phi^\epl} |X_s^\epl|^p \dd s,
-\end{aligned}
-\end{equation}
-which, together with the definition of $k$ and the fact that $X_s^\epl$ has bounded moments of all orders \cite[Corollary 5.4]{PaS07}, implies
-\begin{equation}
-\E^{\phi^\epl}|Z_t^\epl|^p \le C.
-\end{equation}
-In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
-\begin{equation}
-\E^{\rho^\epl} \abs{Z^\epl}^p \leq \E^{\phi^\epl}\abs{Z_t^\epl}^p + \widetilde C e^{-\lambda t},
-\end{equation}
-which, for $t$ sufficiently big, yields the desired result.
-\end{proof}
 
-%\begin{lemma}\label{lem:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
-%	\begin{equation}
-%		\left(\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p\right)^{1/p} \leq C\left(\epl + \delta^{1/2}\right),
-%	\end{equation}
-%	for a constant $C > 0$ independent of $\epl$ and $\delta$.
-%\end{lemma}
-%\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ we have
-%	\begin{equation}
-%	\begin{aligned}
-%		X_t^\epl - Z_t^\epl &= X_t^\epl - \int_0^t k(t-s) X_s^\epl \dd s\\
-%		&= \int_0^t k(t - s) \left(X_t^\epl - X_s^\epl\right) \dd s + e^{-t/\delta} X^\epl_t.
-%	\end{aligned}
-%	\end{equation}
-%	Therefore, Lemma \ref{lem:FilterJensen} yields for a constant $C > 0$ depending only on $p$
-%	\begin{equation}
-%		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\int_0^t \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^p k(t-s) \dd s + Ce^{-pt/\delta} \E^{\phi^\epl} \abs{X^\epl_t}^p.
-%	\end{equation}
-%	Moreover, the estimate
-%	\begin{equation}
-%		\E^{\phi^\epl}\abs{X_t^\epl - X_s^\epl}^p \leq C\left(\epl^p + (t-s)^p + (t-s)^{p/2}\right),
-%	\end{equation}
-%	holds for all $t > s$ due to \cite[Lemma 6.1]{PaS07}. Finally, since the moments of $X_t^\epl$ are bounded \cite[Corollary 5.4]{PaS07} and due to Lemma \ref{lem:FilterPoly} there exists a constant $C > 0$ depending only on $p$ such that
-%	\begin{equation}
-%		\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2} + e^{-pt/\delta}\right).
-%	\end{equation}
-%	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $C$ depending on the initial condition and $p$  
-%	\begin{equation}
-%	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
-%	\end{equation}
-%	which, for $t$ sufficiently big, yields the desired result.
-%\end{proof}
-
-The following result is a quantification of the difference between $X^\epl_t$ and $Z^\epl_t$. In particular, denoting $Y_t^\epl \defeq X_t^\epl/\epl$, we will make use of the decomposition
+We can now prove Lemma \ref{prop:zeta}. Denoting $Y_t^\epl \defeq X_t^\epl/\epl$, we will make use of the decomposition
 \cite[Formula 5.8]{PaS07}
 \begin{equation}\label{eq:App_DiffXtXs}
 \begin{aligned}
@@ -881,25 +967,9 @@ The following result is a quantification of the difference between $X^\epl_t$ an
 \end{equation}
 which is obtained applying the Itô formula to $\Phi$, the solution of the cell problem \eqref{eq:CellProblem}. 
 
-\begin{lemma} \label{lem:zeta} Let Assumption \ref{as:regularity} hold and $\epl,\delta>0$ be sufficiently small. Then, it holds for every $t > 0$ sufficiently big 
-	\begin{equation}
-		X_t^\epl - Z_t^\epl = \delta \beta^\epl_t + R(\epl,\delta),
-	\end{equation}
-	where the stochastic process $\beta_t^\epl$ is defined as
-	\begin{equation}\label{eq:defBeta}
-		\beta_t^\epl \defeq \sqrt{2\sigma} \int_0^t k(t-s)(1 + \Phi'(Y_s^\epl)) \dd W_s,
-	\end{equation}
-	where $\Phi$ is the solution of the cell problem \eqref{eq:CellProblem}, $W_s$ is the Brownian motion appearing in \eqref{eq:SDE_MS} and $Y_t^\epl = X_t^\epl / \epl$. Moreover, $\beta_t^\epl$ and the remainder $R(\epl,\delta)$ satisfy for every $p \geq 1$ the estimates
-	\begin{equation} \label{eq:estimate_beta}
-	\left( \E^{\phi^\epl} \abs{\beta_t^\epl}^p \right)^{1/p} \leq C \delta^{-1/2},
-	\end{equation}
-	and
-	\begin{equation} \label{eq:remainder_zeta}
-	\left( \E^{\phi^\epl} \left| R(\epl,\delta) \right|^p \right)^{1/p} \le C \left( \delta + \epl \right),
-	\end{equation}
-	where $C$ is independent of $\epl$ and $\delta$ and $\phi^\epl$ is the density of the invariant measure of $X^\epl$.
-\end{lemma}
-\begin{proof} Recall that by definition of $Z_t^\epl$ we have
+\subsection{Proof of Proposition \ref{prop:zeta}}
+
+Recall that by definition of $Z_t^\epl$ we have
 	\begin{equation}
 	X_t^\epl - Z_t^\epl = \int_0^t k(t-s) (X_t^\epl - X_s^\epl) \dd s + e^{-t/\delta}X_t^\epl.
 	\end{equation}
@@ -999,10 +1069,39 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\begin{equation}
 	\left(\E^{\phi^\epl} \abs{I_4^\epl(t)}^p\right)^{1/p} \leq C e^{-t/\delta},
 	\end{equation}
-	which concludes the proof.
+	which concludes the proof. \qed
+
+\section{Proofs of Section \ref{sec:Fast}} \label{ap:zeta}
+
+\subsection{Preliminary estimates}
+
+The following lemma shows that $Z^\epl$ has bounded moments of all orders.
+\begin{lemma} \label{lem:bounded_momentZ}
+	Under Assumption \ref{as:regularity}, let $Z^\epl$ be distributed as the invariant measure $\mu^\epl$ of the couple $(X^\epl, Z^\epl)^\top$. Then for any $p \geq 1$ there exists a constant $C > 0$ uniform in $\epl$ such that 
+	\begin{equation}
+	\E^{\rho^\epl}|Z^\epl|^p \le C.
+	\end{equation}
+\end{lemma}
+\begin{proof} Let $X_t^\epl$ be at stationarity with respect to its invariant measure, which we recall having density denoted as $\phi^\epl$. Let $Z_t^\epl$ be the corresponding filtered process. By definition of $Z^\epl_t$ and applying Lemma \ref{lem:FilterJensen} we have
+	\begin{equation}
+	\begin{aligned}
+	\E^{\phi^\epl} |Z_t^\epl|^p &= \E^{\phi^\epl} \left| \int_0^t k(t-s) X_s^\epl \dd s \right|^p \\
+	&\leq \int_0^t k(t - s) \E^{\phi^\epl} |X_s^\epl|^p \dd s,
+	\end{aligned}
+	\end{equation}
+	which, together with the definition of $k$ and the fact that $X_s^\epl$ has bounded moments of all orders \cite[Corollary 5.4]{PaS07}, implies
+	\begin{equation}
+	\E^{\phi^\epl}|Z_t^\epl|^p \le C.
+	\end{equation}
+	In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
+	\begin{equation}
+	\E^{\rho^\epl} \abs{Z^\epl}^p \leq \E^{\phi^\epl}\abs{Z_t^\epl}^p + \widetilde C e^{-\lambda t},
+	\end{equation}
+	which, for $t$ sufficiently big, yields the desired result.
 \end{proof}
 
-Corollary \ref{cor:distanceZandX} is a direct consequence of Lemma \ref{lem:zeta} and provides a rough estimate of the difference between the trajectories $X_t^\epl$ and $Z_t^\epl$ when they are at stationarity.
+
+Corollary \ref{cor:distanceZandX} is a direct consequence of Lemma \ref{prop:zeta} and provides a rough estimate of the difference between the trajectories $X_t^\epl$ and $Z_t^\epl$ when they are at stationarity.
 
 \begin{corollary} \label{cor:distanceZandX} Under Assumption \ref{as:regularity}, let the couple $(X^\epl, Z^\epl)^\top$ be distributed as its invariant measure $\mu^\epl$. Then, if $\delta \leq 1$, it holds for any $p \geq 1$
 	\begin{equation}
@@ -1011,7 +1110,7 @@ Corollary \ref{cor:distanceZandX} is a direct consequence of Lemma \ref{lem:zeta
 	for a constant $C > 0$ independent of $\epl$ and $\delta$.
 \end{corollary}
 \begin{proof}
-	Let $p \geq 1$, then due to Lemma \ref{lem:zeta} there exists a constant $C > 0$ depending only on $p$ such that
+	Let $p \geq 1$, then due to Lemma \ref{prop:zeta} there exists a constant $C > 0$ depending only on $p$ such that
 	\begin{equation}
 	\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2}\right).
 	\end{equation}
@@ -1050,19 +1149,9 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	which is the desired result.
 \end{proof}
 
-\section{Proof of Theorem \ref{thm:mainTheorem_zeta}} \label{ap:zeta}
+\subsection{Proof of Lemmas \ref{lem:quartet} and \ref{lem:quartet_convergence}}
 
-\begin{lemma} \label{lem:quartet}
-	Let $\eta^\epl$ be the invariant measure of the quartet $(X^\epl, Y^\epl, Z^\epl, \beta^\epl)$. Then it holds
-	\begin{equation}
-	\delta \E^{\eta^\epl} \left[ (\beta^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
-	\end{equation}
-	where the remainder $\widetilde R(\epl,\delta)$ satisfies
-	\begin{equation} \label{eq:quartet_remainder}
-	\left| \widetilde R(\epl,\delta) \right| \le C \left( \delta^{1/2} + \epl \right).
-	\end{equation}
-\end{lemma}
-\begin{proof}
+\begin{proof}[Proof of Lemma \ref{lem:quartet}]
 	Let us consider the following system of stochastic differential equations for the processes $X_t^\epl, Z_t^\epl, \beta_t^\epl, Y_t^\epl$
 	\begin{equation}
 	\label{eq:systemSDEquartet}
@@ -1115,13 +1204,7 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	which completes the proof.
 \end{proof}
 
-\begin{lemma} \label{lem:quartet_convergence}
-	Let $\delta = \epl^\zeta$ with $\zeta > 0$, then it holds
-	\begin{equation}
-	\lim_{\epl \to 0} \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] = \Sigma \E^{\phi^0} [V''(X)].
-	\end{equation}
-\end{lemma}
-\begin{proof}
+\begin{proof}[Proof of Lemma \ref{lem:quartet_convergence}]
 	Let us introduce the notation 
 	\begin{equation}
 	\Delta(\epl) = \left| \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] - \Sigma \E^{\phi^0} [V''(X)] \right|,
@@ -1173,64 +1256,6 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	which shows that $\Delta_2(\epl) = 0$ and completes the proof.
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{thm:mainTheorem_zeta}]
-	Let us introduce the notation
-	\begin{equation}
-		\mathcal A^\epl(\delta) = \frac1\delta \widetilde{\mathcal M}_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)],
-	\end{equation}
-	where
-	\begin{equation}
-		\widetilde{\mathcal M}_\epl = \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ].
-	\end{equation}
-	Then following the proof of Theorem \ref{thm:mainTheorem} we only need to show that if $\delta = \epl^\zeta$ with \corr{$\zeta \in (0,2)$} we have
-	\begin{equation}
-		\lim_{\epl \to 0} \mathcal A^\epl(\delta) = A, \quad \text{in law}.
-	\end{equation}
-	Using Lemma \ref{lem:zeta} and geometric ergodicity (Lemma \ref{lem:ergodicity}), we have the following equality
-	\begin{equation}
-	\begin{aligned}
-		\mathcal A^\epl(\delta) &= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E [(X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl)] \\
-		&= \widetilde{\mathcal M}_\epl^{-1} \frac1\delta \lim_{t \to \infty} \E \left[ \left( \delta \beta_t^\epl + R(\epl,\delta) \right)^2 V''(Z_t^\epl) \right] \\
-		&\eqdef \widetilde{\mathcal M}_\epl^{-1} \lim_{t \to \infty} \left( J_1^\epl(t) + J_2^\epl(t) + J_3^\epl(t) \right),
-	\end{aligned}
-	\end{equation}
-	where and $\E$ denotes the expectation with respect to the Wiener measure and
-	\begin{equation}
-	\begin{aligned}
-		J_1^\epl(t) &= \delta \E \left[ (\beta_t^\epl)^2 V''(Z_t^\epl) \right], \\
-		J_2^\epl(t) &= 2 \E \left[ \beta_t^\epl R(\epl,\delta) V''(Z_t^\epl) \right], \\
-		J_3^\epl(t) &= \frac1\delta \E\left[ R(\epl,\delta)^2 V''(Z_t^\epl) \right].
-	\end{aligned}
-	\end{equation}
-	Let us consider the three terms separately. First, by geometric ergodicity and applying Lemma \ref{lem:quartet}, we get
-	\begin{equation}
-	\lim_{t \to \infty} J_1^\epl(t) = \delta \E^{\eta^\epl} \left[ (\beta^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
-	\end{equation}
-	and, by Lemma \ref{lem:quartet_convergence} and due to \eqref{eq:quartet_remainder}, we obtain
-	\begin{equation}
-	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) = \Sigma \E^{\rho^0} [V''(X)].
-	\end{equation}
-	Moreover, due to \eqref{eq:estimate_beta} and \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
-	\begin{equation}
-	\begin{aligned}
-		\abs{J_2^\epl(t)} &\le C \left( \delta^{1/2} + \epl \delta^{-1/2} \right), \\
-		\abs{J_3^\epl(t)} &\le C \left( \delta + \epl^2 \delta^{-1} \right).
-	\end{aligned}
-	\end{equation}
-	Furthermore, by Lemma \ref{lem:distanceMandTildeM} and weak convergence of the invariant measure, we have
-	\begin{equation}
-		\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl^{-1} = \E^{\rho^0} [V'(X) \otimes V'(X) ] \eqdef \mathcal M_0.
-	\end{equation}
-	Therefore
-	\begin{equation}
-		\lim_{\epl \to 0} \mathcal A^\epl(\delta) = \Sigma \E^{\rho^0} [V'(X) \otimes V'(X) ]^{-1} \E^{\rho^0} [V''(X)],
-	\end{equation}
-	and, finally, an integration by parts yields
-	\begin{equation}
-		\lim_{\epl \to 0} \mathcal A^\epl(\delta) = \Sigma \E^{\rho^0} [V'(X) \otimes V'(X) ]^{-1} \frac1\Sigma \E^{\rho^0} [V'(X) \otimes V'(X) ] A = A,
-	\end{equation}
-	which implies the desired result.
-\end{proof}
 
 
 \section{Proof of Theorem \ref{thm:mainTheoremTilde}}\label{ap:EstimatorTilde}
