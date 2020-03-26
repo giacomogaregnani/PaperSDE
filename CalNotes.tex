@@ -324,7 +324,7 @@ We conclude this section presenting an analogous result to Lemma \ref{lem:FPMarg
 \end{proof}
 
 \corr{Let us introduce a notation which will be used throughout the rest of the paper. We denote
-\begin{equation}
+\begin{equation}\label{eq:DefMTilde}
 	\widetilde{\mathcal M}_\epl \defeq \E^{\rho^\epl}[V'(Z^\epl)\otimes V'(X^\epl)], \quad \widetilde{\mathcal M}_0 \defeq \E^{\rho^0}[V'(Z)\otimes V'(X)],
 \end{equation}
 \i.e., $\widetilde{\mathcal M}_\epl$ is the limit for $T \to \infty$ of the matrix $\widetilde M$ by the ergodic theorem, and $\widetilde{\mathcal M}_0$ is the limit for $\epl \to 0$ of the matrix $\widetilde{\mathcal M}_\epl$ due to Lemma \ref{lem:convMeasure}. We can now introduce the main result, namely the convergence of the filtering-based estimator to the drift coefficient of the homogenized equation.}
@@ -469,7 +469,7 @@ This equation can be coupled with the dynamics of the processes $X_t^\epl$, $Y_t
 	for all $x, y \in \R$.
 \end{assumption}
 
- In particular, in light of Remark \ref{rem:deltaPower}, it is fundamental to understand the behavior of the quantity
+In light of Remark \ref{rem:deltaPower}, it is fundamental to understand the behavior of the quantity
 \begin{equation}
 	(X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl),
 \end{equation}
@@ -515,11 +515,7 @@ Provided with the results presented above, we can prove the following Theorem, s
 	\begin{equation}
 	\mathcal A^\epl(\delta) = \frac1\delta \widetilde{\mathcal M}_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)],
 	\end{equation}
-	where
-	\begin{equation}
-	\widetilde{\mathcal M}_\epl = \E^{\rho^\epl} [ V'(Z^\epl) \otimes V'(X^\epl) ].
-	\end{equation}
-	Then following the proof of Theorem \ref{thm:mainTheorem} we only need to show that if $\delta = \epl^\zeta$ with \corr{$\zeta \in (0,2)$} we have
+	where $\widetilde{\mathcal M}_\epl$ is defined in \eqref{eq:DefMTilde}.	Then following the proof of Theorem \ref{thm:mainTheorem} and in light of Remark \ref{rem:deltaPower}, we only need to show that if $\delta = \epl^\zeta$ with $\zeta \in (0,2)$ we have
 	\begin{equation}
 	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = A, \quad \text{in law}.
 	\end{equation}
@@ -531,7 +527,7 @@ Provided with the results presented above, we can prove the following Theorem, s
 	&\eqdef \widetilde{\mathcal M}_\epl^{-1} \lim_{t \to \infty} \left( J_1^\epl(t) + J_2^\epl(t) + J_3^\epl(t) \right),
 	\end{aligned}
 	\end{equation}
-	where and $\E$ denotes the expectation with respect to the Wiener measure and
+	where $R(\epl, \delta)$ is given in Proposition \ref{prop:zeta}, $\E$ denotes the expectation with respect to the Wiener measure and
 	\begin{equation}
 	\begin{aligned}
 	J_1^\epl(t) &= \delta \E \left[ (B_t^\epl)^2 V''(Z_t^\epl) \right], \\
@@ -539,24 +535,33 @@ Provided with the results presented above, we can prove the following Theorem, s
 	J_3^\epl(t) &= \frac1\delta \E\left[ R(\epl,\delta)^2 V''(Z_t^\epl) \right].
 	\end{aligned}
 	\end{equation}
-	Let us consider the three terms separately. First, by geometric ergodicity and applying Lemma \ref{lem:quadruple}, we get
-	\begin{equation}
-	\lim_{t \to \infty} J_1^\epl(t) = \delta \E^{\eta^\epl} \left[ (B^\epl)^2 V''(Z^\epl) \right] = \sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta),
-	\end{equation}
-	and, by Lemma \ref{lem:quadruple_convergence} and due to \eqref{eq:quadruple_remainder}, we obtain
-	\begin{equation}
-	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) = \Sigma \E^{\rho^0} [V''(X)].
-	\end{equation}
-	Moreover, due to \eqref{eq:estimate_beta} and \eqref{eq:remainder_zeta}, we have the following bounds for $J_2^\epl(t)$ and $J_3^\epl(t)$
+	Let us consider the three terms separately. First, by geometric ergodicity and applying Lemma \ref{lem:quadruple} and Lemma \ref{lem:quadruple_convergence} we get
 	\begin{equation}
 	\begin{aligned}
-	\abs{J_2^\epl(t)} &\le C \left( \delta^{1/2} + \epl \delta^{-1/2} \right), \\
-	\abs{J_3^\epl(t)} &\le C \left( \delta + \epl^2 \delta^{-1} \right).
+	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) &= \lim_{\epl \to 0}\delta \E^{\eta^\epl} \left[ (B^\epl)^2 V''(Z^\epl) \right] \\
+	&= \lim_{\epl \to 0} \left(\sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta)\right)\\
+	&= \Sigma \E^{\rho^0} [V''(X)].
 	\end{aligned}
 	\end{equation}
-	Furthermore, by Lemma \ref{lem:distanceMandTildeM} and weak convergence of the invariant measure, we have
+	Let us now consider $J_2^\epl(t)$. Considering Hölder conjugates $p,q,r$ the Hölder inequality yields
 	\begin{equation}
-	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl^{-1} = \E^{\rho^0} [V'(X) \otimes V'(X) ] = \mathcal M_0.
+		\abs{J_2^\epl(t)} \leq \E[(B_t^\epl)^p]^{1/p}\E[R(\epl,\delta)^q]^{1/q}\E[V''(Z^\epl)^r]^{1/r}.
+	\end{equation}
+	Now, we can bound the first two terms with \eqref{eq:estimate_beta} and \eqref{eq:remainder_zeta}, respectively. The third term is bounded due to Assumption \ref{as:regularityZeta} and Lemma \ref{lem:bounded_momentZ}. Hence, we have
+	\begin{equation}
+		\abs{J_2^\epl(t)} \le C \left( \delta^{1/2} + \epl \delta^{-1/2} \right).
+	\end{equation}
+	We consider now $J_3^\epl(t)$. The Hölder inequality yields for conjugates $p$ and $q$
+	\begin{equation}
+		\abs{J_3^\epl(t)} \le \E[R(\epl, \delta)^{2p}]^{1/p} \E[V''(Z_t^\epl)^q]^{1/q},
+	\end{equation}
+	which, reasoning as above, yields
+	\begin{equation}
+		\abs{J_3^\epl(t)} \le C \left( \delta + \epl^2 \delta^{-1} \right).
+	\end{equation}
+	Therefore, since $\delta = \mathcal O(\epl^\zeta)$ for $\zeta \in (0, 2)$, and due to geometric ergodicity the terms $J_2^\epl(t)$ and $J_3^\epl(t)$ vanish in the limit for $t \to \infty$ and $\epl \to 0$. Furthermore, by Lemma \ref{lem:distanceMandTildeM} and by weak convergence of the invariant measure $\mu^\epl$ to $\mu^0$, we have
+	\begin{equation}
+	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl^{-1} = \E^{\rho^0} [V'(X) \otimes V'(X) ] \eqdef \mathcal M_0.
 	\end{equation}
 	Therefore
 	\begin{equation}
