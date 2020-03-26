@@ -324,10 +324,14 @@ We conclude this section presenting an analogous result to Lemma \ref{lem:FPMarg
 \end{proof}
 
 \corr{Let us introduce a notation which will be used throughout the rest of the paper. We denote
-\begin{equation}\label{eq:DefMTilde}
+\begin{equation}\label{eq:DefCalMTilde}
 	\widetilde{\mathcal M}_\epl \defeq \E^{\rho^\epl}[V'(Z^\epl)\otimes V'(X^\epl)], \quad \widetilde{\mathcal M}_0 \defeq \E^{\rho^0}[V'(Z)\otimes V'(X)],
 \end{equation}
-\i.e., $\widetilde{\mathcal M}_\epl$ is the limit for $T \to \infty$ of the matrix $\widetilde M$ by the ergodic theorem, and $\widetilde{\mathcal M}_0$ is the limit for $\epl \to 0$ of the matrix $\widetilde{\mathcal M}_\epl$ due to Lemma \ref{lem:convMeasure}. We can now introduce the main result, namely the convergence of the filtering-based estimator to the drift coefficient of the homogenized equation.}
+\i.e., $\widetilde{\mathcal M}_\epl$ is the limit for $T \to \infty$ of the matrix $\widetilde M$ by the ergodic theorem, and $\widetilde{\mathcal M}_0$ is the limit for $\epl \to 0$ of the matrix $\widetilde{\mathcal M}_\epl$ due to Lemma \ref{lem:convMeasure}. For completeness, we introduce here the symmetric matrices $\mathcal M_\epl$ and $\mathcal M_0$ which are defined as
+\begin{equation}\label{eq:DefCalM}
+	\mathcal M_\epl \defeq \E^{\rho^\epl}[V'(X^\epl)\otimes V'(X^\epl)], \quad \mathcal M_0 \defeq \E^{\rho^0}[V'(X)\otimes V'(X)],
+\end{equation}
+and which will be employed in the following. We can now introduce the main result, namely the convergence of the filtering-based estimator to the drift coefficient of the homogenized equation.}
 
 \begin{theorem}\label{thm:mainTheorem} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:convMeasure} hold, and let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} \corr{with $\delta = \mathcal O(\epl^0)$}. If $\widetilde M$ is invertible, then
 	\begin{equation}
@@ -471,11 +475,11 @@ This equation can be coupled with the dynamics of the processes $X_t^\epl$, $Y_t
 
 In light of Remark \ref{rem:deltaPower}, it is fundamental to understand the behavior of the quantity
 \begin{equation}
-	(X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl),
+	\frac1\delta (X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl),
 \end{equation}
 and of its limit for $t\to \infty$ and for $\epl \to 0$. Let us remark that due to Proposition \ref{prop:zeta} we have
 \begin{equation}
-	(X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl) \approx \delta^2 (B_t^\epl)^2 V''(Z_t^\epl),
+	\frac1\delta (X_t^\epl - Z_t^\epl)^2 V''(Z_t^\epl) \approx \delta (B_t^\epl)^2 V''(Z_t^\epl),
 \end{equation}
 and therefore studying the right hand side of the approximate equality above is the goal of the upcoming discussion. The following result, whose proof is in Appendix \ref{ap:ProofsDeltaZeta}, gives a first characterization.
 
@@ -493,7 +497,7 @@ Let us remark that the quantity appearing above hints towards the theory of homo
 \begin{equation}
 	K = \int_0^L \left(1 + \Phi'(y)\right)^2 \mu(\d y),
 \end{equation}
-where $\mu$ is the marginal measure of the process $Y^\epl$ when coupled with $X^\epl$. Therefore, the next step is considering the homogenization limit, i.e., the limit of vanishing $\epl$, which is considered in the following Lemma, whose proof is given in Appendix \ref{ap:ProofsDeltaZeta}.
+where $\mu$ is the marginal measure of the process $Y^\epl$ when coupled with $X^\epl$. Therefore, the next step is the homogenization limit, i.e., the limit of vanishing $\epl$, which is considered in the following Lemma, and whose proof is given in Appendix \ref{ap:ProofsDeltaZeta}.
 
 \begin{lemma} \label{lem:quadruple_convergence} Let the assumptions of Lemma \ref{lem:quadruple} hold, and let $\delta = \epl^\zeta$ with $\zeta > 0$. Then, it holds
 	\begin{equation}
@@ -504,7 +508,7 @@ where $\mu$ is the marginal measure of the process $Y^\epl$ when coupled with $X
 
 Provided with the results presented above, we can prove the following Theorem, stating that the estimator $\widehat A^\epl_k(T)$ is asimptotically unbiased even in the case of the filtering width $\delta$ vanishing with respect to the multiscale parameter $\epl$.
 
-\begin{theorem}\label{thm:mainTheorem_zeta} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:quadruple} hold. Let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} and $\delta = \epl^\zeta$ with $\zeta \in (0,2)$. If $\widetilde M$ is invertible, then
+\begin{theorem}\label{thm:mainTheorem_zeta} Let the assumptions of Lemma \ref{lem:ergodicity} and Lemma \ref{lem:quadruple_convergence} hold. Let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} and $\delta = \epl^\zeta$ with $\zeta \in (0,2)$. If $\widetilde M$ is invertible, then
 		\begin{equation}
 		\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A_k^\epl(T) = A, \quad \text{in probability},
 		\end{equation}
@@ -515,9 +519,9 @@ Provided with the results presented above, we can prove the following Theorem, s
 	\begin{equation}
 	\mathcal A^\epl(\delta) = \frac1\delta \widetilde{\mathcal M}_\epl^{-1} \E^{\rho^\epl}[(X^\epl - Z^\epl)^2 V''(Z^\epl)],
 	\end{equation}
-	where $\widetilde{\mathcal M}_\epl$ is defined in \eqref{eq:DefMTilde}.	Then following the proof of Theorem \ref{thm:mainTheorem} and in light of Remark \ref{rem:deltaPower}, we only need to show that if $\delta = \epl^\zeta$ with $\zeta \in (0,2)$ we have
+	where $\widetilde{\mathcal M}_\epl$ is defined in \eqref{eq:DefCalMTilde}.	Then following the proof of Theorem \ref{thm:mainTheorem} and in light of Remark \ref{rem:deltaPower}, we only need to show that if $\delta = \epl^\zeta$ with $\zeta \in (0,2)$ we have
 	\begin{equation}
-	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = A, \quad \text{in law}.
+	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = A, \quad \text{in probability}.
 	\end{equation}
 	Using Lemma \ref{prop:zeta} and geometric ergodicity (Lemma \ref{lem:ergodicity}), we have the following equality
 	\begin{equation}
@@ -540,7 +544,7 @@ Provided with the results presented above, we can prove the following Theorem, s
 	\begin{aligned}
 	\lim_{\epl \to 0} \lim_{t \to \infty} J_1^\epl(t) &= \lim_{\epl \to 0}\delta \E^{\eta^\epl} \left[ (B^\epl)^2 V''(Z^\epl) \right] \\
 	&= \lim_{\epl \to 0} \left(\sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] + \widetilde R(\epl,\delta)\right)\\
-	&= \Sigma \E^{\rho^0} [V''(X)].
+	&= \Sigma \E^{\phi^0} [V''(X)].
 	\end{aligned}
 	\end{equation}
 	Let us now consider $J_2^\epl(t)$. Considering Hölder conjugates $p,q,r$ the Hölder inequality yields
@@ -561,11 +565,11 @@ Provided with the results presented above, we can prove the following Theorem, s
 	\end{equation}
 	Therefore, since $\delta = \mathcal O(\epl^\zeta)$ for $\zeta \in (0, 2)$, and due to geometric ergodicity the terms $J_2^\epl(t)$ and $J_3^\epl(t)$ vanish in the limit for $t \to \infty$ and $\epl \to 0$. Furthermore, by Lemma \ref{lem:distanceMandTildeM} and by weak convergence of the invariant measure $\mu^\epl$ to $\mu^0$, we have
 	\begin{equation}
-	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl^{-1} = \E^{\rho^0} [V'(X) \otimes V'(X) ] \eqdef \mathcal M_0.
+	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl = \mathcal M_0,
 	\end{equation}
-	Therefore
+	where $\mathcal M_0$ is defined in \eqref{eq:DefCalM}. Therefore
 	\begin{equation}
-	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = \Sigma \mathcal M_0^{-1} \E^{\rho^0} [V''(X)],
+	\lim_{\epl \to 0} \mathcal A^\epl(\delta) = \Sigma \mathcal M_0^{-1} \E^{\phi^0} [V''(X)],
 	\end{equation}
 	and, finally, an integration by parts yields
 	\begin{equation}
@@ -729,15 +733,33 @@ Let us remark that the posterior $\widetilde \mu_{T,\epl}$ has the same covarian
 \begin{equation}\label{eq:AHatMixedTilde}
 	\widetilde A^\epl_k(T) = - M^{-1} \widetilde h.
 \end{equation}
-The following theorem guarantees the unbiasedness of this estimator under a condition on the parameter $\delta$ of the filter, and we refer to Appendix \ref{ap:EstimatorTilde} for its proof.
+The following theorem guarantees the unbiasedness of this estimator under a condition on the parameter $\delta$ of the filter.
 \begin{theorem}\label{thm:mainTheoremTilde} Let the assumptions of Theorem \ref{thm:mainTheorem} hold. Then, if \corr{$\delta = \epl^\zeta$, with $\zeta \in (0, 2)$}, it holds
 	\begin{equation}
 	\lim_{\epl \to 0} \lim_{T \to \infty} \widetilde A^\epl_k(T) = A, \quad \text{in probability},
 	\end{equation} 
 	for $\widetilde A^\epl_k(T)$ defined in \eqref{eq:AHatMixedTilde}.
 \end{theorem}
-
-\corr{In light of the proof of Theorem \ref{thm:BayesianBias}, the result above guarantees that the mean of the posterior distribution $\widetilde \mu_{T, \epl}$ converges to the drift coefficient of the homogenized equation. Being the covariance matrix the same for $\mu_{T, \epl}$ and $\widetilde \mu_{T, \epl}$, it is possible to prove a positive convergence result for $\widetilde \mu_{T, \epl}$, which is given by the following Theorem.
+\begin{proof} We first consider the difference between the two estimators $\widetilde A^\epl_k(T)$ and $\widehat A^\epl_k(T)$. In particular, the ergodic theorem and an algebraic equality imply
+	\begin{equation}
+	\begin{aligned}
+	\lim_{T \to \infty} \left(\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)\right) &= \left(\mathcal M_\epl^{-1} - \widetilde{\mathcal M}_\epl^{-1}\right) \lim_{T \to \infty}\widetilde h \\
+	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)  \widetilde{\mathcal M}_\epl^{-1} \lim_{T \to \infty} \widetilde h\\
+	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)\lim_{T \to \infty} \widehat A^\epl_k(T),
+	\end{aligned}
+	\end{equation}
+	almost surely, where $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ are defined in \eqref{eq:DefCalM} and \eqref{eq:DefCalMTilde}, respectively. Therefore, due to Assumption \ref{as:regularity} which allows controlling the norm of $\mathcal M_\epl^{-1}$ and due to Lemma \ref{lem:distanceMandTildeM} we have for a constant $C > 0$
+	\begin{equation}\label{eq:DistATildeAHat}
+	\lim_{T \to \infty} \norm{\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)}_2 \leq C \left(\epl + \delta^{1/2} \right).
+	\end{equation}
+	Let us remark that $\widehat A^\epl_k(T)$ has a bounded norm for $\epl$ sufficiently small due to Theorem \ref{thm:mainTheorem}. Now, the triangle inequality yields
+	\begin{equation}
+	\norm{\widetilde A^\epl_k(T) - A}_2 \leq \norm{\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)}_2 + \norm{\widehat A^\epl_k(T) - A}_2.
+	\end{equation}
+	Therefore, due to Theorem \ref{thm:mainTheorem_zeta}, the inequality \eqref{eq:DistATildeAHat} and since $\delta = \mathcal O(\epl^\zeta)$, the desired result holds.
+\end{proof}
+\corr{
+In light of the proof of Theorem \ref{thm:BayesianBias}, the result above guarantees that the mean of the posterior distribution $\widetilde \mu_{T, \epl}$ converges to the drift coefficient of the homogenized equation. Being the covariance matrix the same for $\mu_{T, \epl}$ and $\widetilde \mu_{T, \epl}$, it is possible to prove a positive convergence result for $\widetilde \mu_{T, \epl}$, which is given by the following Theorem.
 \begin{theorem} Let the Assumptions of Theorem \ref{thm:mainTheoremTilde} hold. Then, the modified posterior measure $\widetilde\mu_{T,\epl}(\cdotp\mid X^\epl) = \mathcal N(\widetilde m_{T,\epl}, C_{T,\epl})$ satisfies
 	\begin{equation}
 		\lim_{\epl \to 0}\lim_{T \to \infty} \E \left[\mu_{T,\epl}\left(\{a\colon \norm{a-A}_2\geq c\}\mid X^\epl\right)\right] = 0,
@@ -1149,13 +1171,9 @@ Corollary \ref{cor:distanceZandX} is a direct consequence of Lemma \ref{prop:zet
 	which, for $t$ sufficiently big, yields the desired result.
 \end{proof}
 
-It is relevant to study the quantities
-\begin{equation}\label{eq:CalM}
-\mathcal M_\epl \defeq \E^{\rho^\epl}[V'(X^\epl) \otimes V'(X^\epl)] \quad \text{and} \quad \widetilde{\mathcal M}_\epl \defeq \E^{\rho^\epl}[V'(Z^\epl) \otimes V'(X^\epl)],
-\end{equation}
-which are by the ergodic theorem the time limit of the matrices appearing in the estimators $\widehat A^\epl(T)$ and $\widehat A^\epl_k(T)$, respectively. In particular, the distance between the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ can be bounded, which is summarized in the following lemma.
+Let us conclude with a last preliminary estimate concerning the matrices $\widetilde{\mathcal M}_\epl$ and $\mathcal M_\epl$ defined in \eqref{eq:DefCalMTilde} and \eqref{eq:DefCalM}, respectively.
 
-\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Corollary \ref{cor:distanceZandX} hold. Then the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ defined in \eqref{eq:CalM} satisfy
+\begin{lemma}\label{lem:distanceMandTildeM} Let the assumptions of Corollary \ref{cor:distanceZandX} hold. Then the matrices $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ satisfy
 	\begin{equation}
 	\norm{\mathcal M_\epl - \widetilde{\mathcal M}_\epl}_2 \leq C\left(\epl + \delta^{1/2}\right),
 	\end{equation}
@@ -1199,8 +1217,8 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	Let us denote by $\eta^\epl \colon \R^3 \times [0,L] \to \R$, $\eta^\epl = \eta^\epl(x,z,b,y)$, the invariant measure of the quadruple $(X_t^\epl, Z_t^\epl, B_t^\epl, Y_t^\epl)$. Then $\eta^\epl$ solves the stationary Fokker-Planck equation $\widetilde{\mathcal L}_\epl^* \eta^\epl = 0$, i.e., explicitly
 	\begin{equation} \label{eq:FPSDEquadruple}
 	\begin{aligned}
-	&\partial_x \left( \left( \alpha \cdot V'(x) + \frac1\epl p'(y) \right) \eta^\epl \right) - \frac1\delta\partial_z \left( (x-z) \eta^\epl \right) \\
-	&\quad + \frac1\delta \partial_b \eta^\epl  + \partial_y \left( \left( \frac1\epl \alpha \cdot V'(x) + \frac{1}{\epl^2} p'(y) \right) \eta^\epl \right) + \sigma \left( \partial_{xx}^2 \eta^\epl + \frac2\epl \partial_{xy}^2 \eta^\epl + \frac1{\epl^2} \partial_{yy}^2 \eta^\epl \right) \\
+	&\partial_x \left( \left( \alpha \cdot V'(x) + \frac1\epl p'(y) \right) \eta^\epl \right) + \frac1\delta\partial_z \left( (z-x) \eta^\epl \right) \\
+	&\quad + \frac1\delta \partial_b (b\eta^\epl)  + \partial_y \left( \left( \frac1\epl \alpha \cdot V'(x) + \frac{1}{\epl^2} p'(y) \right) \eta^\epl \right) + \sigma \left( \partial_{xx}^2 \eta^\epl + \frac2\epl \partial_{xy}^2 \eta^\epl + \frac1{\epl^2} \partial_{yy}^2 \eta^\epl \right) \\
 	&\quad + \sigma \left( \frac2\delta \partial_{xb}^2 \left( (1+\Phi'(y)) \eta^\epl \right) + \frac2{\epl\delta}\partial_{yb}^2 \left( (1+\Phi'(y))\eta^\epl \right) + \frac1{\delta^2}\partial_{bb}^2 \left( (1+\Phi'(y))^2 \eta^\epl \right) \right) = 0.
 	\end{aligned}
 	\end{equation}
@@ -1260,56 +1278,26 @@ which are by the ergodic theorem the time limit of the matrices appearing in the
 	\end{equation}
 	whose solution is given by
 	\begin{equation}
-	\lambda(x,y) = \frac{1}{C_\lambda} \exp \left\{ - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right\},
+	\lambda(x,y) = \frac{1}{C_\lambda} \exp \left( - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right),
 	\end{equation}
 	where
 	\begin{equation}
 	\begin{aligned}
-	C_{\lambda} &= \int_\R \int_0^L \exp \left\{ - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right\} \dd x \dd y \\
-	&= \left( \int_\R \exp \left\{ - \frac\alpha\sigma V(x) \right\} \dd x \right) \left( \int_0^L \exp \left\{ - \frac1\sigma p(y) \right\} \dd y \right) \\
+	C_{\lambda} &= \int_\R \int_0^L \exp \left( - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right) \dd x \dd y \\
+	&= \left( \int_\R \exp \left( - \frac\alpha\sigma V(x) \right) \dd x \right) \left( \int_0^L \exp \left( - \frac1\sigma p(y) \right) \dd y \right) \\
 	&\eqdef C_{\lambda_x} C_{\lambda_y}.
 	\end{aligned}
 	\end{equation}
 	Therefore, by equations \eqref{eq:SDE_HOM}, \eqref{eq:K_HOM} and \eqref{eq:phi0} we have
 	\begin{equation}
 	\begin{aligned}
-	\sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] &= \sigma \int_\R \int_0^L V''(x) (1 + \Phi'(y))^2 \frac{1}{C_\lambda} \exp \left\{ - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right\} \dd x \dd y \\
-	&= \sigma \left( \int_\R V''(x) \frac{1}{C_{\lambda_x}} \exp \left\{ - \frac\alpha\sigma V(x) \right\} \dd x \right) \\
-	&\qquad \qquad \times \left( \int_0^L (1+\Phi'(y))^2 \frac{1}{C_{\lambda_y}} \exp \left\{ - \frac1\sigma p(y) \right\} \dd y \right) \\
+	\sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] &= \sigma \int_\R \int_0^L V''(x) (1 + \Phi'(y))^2 \frac{1}{C_\lambda} \exp \left( - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right) \dd x \dd y \\
+	&= \sigma \left( \int_\R V''(x) \frac{1}{C_{\lambda_x}} \exp \left( - \frac\alpha\sigma V(x) \right) \dd x \right) \\
+	&\qquad \qquad \times \left( \int_0^L (1+\Phi'(y))^2 \frac{1}{C_{\lambda_y}} \exp \left( - \frac1\sigma p(y) \right) \dd y \right) \\
 	&= \sigma K \E^{\phi^0}[V''(X)] = \Sigma \E^{\phi^0}[V''(X)],
 	\end{aligned}
 	\end{equation}
 	which shows that $\Delta_2(\epl) = 0$ and completes the proof. \qed 
-
-
-\section{Proof of Theorem \ref{thm:mainTheoremTilde}}\label{ap:EstimatorTilde}
-Let us consider the estimator defined in \eqref{eq:AHatMixedTilde}, that is
-\begin{equation}
-	\widetilde A^\epl_k(T) = -M^{-1}\widetilde h,
-\end{equation}
-where the matrix $M$ is taken from \eqref{eq:MandH} and the vector $\widetilde{h}$ is taken from \eqref{eq:MandHTilde}. We prove here Theorem \ref{thm:mainTheoremTilde}, i.e., the unbiasedness of this estimator. Let us consider a couple $(X^\epl, Z^\epl)^\top$. 
-
-We can finally prove the unbiasedness of the estimator $\widetilde A^\epl_k(T)$.
-
-\begin{proof}[Proof of Theorem \ref{thm:mainTheoremTilde}] We first consider the difference between the two estimators $\widetilde A^\epl_k(T)$ and $\widehat A^\epl_k(T)$. In particular, the ergodic theorem and an algebraic equality imply
-	\begin{equation}
-	\begin{aligned}
-	\lim_{T \to \infty} \left(\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)\right) &= \left(\mathcal M_\epl^{-1} - \widetilde{\mathcal M}_\epl^{-1}\right) \lim_{T \to \infty}\widetilde h \\
-	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)  \widetilde{\mathcal M}_\epl^{-1} \lim_{T \to \infty} \widetilde h\\
-	&= \mathcal M_\epl^{-1}\left(\mathcal M_\epl - \widetilde{\mathcal M}_\epl\right)\lim_{T \to \infty} \widehat A^\epl_k(T),
-	\end{aligned}
-	\end{equation}
-	almost surely, where $\mathcal M_\epl$ and $\widetilde{\mathcal M}_\epl$ are defined in \eqref{eq:CalM}. Therefore, due to Assumption \ref{as:regularity} which allows controlling the norm of $\mathcal M_\epl^{-1}$ and due to Lemma \ref{lem:distanceMandTildeM} we have for a constant $C > 0$
-	\begin{equation}\label{eq:DistATildeAHat}
-	\lim_{T \to \infty} \norm{\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)}_2 \leq C \left(\epl + \delta^{1/2} \right).
-	\end{equation}
-	Let us remark that $\widehat A^\epl_k(T)$ has a bounded norm for $\epl$ sufficiently small due to Theorem \ref{thm:mainTheorem}. Now, the triangle inequality yields
-	\begin{equation}
-	\norm{\widetilde A^\epl_k(T) - A}_2 \leq \norm{\widetilde A^\epl_k(T) - \widehat A^\epl_k(T)}_2 + \norm{\widehat A^\epl_k(T) - A}_2.
-	\end{equation}
-	Therefore, due to Theorem \ref{thm:mainTheorem_zeta}, the inequality \eqref{eq:DistATildeAHat} and since $\delta = \mathcal O(\epl^\zeta)$, the desired result holds.
-\end{proof}
-
 \end{appendices}
 
 
