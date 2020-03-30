@@ -259,7 +259,7 @@ Moreover, it holds
 \end{equation}
 \end{lemma}
 
-\subsection{Filtering at the slow scale}\label{sec:Slow}
+\subsection{Filtering at the homogenized regime}\label{sec:Slow}
 
 \corr{In this section, we analyze the behavior of the filtering-based estimator $\widehat A^\epl_k(T)$ given in \eqref{eq:AHatMixed} when the filtering width $\delta$ is independent of $\epl$. In particular, we suppose there exist positive constants $C_1$ and $C_2$ independent of $\epl$ and $\delta$ such that $C_1 \epl^0 \leq \delta \leq C_2 \epl^0$. In the following, we will write more compactly that $\delta = \mathcal O(\epl^0)$. The analysis in this case is based on the convergence of the couple $(X^\epl, Z^\epl)^\top$ with respect to the multiscale parameter $\epl \to 0$.} In particular, it is known that the invariant measure of $X^\epl$ converges weakly to the invariant measure of $X$ solution of the homogenized equation \eqref{eq:SDE_HOM}. The following result guarantees the same kind of convergence for the couple $(X^\epl, Z^\epl)^\top$.
 
@@ -435,7 +435,7 @@ which, together with \eqref{eq:Proof_I1} and \eqref{eq:alphaDecomposition}, prov
 \end{remark}
 }
 
-\subsection{Filtering at faster scales}\label{sec:Fast}
+\subsection{Filtering at the multiscale regime}\label{sec:Fast}
 
 \corr{Remark for Assyr, Greg, Andrew: This section is all new, therefore it's ``red''. For easing the reading process, we write it here in black.}
 
@@ -761,7 +761,7 @@ The following theorem guarantees the unbiasedness of this estimator under a cond
 In light of the proof of Theorem \ref{thm:BayesianBias}, the result above guarantees that the mean of the posterior distribution $\widetilde \mu_{T, \epl}$ converges to the drift coefficient of the homogenized equation. Being the covariance matrix the same for $\mu_{T, \epl}$ and $\widetilde \mu_{T, \epl}$, it is possible to prove a positive convergence result for $\widetilde \mu_{T, \epl}$, which is given by the following Theorem.
 \begin{theorem} Let the Assumptions of Theorem \ref{thm:mainTheoremTilde} hold. Then, the modified posterior measure $\widetilde\mu_{T,\epl}(\cdotp\mid X^\epl) = \mathcal N(\widetilde m_{T,\epl}, C_{T,\epl})$ satisfies
 	\begin{equation}
-		\lim_{\epl \to 0}\lim_{T \to \infty} \E \left[\mu_{T,\epl}\left(\{a\colon \norm{a-A}_2\geq c\}\mid X^\epl\right)\right] = 0,
+		\lim_{\epl \to 0}\lim_{T \to \infty} \E \left[\widetilde \mu_{T,\epl}\left(\{a\colon \norm{a-A}_2\geq c\}\mid X^\epl\right)\right] = 0,
 	\end{equation}
 	where $\E$ denotes expectation with respect to the Wiener measure and $A$ is the drift coefficient of the homogenized equation \eqref{eq:SDE_HOM}.
 \end{theorem}}
@@ -1287,7 +1287,7 @@ Let us conclude with a last preliminary estimate concerning the matrices $\widet
 	Therefore, since $\Sigma = K\sigma$ and by equations \eqref{eq:K_HOM} and \eqref{eq:phi0} we have
 	\begin{equation}
 	\begin{aligned}
-	\sigma \E^{\eta^\epl} [V''(Z^\epl) (1 + \Phi'(Y^\epl))^2] &= \sigma \int_\R \int_0^L V''(x) (1 + \Phi'(y))^2 \frac{1}{C_\lambda} \exp \left( - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right) \dd x \dd y \\
+	\sigma \E^{\eta^\epl} [V''(X^\epl) (1 + \Phi'(Y^\epl))^2] &= \sigma \int_\R \int_0^L V''(x) (1 + \Phi'(y))^2 \frac{1}{C_\lambda} \exp \left( - \frac\alpha\sigma V(x) - \frac1\sigma p(y) \right) \dd x \dd y \\
 	&= \sigma \left( \int_\R V''(x) \frac{1}{C_{\lambda_x}} \exp \left( - \frac\alpha\sigma V(x) \right) \dd x \right) \\
 	&\qquad \qquad \times \left( \int_0^L (1+\Phi'(y))^2 \frac{1}{C_{\lambda_y}} \exp \left( - \frac1\sigma p(y) \right) \dd y \right) \\
 	&= \sigma K \E^{\phi^0}[V''(X)] = \Sigma \E^{\phi^0}[V''(X)],
