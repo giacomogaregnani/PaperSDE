@@ -1174,7 +1174,7 @@ Corollary \ref{cor:distanceZandX} is a direct consequence of Proposition \ref{pr
 	\begin{equation}
 	\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2}\right).
 	\end{equation}
-	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ be its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
+	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ being its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
 	\begin{equation}
 	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + \widetilde Ce^{-\lambda t},
 	\end{equation}
@@ -1308,7 +1308,96 @@ Let us conclude with a last preliminary estimate concerning the matrices $\widet
 	\end{aligned}
 	\end{equation}
 	which shows that $\Delta_2(\epl) = 0$ and completes the proof. \qed 
+	
+\section{The end ?}
+
+\begin{theorem}\label{thm:mainTheorem_zetaAlpha} Let the assumptions of Lemma \ref{lem:ergodicity} and Assmuption \ref{as:regularityZeta} hold. Let $\widehat A^\epl_k(T)$ be defined in \eqref{eq:AHatMixed} and $\delta = \epl^\zeta$ with $\zeta > 2$. If $\widetilde M$ is invertible, then
+	\begin{equation}
+	\lim_{\epl \to 0} \lim_{T \to \infty} \widehat A_k^\epl(T) = \alpha, \quad \text{in probability},
+	\end{equation}
+	where $\alpha$ is the drift coefficient of the multiscale equation \ref{eq:SDE_MS}.
+\end{theorem}
+\begin{proof}
+	First, let us remark that by equation \ref{eq:SDE_MS} we have for all $0 \le s < t$
+	\begin{equation}
+		X_t^\epl - X_s^\epl = -\alpha \int_s^t V'(X_r^\epl) \dd r - \frac1\epl \int_s^t p' \left( \frac{X_r^\epl}{\epl} \right) \dd r + \sqrt{2\sigma}(W_t - W_s),
+	\end{equation}
+	and applying Jensen's inequality and due to the assumptions on $p$ and the fact that $X_t^\epl$ has bounded moments of all orders (see \cite[Corollary 5.4]{PaS07}), it holds for any $p \ge 1$
+	\begin{equation} \label{eq:Xt_Xs}
+		\E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^p \le C \left( (t-s)^p + (t-s)^p\epl^{-p} + (t-s)^{p/2} \right),
+	\end{equation}
+	where $\phi^\epl$ is the invariant measure of $X^\epl$ and $C>0$ is a constant independent of $s$, $t$ and $\epl$. By definition of $Z_t^\epl$ we have
+	\begin{equation}
+		X_t^\epl - Z_t^\epl = \int_0^t k(t-s) (X_t^\epl - X_s^\epl) \dd s + e^{-t/\delta}X_t^\epl,
+	\end{equation}
+	therefore, by \eqref{eq:Xt_Xs} and Lemmas \ref{lem:FilterJensen} and \ref{lem:FilterPoly}, we deduce
+	\begin{equation}
+	\begin{aligned}
+		\E^{\phi^\epl} \abs{X_t^\epl - Z_t^\epl}^p &\le C \left( \int_0^t k(t-s) \E^{\phi^\epl} \abs{X_t^\epl - X_s^\epl}^p \dd s + e^{-pt/\delta}  \E^{\phi^\epl} \abs{X_t^\epl}^p \right) \\
+		&\le C \left( \delta^p + \delta^p\epl^{-p} + \delta^{p/2} + e^{-pt/\delta} \right).
+	\end{aligned}
+	\end{equation}
+	Let us recall that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ being its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. Moreover, due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
+	\begin{equation}
+		\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + \widetilde Ce^{-\lambda t},
+	\end{equation}
+	which, for $t$ sufficiently big, yields
+	\begin{equation} \label{eq:Xt_Zt}
+		\left( \E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \right)^{1/p} \le C \left( \delta + \delta \epl^{-1} + \delta^{1/2} \right).
+	\end{equation}
+	Let us now consider decomposition \eqref{eq:alphaDecomposition}
+	\begin{equation}
+	\widehat A_k^\epl(T) = \alpha + I_1^\epl(T) - I_2^\epl(T),
+	\end{equation}
+	where 
+	\begin{equation}
+	\lim_{T \to \infty} I_1^\epl(T) = \widetilde {\mathcal M}_\epl^{-1} \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ], \quad \text{a.s.}
+	\end{equation}
+	and
+	\begin{equation}
+	\lim_{T \to \infty} I_2^\epl(T) = 0, \quad \text{a.s.}
+	\end{equation}
+	Then, by assumptions on $V$ we can write
+	\begin{equation}
+	V'(Z^\epl) = V'(X^\epl) + V''(\widetilde X^\epl) (Z^\epl - X^\epl),
+	\end{equation}
+	where $\widetilde X^\epl$ is a random variable which assumes values between $X^\epl$ and $Z^\epl$. Therefore we have
+	\begin{equation}
+	\begin{aligned}
+	\E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(Z^\epl) \right ] &= \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V'(X^\epl) \right ] + \E^{\rho^\epl} \left [ \frac{1}{\epl} p' \left ( \frac{X^\epl}{\epl} \right ) V''(\widetilde X^\epl) (Z^\epl - X^\epl) \right ] \\
+	&\eqdef J_1^\epl + J_2^\epl,
+	\end{aligned}
+	\end{equation}
+	and in order to conclude we need to show that $J_1^\epl$ and $J_2^\epl$ vanish as $\epl$ goes to zero. Integrating by parts we have
+	\begin{equation}
+	\begin{aligned}
+	J_1^\epl &= \int_\R \frac{1}{\epl} p' \left( \frac{x}{\epl} \right) V'(x) \frac{1}{C_{\rho^\epl}} \exp \left( -\frac\alpha\sigma V'(x) - \frac1\sigma p\left(\frac{x}{\epl}\right) \right) \dd x \\
+	&= \int_\R \left ( \sigma V''(x) -  \left(V'(x) \otimes V'(x)\right) \alpha \right) \frac{1}{C_{\rho^\epl}} \exp \left( -\frac\alpha\sigma V'(x) - \frac1\sigma p\left(\frac{x}{\epl}\right) \right) \dd x \\
+	&= \sigma \E^{\rho^\epl} \left[ V''(X^\epl) \right] - \E^{\rho^\epl} \left[ V'(X^\epl) \otimes V'(X^\epl) \right] \alpha,
+	\end{aligned}
+	\end{equation}
+	and passing to the limit as $\epl \to 0$ and integrating again by parts we obtain
+	\begin{equation} \label{eq:limJ1_0}
+	\lim_{\epl\to 0} J_1^\epl = \sigma \E^{\rho^0} \left[ V''(X) \right] - \E^{\rho^0} \left[ V'(X) \otimes V'(X) \right] \alpha = 0.
+	\end{equation}
+	We now consider $J_2^\epl$ and applying Hölder's inequality with conjugate exponents $p$ and $q$ and due to the assumptions on $p$ and $V$ we get
+	\begin{equation}
+	\abs{J_2^\epl} \le C \epl^{-1} \left( \E^{\rho^\epl} \abs{\widetilde X^\epl}^q \right)^{1/q} \left( \E^{\rho^\epl} \abs{Z^\epl - X^\epl}^p \right)^{1/p}.
+	\end{equation}
+	Since $\widetilde X^\epl$ assumes values between $X^\epl$ and $Z^\epl$, which both have bounded moments of all order respectively by \cite[Corollary 5.4]{PaS07} and Lemma \ref{lem:bounded_momentZ}, and due to \eqref{eq:Xt_Zt} we have
+	\begin{equation} \label{eq:limJ2_0}
+	\abs{J_2^\epl} \le C \left( \delta \epl^{-1} + \delta \epl^{-2} + \delta^{1/2} \epl^{-1} \right).
+	\end{equation}
+	 Moreover, by Lemma \ref{lem:distanceMandTildeM} and by weak convergence of the invariant measure $\mu^\epl$ to $\mu^0$, we have
+	\begin{equation}
+	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl = \mathcal M_0,
+	\end{equation}
+	which, together with \eqref{eq:limJ1_0}, \eqref{eq:limJ2_0} and the fact that $\delta = \epl^\zeta$ with $\zeta > 2$, implies the desired result.
+\end{proof}
+
 \end{appendices}
+
+
 
 
 \bibliographystyle{siam}
