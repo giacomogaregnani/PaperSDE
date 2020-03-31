@@ -36,12 +36,14 @@ Inference of diffusion processes can be naturally performed under a Bayesian per
 The issue of model misspecification in inverse problems with a multiscale structure has been treated in the context of partial differential equations, too. In particular, it has been shown that it is possible to infer a coarse-grained equation from data coming from the full model and to retrieve asymptotically the correct result \cite{NPS12}. A series of papers \cite{AbD18, AbD19, AGZ19} focuses on retrieving the full model when the multiscale coefficient is endowed with a specific parametrized structure. Being these problems ill-posed, the latter is achieved via Tikhonov regularization \cite{AbD19,NPS12}, adopting a Bayesian approach \cite{AbD18, NPS12} or exploiting techniques of Kalman filtering \cite{AGZ19}. In \cite{AbD18,AGZ19}, the authors highlight the need of accounting explicitly for the modelling error due to homogenization and apply statistical techniques taken from \cite{CDS18,CES14}.
 
 \subsection{Our contributions}
-In this paper, we bypass the issue of subsampling by implementing an appropriate filtering methodology. In particular, we show that smoothing the data coming from the multiscale model with an appropriate linear time-invariant filter of the exponential family allows to retrieve the drift coefficient of the homogenized equation. The methodology we present is not involved computationally, easy to implement in practice and presents two main advantages:
+In this paper, we bypass the issue of subsampling by implementing an appropriate filtering methodology. In particular, we show that smoothing the data coming from the multiscale model with an appropriate linear time-invariant filter of the exponential family allows to retrieve the drift coefficient of the homogenized equation. \corr{The methodology we present is not involved computationally, easy to implement in practice and robust. In particular, we show theoretically and demonstrate via numerical experiments that
 \begin{enumerate}
-	\item the filter's kernel depends on two parameters which can be tuned to obtain more robust results and which can be interpreted as analogous to the subsampling rate. Nevertheless, while the MLE is extremely sensitive with respect to the latter, our filtering methodology is robust with respect to its parameters, and can therefore be applied as a black-box tool for parameter estimation,
+	\item the smoothing width of the filter can be alternatively tuned to be proportional to the speed of the slow process or to smaller scales and provide in both cases unbiased results for maximum likelihood parameter estimation. Sharp estimates on the minimal width with respect to the multiscale parameter are provided.
+	\item estimations based on our technique are robust in practice with respect to the parameter of the filter. This is not the case for subsampling, which is strongly influenced by the subsampling frequency.
 	\item the entire stream of data is employed, which, in practice, enhances the quality of the filter-based MLE in terms of bias. Moreover, avoiding subsampling and thus discretising the data allows us to employ continuous-time theoretical tools.
-\end{enumerate}
-After having deduced unbiased estimators, we focus on how to insert the filtering methodology into a Bayesian approach. In particular, we analyse the effects of modifying the likelihood function if the smoothed trajectory is inserted in an appropriate manner. Under mild hypotheses on the filter parameters, we are able to show that the posterior distributions obtained with our methodology are asymptotically consistent with respect to the drift parameter of the homogenized equation. To our knowledge, this is the first instance of a successful Bayesian approach applied to multiscale diffusion processes.
+	\item it is possible to insert the filtering methodology into a continuous-time Bayesian framework by a careful modification of the likelihood function. Under mild hypotheses on the filter parameters, we are able to show that the posterior distributions obtained with our methodology are asymptotically consistent with respect to the drift parameter of the homogenized equation.
+\end{enumerate} 
+}
 
 \subsection{Outline}
 The rest of the paper is organised as follows. In Section \ref{sec:Setting} we introduce the problem and lay the basis of our analysis setting the main assumptions and notation. In Section \ref{sec:Filter} we present our filtering methodology, with a particular focus on ergodic properties, on multiscale convergence and, naturally, on the properties of our estimators. In Section \ref{sec:Bayesian} we introduce the Bayesian framework and show how it can be enhanced with filtering techniques. Finally, in Section \ref{sec:NumExp} we demonstrate the effectiveness of our methodology via a series of numerical experiments.
@@ -166,10 +168,10 @@ The process $Z^\epl$ can be interpreted as a smoothed version of the original tr
 
 \begin{figure}[t]
 	\centering
-	\begin{tabular}{c}
-		\includegraphics[]{Figures/TrajD1} \\
-		\includegraphics[]{Figures/TrajD5} \\
-		\includegraphics[]{Figures/TrajD10}
+	\begin{tabular}{cc}
+		\includegraphics[]{Figures/TrajD1} & \includegraphics[]{Figures/TrajD1Z}\\
+		\includegraphics[]{Figures/TrajD5} & \includegraphics[]{Figures/TrajD5Z} \\
+		\includegraphics[]{Figures/TrajD10}& \includegraphics[]{Figures/TrajD10Z}
 	\end{tabular}
 	\caption{\corr{Filtering a trajectory $X^\epl$ obtained with $V(x) = x^2 / 2$, $p(y) = \cos(y)$, $\alpha = 1$, $\sigma = 0.5$ and $\epl = 0.1$. The filtering width is $\delta = \{1, \sqrt{\epl}, \epl\}$ from top to bottom, respectively, and $\beta = 1$.}}
 	\label{fig:filter}
@@ -774,6 +776,23 @@ In light of the proof of Theorem \ref{thm:BayesianBias}, the result above guaran
 In this section we show numerical experiments confirming our theoretical findings and showing the potentiality of the filtering approach.
 
 \subsection{Parameters of the filter}\label{sec:Num_Param}
+
+For the first preliminary experiments, we consider $N = 1$ and the quadratic potential $V(x) = x^2/2$. In this case, the solution of the homogenized equation is an Ornstein--Uhlenbeck process. Moreover, we set the the fast potential in the multiscale equation \eqref{eq:SDE_MS} as $p(y) = \cos(y)$. In all experiments, data is generated employing the Euler--Maruyama method with a fine time step.
+
+\subsubsection{Verification of theoretical results}\label{sec:Num_Param1}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[]{Figures/Transition}
+	\caption{Results for Section \ref{sec:Num_Param1}. Horizontal lines represent $\alpha$ and $A$, the drift coefficients of the unhomogenized and homogenized equations. The gray vertical line represents the lower bound for the validity of Theorem \ref{thm:mainTheorem_zeta}. The curved lines (dashed, dotted and dash-dotted) represents the values of $\widehat A_k^\epl(T)$ for $\epl = \{0.1, 0.05, 0.025\}$, respectively. Remark that the $\delta$-axis is in logarithmic scale.}
+	\label{fig:TheoremVerification}
+\end{figure}
+
+We first demonstrate numerically the validity of Theorems \ref{thm:mainTheorem} and \ref{thm:mainTheorem_zeta}, i.e., the unbiasedness of $\widehat A^\epl_k(T)$ for $\delta = \epl^\zeta$ with $\zeta \in [0, 2)$. Let us recall that for $\zeta = 0$ the analysis and the theoretical result are fundamentally different than for $\zeta \in (0, 2)$. We consider $\epl \in \{0.1, 0.05, 0.025\}$, the diffusion coefficient $\sigma = 1$ and generate data $X^\epl_t$ for $0 \leq t \leq T$ with $T = 10^3$. Then we filter the data by choosing $\delta = \epl^\zeta$, and $\zeta = 0, 0.1, 0.2,\ldots, 3$, and compute $\widehat A^\epl_k(T)$. Results are displayed in Figure \ref{fig:TheoremVerification}, and show that for $\zeta > 2$, i.e., $\delta = o(\epl^2)$, the estimator tends to the drift coefficient $\alpha$ of the unhomogenized equation. Conversely, as predicted by the theory, for $\zeta \in [0, 2)$ the estimator tends to $A$, the drift coefficient of the homogenized equation. Therefore, the point $\delta = \epl^2$ acts asymptotically as a switch between two completely different regimes. The transition between these two regimes is theoretically sharp in the limit for $\epl \to 0$. In finite computations the passage between $A$ and $\alpha$ is smoother, and suggests to take, if possible, $\delta = \epl^0$. In the Bayesian case one has to fix $\zeta > 0$, and results indicate that possibly $\zeta$ should be close to $0$. In particular, all values of $\zeta \in [0, 1]$ seem to output similarly good results.
+
+
+\subsubsection{Comparison with subsampling}\label{sec:Num_Param2}
+
 \begin{figure}[t]
 	\centering
 	\begin{tabular}{ccc}
@@ -781,42 +800,37 @@ In this section we show numerical experiments confirming our theoretical finding
 		\includegraphics[]{Figures/OUSubs_s7} & \includegraphics[]{Figures/OUFilt_s7_b1}  & \includegraphics[]{Figures/OUFilt_s7_b5} \\ % & \includegraphics[]{Figures/OUFilt_s7_b10} \\
 		\includegraphics[]{Figures/OUSubs_s10} & \includegraphics[]{Figures/OUFilt_s10_b1}  & \includegraphics[]{Figures/OUFilt_s10_b5} % & \includegraphics[]{Figures/OUFilt_s10_b10}
 	\end{tabular}
-	\caption{Results for the Ornstein--Uhlenbeck process. The axis of abscissae $\zeta$ represents the value of $\delta = \epl^\zeta$ for both subsampling and the filter. The three rows correspond to $\sigma = 0.5, 0.7, 1.0$ from top to bottom.}
+	\caption{Results for Section \ref{sec:Num_Param2}. The case of $\delta = \epl^0$ is highlighted as a solid dot for the filtering technique, as the analysis and theoretical result is different in this case. The three rows correspond to $\sigma = 0.5, 0.7, 1.0$ from top to bottom.}
 	\label{fig:OU}
 \end{figure}
-We consider $N = 1$ and the quadratic potential $V(x) = x^2/2$. In this case, the solution of the homogenized equation is an Ornstein--Uhlenbeck process. Moreover, we set the multiscale equation \eqref{eq:SDE_MS} with $\epl = 0.1$ and the fast potential $p(y) = \cos(y)$. We generate data $X^\epl$ for $0 \leq t \leq T$ and $T = 10^3$ employing the Euler--Maruyama method with time step $\Delta_t = \epl^3$. 
 
-As a first experiment, we consider the effect of setting different values of the parameter $\delta$ of the filter \eqref{eq:filter} on the estimator. As a comparison and for similarity with the subsampling approach, we consider $\delta = \epl^{\zeta}$ and vary $\zeta \in [0, 1]$. We employ the same values of $\delta$ for the subsampling, too, as the theoretical results guarantee convergence only for these values. Moreover, we repeat the experiments fixing $\beta = 1, 5$ and for three different values of the diffusion, i.e., we choose $\sigma = 0.5, 0.7, 1$. We report in Figure \ref{fig:OU} the experimental results. Let us remark that
+We now compare the results given by the filtering technique with the results given by subsampling the data, i.e., the difference between the estimators $\widehat A^\epl_k(T)$ and $\widehat A^\epl_\delta(T)$. We fix the diffusion coefficient $\sigma = 0.5$, the multiscale parameter $\epl = 0.1$ and generate data for $0 \leq t \leq T$ with $T = 10^3$. We choose $\delta = \epl^{\zeta}$ and vary $\zeta \in [0, 1]$, where $\delta$ is the filtering and the subsampling width, respectively. Moreover, for the filtering method we consider both $\beta = 1$ and $\beta = 5$. We report in Figure \ref{fig:OU} the experimental results. Let us remark that
 \begin{enumerate}
 	\item for $\sigma = 0.5$ the results given by subsampling and by the filter with $\beta = 1$ are similar, while for higher values of $\sigma$ the filtering approach seems better than subsampling, 
 	\item in general, choosing a higher value of $\beta$ seems beneficial for the quality of the estimator,
-	\item the dependence on $\delta$ of numerical results given by the filter seems relevant only in case $\beta = 1$ and for small values of $\sigma$. For $\beta = 1$ and higher values of $\sigma$, the estimator is stable with respect to this parameter, as predicted in Theorem \ref{thm:mainTheorem}. This can be observed for a higher value of $\beta$ but we have no theoretical guarantee in this case.
+	\item the dependence on $\delta$ of numerical results given by the filter seems relevant only in case $\beta = 1$ and for small values of $\sigma$. For $\beta = 1$ and higher values of $\sigma$, the estimator is stable with respect to this parameter. This can be observed for a higher value of $\beta$ but we have no theoretical guarantee in this case.
 \end{enumerate}
 
-As a second experiment, we therefore test the variability of the estimator with respect to $\beta$ in \eqref{eq:filter}. We repeat the numerical experiment in Figure \ref{fig:OU} and we choose to consider $\delta = \epl$, which corresponds to $\zeta = 1$ and seems to be the worst-case scenario for the filter, at least for $\beta = 1$. We consider again $\sigma = 0.5, 0.7, 1$ and vary $\beta = 1, 2, \ldots, 10$. Results, given in Figure \ref{fig:OUBeta}, show empirically that the estimator is fast stable with respect to $\beta$.
+\subsubsection{The influence of $\beta$}\label{sec:Num_Param3}
+We finally test the variability of the estimator with respect to $\beta$ in \eqref{eq:filter}. We consider $\delta = \epl$, which corresponds to $\zeta = 1$ and seems to be the worst-case scenario for the filter, at least for $\beta = 1$. We consider again $\sigma = 0.5, 0.7, 1$ and vary $\beta = 1, 2, \ldots, 10$. Results, given in Figure \ref{fig:OUBeta}, show empirically that the estimator stabilizes fast with respect to $\beta$. Nevertheless, there is no theoretical guarantee supporting this empirical observation.
 
 \begin{figure}[t]
 	\centering
 	\begin{tabular}{ccc}
 		\includegraphics[]{Figures/OUBeta_s5} & \includegraphics[]{Figures/OUBeta_s7}  & \includegraphics[]{Figures/OUBeta_s10} \\
 	\end{tabular}
-	\caption{Dependence of the estimator given by the filter for the Ornstein--Uhlenbeck process on the parameter $\beta$ in \eqref{eq:filter}. From left to right we consider different values of $\sigma$.}
+	\caption{Results for Section \ref{sec:Num_Param3}. The result for $\beta=1$, for which there are theoretical guarantees given by Theorem \ref{thm:mainTheorem_zeta}, is highlighted as a solid dot. From left to right we consider different values of $\sigma$.}
 	\label{fig:OUBeta}
 \end{figure}
 
-\subsection{Multi-dimensional drift coefficient}
+\subsection{Multi-dimensional drift coefficient}\label{sec:Num_Multi}
 
 \begin{figure}[t]
 	\centering
 	\begin{tabular}{ccc}
 		\includegraphics[]{Figures/KLNothing} & \includegraphics[]{Figures/KLFilt}  & \includegraphics[]{Figures/KLSubs}
 	\end{tabular}
-	\caption{Results for the four-dimensional parameter. From left to right the potential function estimated with the data itself, the filter, subsampled data.}
-	\label{fig:KLStyle}
-\end{figure}
 
-\begin{table}[t]
-	\centering
 	\begin{tabular}{cccccc}
 		\toprule
 		Coefficient & Multiscale & Homogenized & No preprocessing  & Filtering  		  & Subsampling  			 \\ 
@@ -828,9 +842,9 @@ As a second experiment, we therefore test the variability of the estimator with 
 		$4$ & 1   & 0.62  & 1.22  & 0.57  & 0.13 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Numerical results for the four-dimensional parameter.}
-	\label{tab:KLStyle}
-\end{table}
+	\caption{Results for Section \ref{sec:Num_Multi}. In the figure, from left to right the potential function estimated with the data itself, the filter, subsampled data. In the table, numerical results for the single components of the true and estimated drift coefficients.}
+	\label{fig:KLStyle}
+\end{figure}
 
 Let us consider the Chebyshev polynomials of the first kind, i.e., the polynomials $T_i\colon \R \to \R$, $i=0, 1, \ldots$, defined by the recurrence relation
 \begin{equation}
@@ -846,15 +860,15 @@ This potential function satisfies Assumption \ref{as:regularity} whenever $N$ is
 	\item $\widehat A^\epl_\delta(T)$ based on subsampled data with subsampling parameter $\delta = \epl^{2/3}$,
 	\item $\widehat A^\epl_k(T)$ based on filtered data $Z^\epl$ computed with $\beta = 1$ and $\delta = 1$.
 \end{enumerate}
-In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle} and Table \ref{tab:KLStyle}, show that the filter-based estimation captures well the homogenized potential as well as the coefficient $A$. Moreover, it is possible to remark the negative result given by Theorem \ref{thm:Bias} holds in practice, i.e., with no pre-processing the estimator $\widehat A^\epl(T)$ tends to the drift coefficient $\alpha$ of the unhomogenized equation.
+In particular, we pick this specific value of $\delta$ for the subsampling following the optimality criterion given in \cite{PaS07}. Results, given in Figure \ref{fig:KLStyle}, show that the filter-based estimation captures well the homogenized potential as well as the coefficient $A$. Moreover, it is possible to remark the negative result given by Theorem \ref{thm:Bias} holds in practice, i.e., with no pre-processing the estimator $\widehat A^\epl(T)$ tends to the drift coefficient $\alpha$ of the unhomogenized equation.
 
-\subsection{The Bayesian approach: bistable potential}
+\subsection{The Bayesian approach: bistable potential} \label{sec:Num_Bayes}
 \begin{figure}[t]
 	\centering
 	\begin{tabular}{ccc}
 		\includegraphics[]{Figures/Bayes_T100} & \includegraphics[]{Figures/Bayes_T200}  & \includegraphics[]{Figures/Bayes_T400} \\
 	\end{tabular}
-	\caption{Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to final time $T = 100, 200, 400$ from left to right, respectively. The MLE $\widetilde A^\epl_k(t)$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
+	\caption{Results for Section \ref{sec:Num_Bayes}. Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to final time $T = 100, 200, 400$ from left to right, respectively. The MLE $\widetilde A^\epl_k(t)$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
 	\label{fig:Bayes}
 \end{figure}
 

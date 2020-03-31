@@ -1,0 +1,3 @@
+SECTION 1.2: Red part
+SECTION 5.1: Modified the whole section to account for discussion. New Figure 2. Added red dot in Figure 3 for case delta = eps^0 and changed axes to have $\delta = \varepsilon^\zeta$ instead of just $\zeta$. 
+REMARK ON FIGURE 2: The horizontal axis is log scale: The switch at \varepsilon^2 is pretty fast.
