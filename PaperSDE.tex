@@ -1159,13 +1159,13 @@ The following lemma shows that $Z^\epl$ has bounded moments of all orders.
 	&\leq \int_0^t k(t - s) \E^{\phi^\epl} |X_s^\epl|^p \dd s,
 	\end{aligned}
 	\end{equation}
-	which, together with the definition of $k$ and the fact that $X_s^\epl$ has bounded moments of all orders \cite[Corollary 5.4]{PaS07}, implies
+	which, together with the definition of $k$ and the fact that $X_s^\epl$ has bounded moments of all orders \cite[Corollary 5.4]{PaS07}, implies for a constant $C>0$
 	\begin{equation}
 	\E^{\phi^\epl}|Z_t^\epl|^p \le C.
 	\end{equation}
-	In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
+	In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$
 	\begin{equation}
-	\E^{\rho^\epl} \abs{Z^\epl}^p \leq \E^{\phi^\epl}\abs{Z_t^\epl}^p + \widetilde C e^{-\lambda t},
+	\E^{\rho^\epl} \abs{Z^\epl}^p \leq \E^{\phi^\epl}\abs{Z_t^\epl}^p + C e^{-\lambda t},
 	\end{equation}
 	which, for $t$ sufficiently big, yields the desired result.
 \end{proof}
@@ -1184,9 +1184,9 @@ Corollary \ref{cor:distanceZandX} is a direct consequence of Proposition \ref{pr
 	\begin{equation}
 	\E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p \leq C\left(\epl^p + \delta^{p/2}\right).
 	\end{equation}
-	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ being its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$ and for a constant $\widetilde C$ depending on the initial condition and $p$  
+	Let us now remark that this result holds for $X_t^\epl$ being at stationarity and for $Z_t^\epl$ being its filtered process, and not for a couple $(X^\epl, Z^\epl)^\top \sim \mu^\epl$. In order to conclude, we remark that due to Lemma \ref{lem:ergodicity} we have for all $t \geq 0$
 	\begin{equation}
-	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + \widetilde Ce^{-\lambda t},
+	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
 	\end{equation}
 	which, for $t$ sufficiently big, yields the desired result.
 \end{proof}
@@ -1219,7 +1219,7 @@ The result above can be in some sense rather counter-intuitive. Indeed, for a fi
 	&\le C \left( \delta^p + \delta^p\epl^{-p} + \delta^{p/2} + e^{-pt/\delta} \right).
 	\end{aligned}
 	\end{equation}
-	Geometric ergodicity (Lemma \ref{lem:ergodicity}) then implies for $\rho^\epl$ the measure of the couple $(X^\epl, Z^\epl)^\top$ and a constant $C > 0$
+	Geometric ergodicity (Lemma \ref{lem:ergodicity}) then implies for $\rho^\epl$ the measure of the couple $(X^\epl, Z^\epl)^\top$
 	\begin{equation}
 	\E^{\rho^\epl} \abs{X^\epl - Z^\epl}^p \leq \E^{\phi^\epl}\abs{X_t^\epl - Z_t^\epl}^p + Ce^{-\lambda t},
 	\end{equation}
@@ -1406,7 +1406,7 @@ Let us conclude with a last preliminary estimate concerning the matrices $\widet
 	\begin{equation}
 	\lim_{\epl \to 0} \widetilde{\mathcal M}_\epl = \mathcal M_0,
 	\end{equation}
-	which, together with \eqref{eq:limJ1_0}, \eqref{eq:limJ2_0} implies that $I_1^\epl(T) \to 0$ for $\epl \to 0$, which implies the desired result. \qed
+	which, together with \eqref{eq:limJ1_0}, \eqref{eq:limJ2_0} implies that $I_1^\epl(T) \to 0$ for $T \to \infty$ and $\epl \to 0$, which implies the desired result. \qed
 
 \end{appendices}
 
