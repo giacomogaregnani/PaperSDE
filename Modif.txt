@@ -1,3 +1,10 @@
-SECTION 1.2: Red part
-SECTION 5.1: Modified the whole section to account for discussion. New Figure 2. Added red dot in Figure 3 for case delta = eps^0 and changed axes to have $\delta = \varepsilon^\zeta$ instead of just $\zeta$. 
+SECTION 1.2: Red part - Explain the difference between delta = eps^0 and delta = eps^zeta with zeta > 0
+
+SECTION 3.3: Added Theorem 3.16, which shows that if delta = eps^zeta with zeta > 2, then estimator tends to alpha (coeff of multiscale equation). 
+
+SECTION 5.1: Modified the whole section to account for discussion. New Figure 2, shows the switch between A and alpha at delta = eps^2. Added red dot in Figure 3 for case delta = eps^0 and changed axes to have $\delta = \varepsilon^\zeta$ instead of just $\zeta$. 
 REMARK ON FIGURE 2: The horizontal axis is log scale: The switch at \varepsilon^2 is pretty fast.
+
+APPENDIX C: 
+C.1: New Lemma C.3 - shows difference between X and Z can be bounded w.r.t. delta alone if eps > 0
+C.4: Proof of Theorem 3.16
