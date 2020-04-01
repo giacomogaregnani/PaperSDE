@@ -29,9 +29,9 @@
 \contentsline {proof}{{Proof}{6}{}}{22}{proof.169}
 \contentsline {theorem}{{Theorem}{4.4}{}}{23}{theorem.173}
 \contentsline {proof}{{Proof}{7}{}}{23}{proof.175}
-\contentsline {proof}{{Proof}{8}{Proof of Lemma \ref {lem:density}}}{28}{proof.209}
-\contentsline {proof}{{Proof}{9}{Proof of Lemma \ref {lem:ergodicity}}}{29}{proof.215}
-\contentsline {proof}{{Proof}{10}{Proof of Lemma \ref {lem:FPMarginal}}}{29}{proof.220}
+\contentsline {proof}{{Proof}{8}{Proof of \cref {lem:density}}}{28}{proof.209}
+\contentsline {proof}{{Proof}{9}{Proof of \cref {lem:ergodicity}}}{29}{proof.215}
+\contentsline {proof}{{Proof}{10}{Proof of \cref {lem:FPMarginal}}}{29}{proof.220}
 \contentsline {lemma}{{Lemma}{B.1}{}}{30}{theorem.229}
 \contentsline {proof}{{Proof}{11}{}}{30}{proof.232}
 \contentsline {lemma}{{Lemma}{B.2}{}}{30}{theorem.236}
