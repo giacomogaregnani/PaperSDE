@@ -468,7 +468,7 @@ It is clear from the Proposition above that understanding the properties of the 
 \begin{equation}
 	\d B_t^\epl = - \frac1\delta B_t^\epl \dd t + \frac{\sqrt{2\sigma}}{\delta}(1+\Phi'(Y_t^\epl)) \dd W_t.
 \end{equation}
-This equation can be coupled with the dynamics of the processes $X_t^\epl$, $Y_t^\epl$ and $Z_t^\epl$, thus describing the evolution of the quadruple $(X^\epl, Y^\epl, Z^\epl, B^\epl)$ together. In particular, it is possible to show that the results of \cref{sec:ergodic} hold for the quadruple, and the properties of the invariant measure of the quadruple can be exploited to prove the unbiasedness of the estimator in the case $\delta = \mathcal O(\epl^\zeta)$ in the same way as in the case $\delta = \mathcal O(\epl^0)$. In this context, a further assumption on the potential $V$ is necessary.
+This equation can be coupled with the dynamics of the processes $X_t^\epl$, $Y_t^\epl$ and $Z_t^\epl$, thus describing the evolution of the quadruple $(X^\epl, Y^\epl, Z^\epl, B^\epl)$ together. In particular, it is possible to show that the results of Section \ref{sec:ergodic} hold for the quadruple, and the properties of the invariant measure of the quadruple can be exploited to prove the unbiasedness of the estimator in the case $\delta = \mathcal O(\epl^\zeta)$ in the same way as in the case $\delta = \mathcal O(\epl^0)$. In this context, a further assumption on the potential $V$ is necessary.
 \begin{assumption}\label{as:regularityZeta} The derivatives $V'$, $V''$ and $V'''$ of the potential $V \colon \R \to \R^N$ are polynomially bounded from above and bounded from below, and the second derivative is Lipschitz, i.e., there exists a constant $L > 0$ such that
 	\begin{equation}
 		\norm{V''(x)-V''(y)} \leq L \abs{x - y},
@@ -796,7 +796,7 @@ For the first preliminary experiments, we consider $N = 1$ and the quadratic pot
 \begin{figure}[t]
 	\centering
 	\includegraphics[]{Figures/Transition}
-	\caption{Results for \cref{sec:Num_Param1}. Horizontal lines represent $\alpha$ and $A$, the drift coefficients of the unhomogenized and homogenized equations. The gray vertical line represents the lower bound for the validity of \cref{thm:mainTheorem_zeta}. The curved lines (dashed, dotted and dash-dotted) represents the values of $\widehat A_k^\epl(T)$ for $\epl = \{0.1, 0.05, 0.025\}$, respectively. Remark that the $\delta$-axis is in logarithmic scale and is normalized with respect to $\epl$.}
+	\caption{Results for Section \ref{sec:Num_Param1}. Horizontal lines represent $\alpha$ and $A$, the drift coefficients of the unhomogenized and homogenized equations. The gray vertical line represents the lower bound for the validity of \cref{thm:mainTheorem_zeta}. The curved lines (dashed, dotted and dash-dotted) represents the values of $\widehat A_k^\epl(T)$ for $\epl = \{0.1, 0.05, 0.025\}$, respectively. Remark that the $\delta$-axis is in logarithmic scale and is normalized with respect to $\epl$.}
 	\label{fig:TheoremVerification}
 \end{figure}
 
@@ -812,7 +812,7 @@ We first demonstrate numerically the validity of \cref{thm:mainTheorem}, \cref{t
 		\includegraphics[]{Figures/OUSubs_s7} & \includegraphics[]{Figures/OUFilt_s7_b1}  & \includegraphics[]{Figures/OUFilt_s7_b5} \\ % & \includegraphics[]{Figures/OUFilt_s7_b10} \\
 		\includegraphics[]{Figures/OUSubs_s10} & \includegraphics[]{Figures/OUFilt_s10_b1}  & \includegraphics[]{Figures/OUFilt_s10_b5} % & \includegraphics[]{Figures/OUFilt_s10_b10}
 	\end{tabular}
-	\caption{Results for \cref{sec:Num_Param2}. The case of $\delta = \epl^0$ is highlighted as a solid dot for the filtering technique, as the analysis and theoretical result is different in this case. The three rows correspond to $\sigma = 0.5, 0.7, 1.0$ from top to bottom.}
+	\caption{Results for Section \ref{sec:Num_Param2}. The case of $\delta = \epl^0$ is highlighted as a solid dot for the filtering technique, as the analysis and theoretical result is different in this case. The three rows correspond to $\sigma = 0.5, 0.7, 1.0$ from top to bottom.}
 	\label{fig:OU}
 \end{figure}
 
@@ -831,7 +831,7 @@ We finally test the variability of the estimator with respect to $\beta$ in \eqr
 	\begin{tabular}{ccc}
 		\includegraphics[]{Figures/OUBeta_s5} & \includegraphics[]{Figures/OUBeta_s7}  & \includegraphics[]{Figures/OUBeta_s10} \\
 	\end{tabular}
-	\caption{Results for \cref{sec:Num_Param3}. The result for $\beta=1$, for which there are theoretical guarantees given by \cref{thm:mainTheorem_zeta}, is highlighted as a solid dot. From left to right we consider different values of $\sigma$.}
+	\caption{Results for Section \ref{sec:Num_Param3}. The result for $\beta=1$, for which there are theoretical guarantees given by \cref{thm:mainTheorem_zeta}, is highlighted as a solid dot. From left to right we consider different values of $\sigma$.}
 	\label{fig:OUBeta}
 \end{figure}
 
@@ -854,7 +854,7 @@ We finally test the variability of the estimator with respect to $\beta$ in \eqr
 		$4$ & 1   & 0.62  & 1.22  & 0.57  & 0.13 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Results for \cref{sec:Num_Multi}. In the figure, from left to right the potential function estimated with the data itself, the filter, subsampled data. In the table, numerical results for the single components of the true and estimated drift coefficients.}
+	\caption{Results for Section \ref{sec:Num_Multi}. In the figure, from left to right the potential function estimated with the data itself, the filter, subsampled data. In the table, numerical results for the single components of the true and estimated drift coefficients.}
 	\label{fig:KLStyle}
 \end{figure}
 
@@ -880,7 +880,7 @@ In particular, we pick this specific value of $\delta$ for the subsampling follo
 	\begin{tabular}{ccc}
 		\includegraphics[]{Figures/Bayes_T100} & \includegraphics[]{Figures/Bayes_T200}  & \includegraphics[]{Figures/Bayes_T400} \\
 	\end{tabular}
-	\caption{Results for \cref{sec:Num_Bayes}. Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to final time $T = 100, 200, 400$ from left to right, respectively. The MLE $\widetilde A^\epl_k(t)$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
+	\caption{Results for Section \ref{sec:Num_Bayes}. Posterior distributions over the parameter $A = (A_1, A_2)^\top$ for the bistable potential obtained with the filtering approach. The figures refer to final time $T = 100, 200, 400$ from left to right, respectively. The MLE $\widetilde A^\epl_k(t)$ is represented with a circle, while the true value $A$ of the drift coefficient of the homogenized equation is represented with a cross.}
 	\label{fig:Bayes}
 \end{figure}
 
@@ -888,7 +888,7 @@ In this numerical experiment we consider $N = 2$ and the bistable potential, i.e
 \begin{equation}
 	V(x) = \begin{pmatrix} \dfrac{x^4}{4} & -\dfrac{x^2}{2} \end{pmatrix}^\top,
 \end{equation}
-with coefficients $\alpha_1 = 1$ and $\alpha_2 = 2$. We then consider the multiscale equation with $\sigma = 0.7$, the fast potential $p(y) = \cos(y)$ and $\epl = 0.05$, thus simulating a trajectory $X^\epl$. We adopt here a Bayesian approach and compute the posterior distribution $\widetilde \mu_{T, \epl}$ obtained with the filtering approach introduced in \cref{sec:BayesianFilter}. The parameters of the filter are set to $\beta = 1$ and $\delta = \epl$ in \eqref{eq:filter}. Let us remark that in order to compute the posterior covariance the diffusion coefficient $\Sigma$ of the homogenized equation has to be known. In this case, we pre-compute the value of $\Sigma$ via the coefficient $K$ and the theory of homogenization, but let us remark that $\Sigma$ could be estimated employing the subsampling technique of \cite{PaS07}. We stop computations at times $T = 100, 200, 400$ in order to observe the shrinkage of the Gaussian posterior towards the MLE $\widetilde A^\epl_k(T)$ with respect to time. In \cref{fig:Bayes}, we observe that the posterior does indeed shrink towards the MLE, which in turn gets progressively closer to the true value of the drift coefficient $A$ of the homogenized equation.
+with coefficients $\alpha_1 = 1$ and $\alpha_2 = 2$. We then consider the multiscale equation with $\sigma = 0.7$, the fast potential $p(y) = \cos(y)$ and $\epl = 0.05$, thus simulating a trajectory $X^\epl$. We adopt here a Bayesian approach and compute the posterior distribution $\widetilde \mu_{T, \epl}$ obtained with the filtering approach introduced in Section \ref{sec:BayesianFilter}. The parameters of the filter are set to $\beta = 1$ and $\delta = \epl$ in \eqref{eq:filter}. Let us remark that in order to compute the posterior covariance the diffusion coefficient $\Sigma$ of the homogenized equation has to be known. In this case, we pre-compute the value of $\Sigma$ via the coefficient $K$ and the theory of homogenization, but let us remark that $\Sigma$ could be estimated employing the subsampling technique of \cite{PaS07}. We stop computations at times $T = 100, 200, 400$ in order to observe the shrinkage of the Gaussian posterior towards the MLE $\widetilde A^\epl_k(T)$ with respect to time. In \cref{fig:Bayes}, we observe that the posterior does indeed shrink towards the MLE, which in turn gets progressively closer to the true value of the drift coefficient $A$ of the homogenized equation.
 
 \section{Conclusion}
 
@@ -1146,7 +1146,7 @@ which is obtained applying the Itô formula to $\Phi$, the solution of the cell 
 	\end{equation}
 	which concludes the proof. \qed
 
-\section{Proofs of \cref{sec:Fast}} \label{ap:ProofsDeltaZeta}
+\section{Proofs of Section \ref{sec:Fast}} \label{ap:ProofsDeltaZeta}
 
 \subsection{Preliminary estimates}
 
